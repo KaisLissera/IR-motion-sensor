@@ -496,9 +496,9 @@
       "/VDDA": "PWR",
       "/VSSA": "PWR",
       "GND": "PWR",
-      "Net-(DD1-VR_ANA)": "PWR",
-      "Net-(DD1-VR_DIG)": "PWR",
-      "Net-(R19-Pad1)": "PWR"
+      "Net-(R7-Pad1)": "PWR",
+      "Net-(U1-VR_ANA)": "PWR",
+      "Net-(U1-VR_DIG)": "PWR"
     },
     "netclass_patterns": []
   },
