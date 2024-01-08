@@ -1904,6 +1904,41 @@
         )
       )
     )
+    (symbol "Connector:TestPoint" (pin_numbers hide) (pin_names (offset 0.762) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "TP" (at 0 6.858 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "TestPoint" (at 0 5.08 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 5.08 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "~" (at 5.08 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "test point tp" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "test point" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_fp_filters" "Pin* Test*" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "TestPoint_0_1"
+        (circle (center 0 3.302) (radius 0.762)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "TestPoint_1_1"
+        (pin passive line (at 0 0 90) (length 2.54)
+          (name "1" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
     (symbol "Device:Buzzer" (pin_names (offset 0.0254) hide) (in_bom yes) (on_board yes)
       (property "Reference" "BZ" (at 3.81 1.27 0)
         (effects (font (size 1.27 1.27)) (justify left))
@@ -2956,14 +2991,14 @@
   (junction (at 195.58 189.23) (diameter 0) (color 0 0 0 0)
     (uuid 312bf632-bff6-4451-ba0f-defafeb1315b)
   )
+  (junction (at 128.27 96.52) (diameter 0) (color 0 0 0 0)
+    (uuid 318ab496-e4dc-4aa0-a266-7e91307a8352)
+  )
   (junction (at 168.91 63.5) (diameter 0) (color 0 0 0 0)
     (uuid 31ade0ce-ae00-4aab-8be0-fce11fc6ab14)
   )
   (junction (at 307.34 45.72) (diameter 0) (color 0 0 0 0)
     (uuid 3452a648-cd38-4030-af16-13df7f50546c)
-  )
-  (junction (at 67.31 134.62) (diameter 0) (color 0 0 0 0)
-    (uuid 3893f854-0457-4cfc-9d48-17279509d86e)
   )
   (junction (at 137.16 58.42) (diameter 0) (color 0 0 0 0)
     (uuid 3b4e0121-ee73-4b3b-8b2d-79a1de6afc4e)
@@ -2977,7 +3012,7 @@
   (junction (at 219.71 241.3) (diameter 0) (color 0 0 0 0)
     (uuid 4eba26b8-8a5a-4255-9ca3-e010756b6f05)
   )
-  (junction (at 152.4 35.56) (diameter 0) (color 0 0 0 0)
+  (junction (at 146.05 35.56) (diameter 0) (color 0 0 0 0)
     (uuid 4eda5e32-d1b1-4c4d-a8b0-73e6bd88a91b)
   )
   (junction (at 237.49 173.99) (diameter 0) (color 0 0 0 0)
@@ -2995,17 +3030,17 @@
   (junction (at 137.16 274.32) (diameter 0) (color 0 0 0 0)
     (uuid 63a4bb41-ac78-4eac-b7b8-374459f84e14)
   )
+  (junction (at 128.27 106.68) (diameter 0) (color 0 0 0 0)
+    (uuid 651053d4-7c85-4004-8e65-c43ebd1217b0)
+  )
   (junction (at 157.48 261.62) (diameter 0) (color 0 0 0 0)
     (uuid 66918467-383e-48f9-9c7e-eb370bbe551a)
   )
-  (junction (at 166.37 35.56) (diameter 0) (color 0 0 0 0)
+  (junction (at 160.02 35.56) (diameter 0) (color 0 0 0 0)
     (uuid 6be90565-715e-4417-8a13-017d5bb66ca3)
   )
   (junction (at 135.89 191.77) (diameter 0) (color 0 0 0 0)
     (uuid 7085017b-902a-4b8e-bed7-03c7f4176686)
-  )
-  (junction (at 77.47 146.05) (diameter 0) (color 0 0 0 0)
-    (uuid 71979164-fd37-48d9-8a91-49942b806058)
   )
   (junction (at 137.16 214.63) (diameter 0) (color 0 0 0 0)
     (uuid 78d427f5-c931-4a19-8f01-93e4033948a0)
@@ -3106,6 +3141,9 @@
   (junction (at 287.02 45.72) (diameter 0) (color 0 0 0 0)
     (uuid d1a2669a-d101-4920-a624-6c09066f175c)
   )
+  (junction (at 138.43 106.68) (diameter 0) (color 0 0 0 0)
+    (uuid d969e374-e016-4a09-9cb7-594ae21eae90)
+  )
   (junction (at 325.12 53.34) (diameter 0) (color 0 0 0 0)
     (uuid dc18d07d-6c62-4fc4-9f70-7639774a0385)
   )
@@ -3120,9 +3158,6 @@
   )
   (junction (at 266.7 45.72) (diameter 0) (color 0 0 0 0)
     (uuid f0909834-0d01-476a-b501-f6d1e0b187c3)
-  )
-  (junction (at 67.31 146.05) (diameter 0) (color 0 0 0 0)
-    (uuid f5419424-8040-41fb-b7b2-f077685e0d4d)
   )
   (junction (at 137.16 224.79) (diameter 0) (color 0 0 0 0)
     (uuid f822583b-74f2-4ca3-b9aa-3922681e2624)
@@ -3181,7 +3216,7 @@
     (stroke (width 0) (type default))
     (uuid 00f2d33c-27f0-4c12-8e33-c75ada32a4ae)
   )
-  (wire (pts (xy 166.37 35.56) (xy 177.8 35.56))
+  (wire (pts (xy 160.02 35.56) (xy 171.45 35.56))
     (stroke (width 0) (type default))
     (uuid 01cd6860-8065-4a40-bcda-20ba184d60f3)
   )
@@ -3212,10 +3247,6 @@
   (wire (pts (xy 250.19 168.91) (xy 261.62 168.91))
     (stroke (width 0) (type default))
     (uuid 06a2774c-4bb5-47de-8728-8e6b3bea4c6f)
-  )
-  (wire (pts (xy 55.88 134.62) (xy 67.31 134.62))
-    (stroke (width 0) (type default))
-    (uuid 08e66638-d76a-46bc-b696-6372b06cce9c)
   )
   (wire (pts (xy 224.79 173.99) (xy 224.79 175.26))
     (stroke (width 0) (type default))
@@ -3277,7 +3308,7 @@
     (stroke (width 0) (type default))
     (uuid 127fd85b-6d41-4f45-9024-89316fd9fbb6)
   )
-  (wire (pts (xy 118.11 96.52) (xy 127 96.52))
+  (wire (pts (xy 118.11 96.52) (xy 128.27 96.52))
     (stroke (width 0) (type default))
     (uuid 12af5429-1189-48ac-9eb9-498be9ac4eab)
   )
@@ -3320,10 +3351,6 @@
   (wire (pts (xy 345.44 165.1) (xy 345.44 163.83))
     (stroke (width 0) (type default))
     (uuid 1ce42e33-6837-4249-b0c3-8a8b50f40aad)
-  )
-  (wire (pts (xy 77.47 146.05) (xy 87.63 146.05))
-    (stroke (width 0) (type default))
-    (uuid 1cf9b64f-d9fa-46e9-8c2a-d3d400056098)
   )
   (wire (pts (xy 367.03 191.77) (xy 369.57 191.77))
     (stroke (width 0) (type default))
@@ -3393,10 +3420,6 @@
     (stroke (width 0) (type default))
     (uuid 29e3af7f-ef90-4892-9aad-ed5d837c342b)
   )
-  (wire (pts (xy 77.47 154.94) (xy 77.47 157.48))
-    (stroke (width 0) (type default))
-    (uuid 2a57922c-3f82-402c-8759-0b259872e842)
-  )
   (wire (pts (xy 72.39 213.36) (xy 76.2 213.36))
     (stroke (width 0) (type default))
     (uuid 2abe6dd6-408e-46f9-a83a-fea7e63e4123)
@@ -3405,7 +3428,7 @@
     (stroke (width 0) (type default))
     (uuid 2ac8275f-c345-45f4-b3f5-970aea69fabf)
   )
-  (wire (pts (xy 152.4 35.56) (xy 152.4 38.1))
+  (wire (pts (xy 146.05 35.56) (xy 146.05 38.1))
     (stroke (width 0) (type default))
     (uuid 2acbd65d-c4ce-4d5f-90d3-6021216cfd0b)
   )
@@ -3437,10 +3460,6 @@
     (stroke (width 0) (type default))
     (uuid 2e1c55a7-6cea-482a-b16f-319dc74bf2a1)
   )
-  (wire (pts (xy 67.31 154.94) (xy 67.31 157.48))
-    (stroke (width 0) (type default))
-    (uuid 2f34a97b-959f-4bae-8c20-71e47a66390e)
-  )
   (wire (pts (xy 167.64 139.7) (xy 177.8 139.7))
     (stroke (width 0) (type default))
     (uuid 3010bc4b-d8e5-404a-8f79-f237c9fb59da)
@@ -3460,6 +3479,10 @@
   (wire (pts (xy 392.43 53.34) (xy 393.7 53.34))
     (stroke (width 0) (type default))
     (uuid 3179df86-599a-49e3-aa51-6530536bf613)
+  )
+  (wire (pts (xy 138.43 106.68) (xy 148.59 106.68))
+    (stroke (width 0) (type default))
+    (uuid 31a24000-044a-4df0-82ed-2d906dd945a6)
   )
   (wire (pts (xy 266.7 54.61) (xy 266.7 55.88))
     (stroke (width 0) (type default))
@@ -3501,10 +3524,6 @@
     (stroke (width 0) (type default))
     (uuid 37658f9b-8f07-44b4-af76-2c71914b5e6b)
   )
-  (wire (pts (xy 67.31 146.05) (xy 77.47 146.05))
-    (stroke (width 0) (type default))
-    (uuid 378630c2-16a2-4c11-a271-753e99b2147a)
-  )
   (wire (pts (xy 250.19 148.59) (xy 261.62 148.59))
     (stroke (width 0) (type default))
     (uuid 385da29a-3fb9-43fb-a229-45c663d11242)
@@ -3524,6 +3543,10 @@
   (wire (pts (xy 250.19 184.15) (xy 261.62 184.15))
     (stroke (width 0) (type default))
     (uuid 3ce732dd-4555-415b-a6d5-2ed7d361ba70)
+  )
+  (wire (pts (xy 138.43 107.95) (xy 138.43 106.68))
+    (stroke (width 0) (type default))
+    (uuid 3d6896d6-dc39-49cb-b94a-e82d19cc1a6d)
   )
   (wire (pts (xy 255.27 22.86) (xy 255.27 24.13))
     (stroke (width 0) (type default))
@@ -3565,13 +3588,13 @@
     (stroke (width 0) (type default))
     (uuid 42d37040-3a01-4351-a992-07d6e2e74848)
   )
-  (wire (pts (xy 77.47 147.32) (xy 77.47 146.05))
-    (stroke (width 0) (type default))
-    (uuid 4306a21d-5efb-41b8-800b-36f7e156df6d)
-  )
   (wire (pts (xy 186.69 212.09) (xy 186.69 210.82))
     (stroke (width 0) (type default))
     (uuid 44201f35-413e-40d4-8cd0-bf23e4198c91)
+  )
+  (wire (pts (xy 138.43 115.57) (xy 138.43 118.11))
+    (stroke (width 0) (type default))
+    (uuid 44333d0a-3a05-4e7e-90f2-04e096f3bdea)
   )
   (wire (pts (xy 205.74 231.14) (xy 208.28 231.14))
     (stroke (width 0) (type default))
@@ -3608,6 +3631,14 @@
   (wire (pts (xy 97.79 96.52) (xy 97.79 104.14))
     (stroke (width 0) (type default))
     (uuid 47681f39-d171-4b5c-9d1c-919344e79313)
+  )
+  (wire (pts (xy 128.27 106.68) (xy 128.27 107.95))
+    (stroke (width 0) (type default))
+    (uuid 47f3ae47-edb4-4fbc-8238-b29829693387)
+  )
+  (wire (pts (xy 55.88 134.62) (xy 96.52 134.62))
+    (stroke (width 0) (type default))
+    (uuid 480673f5-0bc4-4f56-84e8-9e82ebd1b45f)
   )
   (wire (pts (xy 87.63 204.47) (xy 87.63 213.36))
     (stroke (width 0) (type default))
@@ -3705,10 +3736,6 @@
     (stroke (width 0) (type default))
     (uuid 57dc8572-a96c-494a-9c1a-0ac46eab5912)
   )
-  (wire (pts (xy 67.31 146.05) (xy 67.31 147.32))
-    (stroke (width 0) (type default))
-    (uuid 5800a95f-ff66-4389-8e00-47e24dfb34f4)
-  )
   (wire (pts (xy 62.23 228.6) (xy 66.04 228.6))
     (stroke (width 0) (type default))
     (uuid 58561d52-5437-4ca4-a224-bf6ed625337b)
@@ -3717,7 +3744,7 @@
     (stroke (width 0) (type default))
     (uuid 585fe23c-4317-4e9c-aee4-735e68e79e03)
   )
-  (wire (pts (xy 152.4 45.72) (xy 152.4 46.99))
+  (wire (pts (xy 146.05 45.72) (xy 146.05 46.99))
     (stroke (width 0) (type default))
     (uuid 58e68315-7a52-4c47-bcd4-c8cb067883dd)
   )
@@ -3857,10 +3884,6 @@
     (stroke (width 0) (type default))
     (uuid 6ea85e57-2977-41b4-8209-5b67f556cfb1)
   )
-  (wire (pts (xy 67.31 144.78) (xy 67.31 146.05))
-    (stroke (width 0) (type default))
-    (uuid 6f5d184b-c58c-40ce-aa22-c3c7d36fa3ef)
-  )
   (wire (pts (xy 368.3 199.39) (xy 368.3 196.85))
     (stroke (width 0) (type default))
     (uuid 6fb93db4-120f-4c86-9176-03d0fe3ebca3)
@@ -3869,7 +3892,7 @@
     (stroke (width 0) (type default))
     (uuid 6ff4d5a2-2c5e-4f0c-97e9-d42bc10598d0)
   )
-  (wire (pts (xy 152.4 35.56) (xy 156.21 35.56))
+  (wire (pts (xy 146.05 35.56) (xy 149.86 35.56))
     (stroke (width 0) (type default))
     (uuid 71298e10-382b-4d8b-bbd2-2510c6b3cc0b)
   )
@@ -3905,6 +3928,10 @@
     (stroke (width 0) (type default))
     (uuid 7a68b405-1532-4416-8bc1-2a2acce3d8da)
   )
+  (wire (pts (xy 128.27 106.68) (xy 138.43 106.68))
+    (stroke (width 0) (type default))
+    (uuid 7a8b4197-255a-4f2b-9c66-51c0c2777a03)
+  )
   (wire (pts (xy 193.04 149.86) (xy 193.04 151.13))
     (stroke (width 0) (type default))
     (uuid 7bb3d4c1-b6db-4978-88c2-562f063dda61)
@@ -3937,7 +3964,7 @@
     (stroke (width 0) (type default))
     (uuid 7ef33a57-8006-4e46-821d-7590aae85360)
   )
-  (wire (pts (xy 160.02 39.37) (xy 160.02 40.64))
+  (wire (pts (xy 153.67 39.37) (xy 153.67 40.64))
     (stroke (width 0) (type default))
     (uuid 7f9a7c8e-bdf0-4c17-8ea6-6ede878cbc3d)
   )
@@ -3949,7 +3976,7 @@
     (stroke (width 0) (type default))
     (uuid 8115ed4f-d5d7-4839-a63d-a99094742eb7)
   )
-  (wire (pts (xy 163.83 35.56) (xy 166.37 35.56))
+  (wire (pts (xy 157.48 35.56) (xy 160.02 35.56))
     (stroke (width 0) (type default))
     (uuid 81191055-49b6-4abb-8265-729e4645aead)
   )
@@ -4081,6 +4108,10 @@
     (stroke (width 0) (type default))
     (uuid 9383a7d7-6425-4d35-8feb-f6ffc43f9aed)
   )
+  (wire (pts (xy 128.27 105.41) (xy 128.27 106.68))
+    (stroke (width 0) (type default))
+    (uuid 938ea22b-0e82-4f1e-858f-02816bca9d5d)
+  )
   (wire (pts (xy 64.77 73.66) (xy 74.93 73.66))
     (stroke (width 0) (type default))
     (uuid 94d13296-3384-4753-a573-4a859321b481)
@@ -4140,10 +4171,6 @@
   (wire (pts (xy 279.4 66.04) (xy 281.94 66.04))
     (stroke (width 0) (type default))
     (uuid 9e0e1e22-c2b4-4b9a-b0f2-3fff37b1380f)
-  )
-  (wire (pts (xy 67.31 134.62) (xy 67.31 137.16))
-    (stroke (width 0) (type default))
-    (uuid 9e98730b-9373-493b-a180-f538d793e352)
   )
   (wire (pts (xy 345.44 123.19) (xy 345.44 134.62))
     (stroke (width 0) (type default))
@@ -4225,6 +4252,10 @@
     (stroke (width 0) (type default))
     (uuid b34a5bf3-1a1b-47a0-9a95-aec265392cab)
   )
+  (wire (pts (xy 128.27 96.52) (xy 138.43 96.52))
+    (stroke (width 0) (type default))
+    (uuid b466afc8-80b9-49a4-ba13-acac407a6776)
+  )
   (wire (pts (xy 191.77 17.78) (xy 201.93 17.78))
     (stroke (width 0) (type default))
     (uuid b4bdea6e-2334-412f-827e-794cde72a3cb)
@@ -4232,10 +4263,6 @@
   (wire (pts (xy 157.48 283.21) (xy 157.48 274.32))
     (stroke (width 0) (type default))
     (uuid b58b47db-b582-490c-aaa8-8225a3678b24)
-  )
-  (wire (pts (xy 67.31 134.62) (xy 96.52 134.62))
-    (stroke (width 0) (type default))
-    (uuid b6034584-f76b-4065-af3f-747234c55d3e)
   )
   (wire (pts (xy 157.48 60.96) (xy 157.48 69.85))
     (stroke (width 0) (type default))
@@ -4257,7 +4284,7 @@
     (stroke (width 0) (type default))
     (uuid b8b2db87-3531-44a6-ba06-f9a4123c1b2f)
   )
-  (wire (pts (xy 143.51 35.56) (xy 152.4 35.56))
+  (wire (pts (xy 137.16 35.56) (xy 146.05 35.56))
     (stroke (width 0) (type default))
     (uuid b8d763ab-02fe-402f-b9de-5a6449db349e)
   )
@@ -4265,11 +4292,19 @@
     (stroke (width 0) (type default))
     (uuid b8e033a4-c292-404b-a3e5-c37e9f3d3291)
   )
+  (wire (pts (xy 128.27 115.57) (xy 128.27 118.11))
+    (stroke (width 0) (type default))
+    (uuid bbd895ea-8a0a-4c37-88e8-54c3ac751374)
+  )
   (wire (pts (xy 40.64 154.94) (xy 40.64 134.62))
     (stroke (width 0) (type default))
     (uuid bc261334-1295-4dc6-b7d7-d3901ca5a232)
   )
-  (wire (pts (xy 166.37 45.72) (xy 166.37 46.99))
+  (wire (pts (xy 128.27 96.52) (xy 128.27 97.79))
+    (stroke (width 0) (type default))
+    (uuid bd223f2f-386b-4dc2-afd7-8ff02dc170f6)
+  )
+  (wire (pts (xy 160.02 45.72) (xy 160.02 46.99))
     (stroke (width 0) (type default))
     (uuid bd3dcb9d-1039-40be-a66f-6834e480746f)
   )
@@ -4337,7 +4372,7 @@
     (stroke (width 0) (type default))
     (uuid c8698295-eb63-489e-b4fd-1f5196a1b1b4)
   )
-  (wire (pts (xy 166.37 35.56) (xy 166.37 38.1))
+  (wire (pts (xy 160.02 35.56) (xy 160.02 38.1))
     (stroke (width 0) (type default))
     (uuid c8853ea9-fd91-4e41-aff1-4eb4d9a2be77)
   )
@@ -4710,7 +4745,7 @@
     (effects (font (size 1.5 1.5)) (justify left bottom))
     (uuid 14136eb4-2cd7-40e1-9a3c-abfbb0c2bba2)
   )
-  (text "VF=1.5 I=15m" (at 386.08 144.78 0)
+  (text "80mA - max" (at 393.7 149.86 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 15db53b5-ffb8-433f-8108-904b03ef7798)
   )
@@ -4735,7 +4770,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 2201884f-09ce-42b2-b7ff-cc7123546cec)
   )
-  (text "TIM15 - формирует частоту\nпачек для TIM1 - внутреннее соединение\nЗаполнение пачек - ИК выход\nTIM1:\n1 - PA8\n2 - PA9\n3 - PA10\n4 - PA11"
+  (text "TIM15/TIM2 - формирует частоту\nпачек для TIM1 - внутреннее соединение\nЗаполнение пачек - ИК выход\nTIM1:\n1 - PA8\n2 - PA9\n3 - PA10\n4 - PA11"
     (at 356.87 110.49 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 28efb217-04d1-419f-bdf0-3243fd7bcfd7)
@@ -4960,7 +4995,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 37d260ea-1ec1-4fd8-8b0b-355f5d12d5d6)
   )
-  (label "L.OSC_IN" (at 143.51 35.56 0) (fields_autoplaced)
+  (label "L.OSC_IN" (at 137.16 35.56 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 3dd1ccca-c5e1-4417-a5cd-93aca0c02206)
   )
@@ -4968,7 +5003,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 407d07c0-44b5-4daf-808b-ebdbfc6da023)
   )
-  (label "Unst.power" (at 73.66 134.62 0) (fields_autoplaced)
+  (label "Unst.power" (at 77.47 134.62 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 420df8f5-7554-4561-a39f-ee346234b40a)
   )
@@ -5024,7 +5059,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 64764048-4118-4d94-b280-4b7831a518d8)
   )
-  (label "L.OSC_OUT" (at 177.8 35.56 180) (fields_autoplaced)
+  (label "L.OSC_OUT" (at 171.45 35.56 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 65bdd954-b2c0-4a0d-b092-a7aff703d60e)
   )
@@ -5064,7 +5099,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid a352aab4-2121-48a1-a2bc-03c063f025ef)
   )
-  (label "Battery" (at 127 96.52 180) (fields_autoplaced)
+  (label "Battery" (at 138.43 96.52 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid a5729131-57e8-4c50-b7ba-b347213fb5c8)
   )
@@ -5075,10 +5110,6 @@
   (label "IR_IN2" (at 313.69 135.89 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid a9f0b95e-7589-4f4c-85f5-2c0f17c03f64)
-  )
-  (label "BatCtrl" (at 87.63 146.05 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid ab3e4f37-1d23-46bc-8961-480ce99a08c8)
   )
   (label "USB.D-" (at 116.84 236.22 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
@@ -5103,6 +5134,10 @@
   (label "USB.D+" (at 116.84 238.76 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid bb5c57f5-b313-474f-99d5-a4a9526bf437)
+  )
+  (label "BatCtrl" (at 148.59 106.68 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid c23f72dc-2ad0-4c8c-96a4-b9f2eaede0a8)
   )
   (label "IR_Out" (at 330.2 158.75 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -5282,10 +5317,35 @@
     )
   )
 
+  (symbol (lib_id "Connector:TestPoint") (at 175.26 212.09 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 000484b4-b2c7-49df-ad60-95eb42d5579c)
+    (property "Reference" "TP1" (at 178.562 214.63 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 181.102 217.17 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 175.26 217.17 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 175.26 217.17 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid a11fb293-d360-4533-98a9-22437cd9264a))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP1") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "#USER:GND_GOST") (at 135.89 240.03 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 002c2868-4f53-4d81-ab1c-4ffea635268c)
-    (property "Reference" "#PWR024" (at 135.89 233.68 0)
+    (property "Reference" "#PWR023" (at 135.89 233.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 135.89 236.22 0)
@@ -5301,7 +5361,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR024") (unit 1)
+          (reference "#PWR023") (unit 1)
         )
       )
     )
@@ -5360,7 +5420,7 @@
   (symbol (lib_id "Device:C") (at 118.11 102.87 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 031cfe8c-59d7-4370-89e0-4d0ae216c4c5)
-    (property "Reference" "C4" (at 124.46 101.6 0)
+    (property "Reference" "C3" (at 124.46 101.6 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 125.73 104.14 0)
@@ -5377,7 +5437,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C4") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -5386,7 +5446,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 146.05 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0333ffd8-8464-45db-9184-fa1244e29735)
-    (property "Reference" "#PWR030" (at 146.05 85.09 0)
+    (property "Reference" "#PWR031" (at 146.05 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 146.05 82.55 0)
@@ -5402,7 +5462,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR030") (unit 1)
+          (reference "#PWR031") (unit 1)
         )
       )
     )
@@ -5493,7 +5553,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 73.66 224.79 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0df12cfb-e572-49d8-b6a8-fbcdf5e80e76)
-    (property "Reference" "#PWR08" (at 73.66 231.14 0)
+    (property "Reference" "#PWR07" (at 73.66 231.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 73.66 228.6 0)
@@ -5509,7 +5569,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR08") (unit 1)
+          (reference "#PWR07") (unit 1)
         )
       )
     )
@@ -5524,7 +5584,7 @@
     (property "Value" "MountingHole" (at 199.39 279.4 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Kais_Lib:Hole_2.4" (at 196.85 278.13 0)
+    (property "Footprint" "MountingHole:MountingHole_2.5mm" (at 196.85 278.13 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 196.85 278.13 0)
@@ -5566,19 +5626,19 @@
     )
   )
 
-  (symbol (lib_id "#USER:GND_GOST") (at 166.37 46.99 0) (unit 1)
+  (symbol (lib_id "#USER:GND_GOST") (at 160.02 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 122a19e6-1c2e-4d58-acfa-6fa658e4c266)
-    (property "Reference" "#PWR035" (at 166.37 53.34 0)
+    (property "Reference" "#PWR035" (at 160.02 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND_GOST" (at 166.37 50.8 0)
+    (property "Value" "GND_GOST" (at 160.02 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "" (at 166.37 46.99 0)
+    (property "Footprint" "" (at 160.02 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 166.37 46.99 0)
+    (property "Datasheet" "" (at 160.02 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 7b8f517b-e308-4a02-a045-e9588a32eb07))
@@ -5646,7 +5706,7 @@
   (symbol (lib_id "Device:R") (at 250.19 60.96 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 155d6de4-724a-4539-bc92-dc372ae4b845)
-    (property "Reference" "R16" (at 250.19 55.88 90)
+    (property "Reference" "R17" (at 250.19 55.88 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1k" (at 250.19 58.42 90)
@@ -5663,7 +5723,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R16") (unit 1)
+          (reference "R17") (unit 1)
         )
       )
     )
@@ -5723,7 +5783,7 @@
   (symbol (lib_id "power:+3.3V") (at 224.79 161.29 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1aa7fbbf-2bc8-41ec-85a1-50aa8247470d)
-    (property "Reference" "#PWR082" (at 224.79 165.1 0)
+    (property "Reference" "#PWR057" (at 224.79 165.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 228.6 160.02 0)
@@ -5739,7 +5799,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR082") (unit 1)
+          (reference "#PWR057") (unit 1)
         )
       )
     )
@@ -5776,7 +5836,7 @@
     (property "Reference" "C24" (at 199.39 168.91 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10p" (at 199.39 171.45 0)
+    (property "Value" "8p" (at 198.12 171.45 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitors:CAP_0402" (at 192.0748 166.37 0)
@@ -5824,7 +5884,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 345.44 165.1 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2118194a-f204-4a9c-a50d-04ab82f34139)
-    (property "Reference" "#PWR076" (at 345.44 171.45 0)
+    (property "Reference" "#PWR077" (at 345.44 171.45 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 345.44 168.91 0)
@@ -5840,7 +5900,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR076") (unit 1)
+          (reference "#PWR077") (unit 1)
         )
       )
     )
@@ -5849,7 +5909,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 121.92 215.9 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 217e9ff3-0fb5-4737-9794-0310040360ca)
-    (property "Reference" "#PWR019" (at 121.92 222.25 0)
+    (property "Reference" "#PWR017" (at 121.92 222.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 121.92 219.71 0)
@@ -5865,7 +5925,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR019") (unit 1)
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -5897,26 +5957,26 @@
     )
   )
 
-  (symbol (lib_id "#USER:GND_GOST") (at 77.47 157.48 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 2274948a-ecd4-43d9-9107-df8438c81119)
-    (property "Reference" "#PWR010" (at 77.47 163.83 0)
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 38.1 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 23b2a468-7a15-4707-8a74-3a4623a324ab)
+    (property "Reference" "TP6" (at 174.498 38.1 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 38.1 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 33.02 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND_GOST" (at 77.47 161.29 0)
+    (property "Datasheet" "~" (at 191.77 33.02 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "" (at 77.47 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 77.47 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 34498849-e358-4bd9-943f-042cfbb09dc2))
+    (pin "1" (uuid 4b064af4-fe96-4715-8d96-a0abc6cc23b7))
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR010") (unit 1)
+          (reference "TP6") (unit 1)
         )
       )
     )
@@ -5973,19 +6033,19 @@
     )
   )
 
-  (symbol (lib_id "Device:C") (at 166.37 41.91 0) (unit 1)
+  (symbol (lib_id "Device:C") (at 160.02 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 27b48f10-cf8b-439c-b44c-12295d3d9c55)
-    (property "Reference" "C14" (at 168.91 40.64 0)
+    (property "Reference" "C14" (at 162.56 40.64 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10p" (at 168.91 43.18 0)
+    (property "Value" "8p" (at 162.56 43.18 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitors:CAP_0402" (at 167.3352 45.72 0)
+    (property "Footprint" "Capacitors:CAP_0402" (at 160.9852 45.72 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 166.37 41.91 0)
+    (property "Datasheet" "~" (at 160.02 41.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 7028f470-6186-4d97-a7e6-92bb936fd2eb))
@@ -6028,7 +6088,7 @@
   (symbol (lib_id "Device:R") (at 68.58 254 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 295c5694-9d2b-4946-a3ca-2d51d0043ef8)
-    (property "Reference" "R5" (at 68.58 248.92 90)
+    (property "Reference" "R3" (at 68.58 248.92 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "5.1k" (at 68.58 251.46 90)
@@ -6045,7 +6105,33 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R5") (unit 1)
+          (reference "R3") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 138.43 111.76 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 2adf3407-197a-49ec-9f81-43d300efb904)
+    (property "Reference" "C8" (at 144.78 110.49 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "100n" (at 146.05 113.03 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitors:CAP_0402" (at 137.4648 107.95 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 138.43 111.76 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid e2790391-c244-4bf4-8e34-cf1e96189206))
+    (pin "2" (uuid 27f89e84-d863-4641-99d2-81bc9eeb9590))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "C8") (unit 1)
         )
       )
     )
@@ -6104,9 +6190,9 @@
   )
 
   (symbol (lib_id "Device:R") (at 87.63 91.44 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid 2d5e7a81-ff73-4c68-aae2-1cf520809b76)
-    (property "Reference" "R7" (at 87.63 88.9 90)
+    (property "Reference" "R5" (at 87.63 88.9 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "*" (at 87.63 93.98 90)
@@ -6123,7 +6209,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R7") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -6132,7 +6218,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 237.49 185.42 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 32c80945-1fe2-406d-8095-55ccc9153475)
-    (property "Reference" "#PWR060" (at 237.49 191.77 0)
+    (property "Reference" "#PWR061" (at 237.49 191.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 237.49 189.23 0)
@@ -6148,7 +6234,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR060") (unit 1)
+          (reference "#PWR061") (unit 1)
         )
       )
     )
@@ -6260,7 +6346,7 @@
   (symbol (lib_id "Device:C") (at 87.63 219.71 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 34bd8186-d787-4d48-af80-f1552b4bea06)
-    (property "Reference" "C2" (at 93.98 218.44 0)
+    (property "Reference" "C1" (at 93.98 218.44 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 95.25 220.98 0)
@@ -6277,7 +6363,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C2") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -6329,32 +6415,6 @@
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR029") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:C") (at 77.47 151.13 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 3ca30f1a-806a-49b0-8641-489030d86316)
-    (property "Reference" "C1" (at 83.82 149.86 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "100n" (at 85.09 152.4 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Capacitors:CAP_0402" (at 76.5048 147.32 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 77.47 151.13 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid e9f0215f-b9a7-43a1-91f7-734348e32699))
-    (pin "2" (uuid e3355e95-80cc-4da2-a39f-51300becc3e1))
-    (instances
-      (project "Bagryanets"
-        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C1") (unit 1)
         )
       )
     )
@@ -6476,10 +6536,10 @@
   (symbol (lib_id "Device:C") (at 177.8 146.05 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3fdda2a1-2a3f-489f-b537-dc16717aa35c)
-    (property "Reference" "C18" (at 185.42 144.78 0)
+    (property "Reference" "C18" (at 184.15 144.78 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "12.5p" (at 186.69 147.32 0)
+    (property "Value" "9p" (at 182.88 147.32 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitors:CAP_0402" (at 176.8348 142.24 0)
@@ -6628,36 +6688,10 @@
     )
   )
 
-  (symbol (lib_id "Device:R") (at 67.31 151.13 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 47bdb40b-aa3d-416e-8ab6-c58f0706bf23)
-    (property "Reference" "R3" (at 69.85 149.86 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Value" "100k" (at 69.85 152.4 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "Resistors:RES_0603" (at 69.088 151.13 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 67.31 151.13 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid d8ef80bf-389f-4c54-974b-e883e3396cb3))
-    (pin "2" (uuid 2930f215-ff11-4667-a82d-b73e5875816d))
-    (instances
-      (project "Bagryanets"
-        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R3") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "#USER:GND_GOST") (at 224.79 185.42 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 48bf917d-05ae-4e62-8c2e-94be4f9874f9)
-    (property "Reference" "#PWR057" (at 224.79 191.77 0)
+    (property "Reference" "#PWR058" (at 224.79 191.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 224.79 189.23 0)
@@ -6673,7 +6707,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR057") (unit 1)
+          (reference "#PWR058") (unit 1)
         )
       )
     )
@@ -6726,6 +6760,31 @@
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "C16") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 20.32 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 4c1161da-abbc-4387-bd83-8580ca3f5833)
+    (property "Reference" "TP4" (at 175.768 20.32 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 20.32 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 15.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 15.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 46db21d8-0493-421b-8467-71536c287fca))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP4") (unit 1)
         )
       )
     )
@@ -6800,7 +6859,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 135.89 190.5 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4d9f0d27-f8e6-47ef-bc2d-5a449ec3bc15)
-    (property "Reference" "#PWR023" (at 135.89 184.15 0)
+    (property "Reference" "#PWR022" (at 135.89 184.15 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 135.89 186.69 0)
@@ -6816,7 +6875,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR023") (unit 1)
+          (reference "#PWR022") (unit 1)
         )
       )
     )
@@ -6825,7 +6884,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 242.57 212.09 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4f8cfc0a-bc94-4ffe-8715-fcc383082fb0)
-    (property "Reference" "#PWR062" (at 242.57 218.44 0)
+    (property "Reference" "#PWR063" (at 242.57 218.44 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 242.57 215.9 0)
@@ -6841,7 +6900,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR062") (unit 1)
+          (reference "#PWR063") (unit 1)
         )
       )
     )
@@ -6850,7 +6909,7 @@
   (symbol (lib_id "power:+3.3V") (at 156.21 60.96 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 51a1c629-84e7-4f2f-81dd-1443b21b68d6)
-    (property "Reference" "#PWR032" (at 160.02 60.96 0)
+    (property "Reference" "#PWR033" (at 160.02 60.96 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 149.86 60.96 90)
@@ -6866,7 +6925,32 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR032") (unit 1)
+          (reference "#PWR033") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "#USER:GND_GOST") (at 128.27 118.11 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 52d6bed5-7852-4b37-9636-055000c3830d)
+    (property "Reference" "#PWR020" (at 128.27 124.46 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND_GOST" (at 128.27 121.92 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Footprint" "" (at 128.27 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 128.27 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid f071c7d1-e276-465a-b558-552997f43a24))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -6875,7 +6959,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 229.87 212.09 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 52f1d0d4-18c0-41a4-99cd-223c629f88ce)
-    (property "Reference" "#PWR059" (at 229.87 218.44 0)
+    (property "Reference" "#PWR060" (at 229.87 218.44 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 229.87 215.9 0)
@@ -6891,7 +6975,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR059") (unit 1)
+          (reference "#PWR060") (unit 1)
         )
       )
     )
@@ -6900,7 +6984,7 @@
   (symbol (lib_id "power:+3.3V") (at 228.6 196.85 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 52fdde51-7b3d-4ed1-a087-270711cf2480)
-    (property "Reference" "#PWR058" (at 232.41 196.85 0)
+    (property "Reference" "#PWR059" (at 232.41 196.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 222.25 196.85 90)
@@ -6916,16 +7000,16 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR058") (unit 1)
+          (reference "#PWR059") (unit 1)
         )
       )
     )
   )
 
   (symbol (lib_id "Device:C") (at 149.86 283.21 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid 5472ab8a-33f6-4a27-9207-ae423a9c354c)
-    (property "Reference" "C11" (at 148.59 276.86 90)
+    (property "Reference" "C12" (at 148.59 276.86 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "1p*" (at 148.59 279.4 90)
@@ -6942,7 +7026,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C11") (unit 1)
+          (reference "C12") (unit 1)
         )
       )
     )
@@ -6999,25 +7083,25 @@
     )
   )
 
-  (symbol (lib_id "#USER:CRYSTAL_GND") (at 160.02 35.56 0) (unit 1)
+  (symbol (lib_id "#USER:CRYSTAL_GND") (at 153.67 35.56 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 57d2206c-a4ba-4c98-97c6-a583fecd3e2d)
-    (property "Reference" "ZQ1" (at 160.02 29.21 0)
+    (property "Reference" "ZQ1" (at 153.67 29.21 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "32MHz" (at 160.02 31.75 0)
+    (property "Value" "32MHz" (at 153.67 31.75 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Quartz:03225C4" (at 160.655 32.385 0)
+    (property "Footprint" "Quartz:03225C4" (at 154.305 32.385 0)
       (effects (font (size 0.9906 0.9906)) hide)
     )
-    (property "Datasheet" "" (at 160.02 28.575 0)
+    (property "Datasheet" "" (at 153.67 28.575 0)
       (effects (font (size 1.524 1.524)) hide)
     )
-    (property "Price" "15" (at 162.56 26.035 0)
+    (property "Price" "15" (at 156.21 26.035 0)
       (effects (font (size 1.524 1.524)) hide)
     )
-    (property "SolderPoints" "4" (at 165.1 23.495 0)
+    (property "SolderPoints" "4" (at 158.75 23.495 0)
       (effects (font (size 1.524 1.524)) hide)
     )
     (pin "1" (uuid afeb84e1-d938-4e56-83bd-1d5356935b97))
@@ -7032,19 +7116,19 @@
     )
   )
 
-  (symbol (lib_id "Device:C") (at 152.4 41.91 0) (unit 1)
+  (symbol (lib_id "Device:C") (at 146.05 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 590fcd92-89ea-4a9c-8295-f2fb51357b9b)
-    (property "Reference" "C12" (at 154.94 40.64 0)
+    (property "Reference" "C9" (at 148.59 40.64 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10p" (at 154.94 43.18 0)
+    (property "Value" "8p" (at 148.59 43.18 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitors:CAP_0402" (at 153.3652 45.72 0)
+    (property "Footprint" "Capacitors:CAP_0402" (at 147.0152 45.72 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 152.4 41.91 0)
+    (property "Datasheet" "~" (at 146.05 41.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 77a1710e-9cce-423d-98c4-45af683b13fd))
@@ -7052,7 +7136,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C12") (unit 1)
+          (reference "C9") (unit 1)
         )
       )
     )
@@ -7111,7 +7195,7 @@
   (symbol (lib_id "Device:C") (at 96.52 139.7 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5ac43e95-1022-412d-ac4d-b07970e9deda)
-    (property "Reference" "C3" (at 101.6 138.43 0)
+    (property "Reference" "C2" (at 101.6 138.43 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 104.14 140.97 0)
@@ -7128,16 +7212,16 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C3") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
   )
 
   (symbol (lib_id "Device:R") (at 80.01 204.47 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid 5d239719-bfff-4d9a-9dca-065dca3bab24)
-    (property "Reference" "R6" (at 80.01 201.93 90)
+    (property "Reference" "R4" (at 80.01 201.93 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "*" (at 80.01 207.01 90)
@@ -7154,7 +7238,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R6") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
     )
@@ -7163,7 +7247,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 386.08 165.1 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5eb38619-5b6c-4f39-a83f-a727b7ce7d0a)
-    (property "Reference" "#PWR078" (at 386.08 171.45 0)
+    (property "Reference" "#PWR079" (at 386.08 171.45 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 386.08 168.91 0)
@@ -7179,7 +7263,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR078") (unit 1)
+          (reference "#PWR079") (unit 1)
         )
       )
     )
@@ -7188,10 +7272,10 @@
   (symbol (lib_id "Device:R") (at 386.08 148.59 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 63851476-80dd-4275-855c-114e1d9df344)
-    (property "Reference" "R21" (at 388.62 147.3199 0)
+    (property "Reference" "R22" (at 388.62 147.32 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "200" (at 388.62 149.8599 0)
+    (property "Value" "510" (at 388.62 149.86 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "Resistors:RES_0402" (at 387.858 148.59 90)
@@ -7205,7 +7289,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R21") (unit 1)
+          (reference "R22") (unit 1)
         )
       )
     )
@@ -7267,7 +7351,7 @@
   (symbol (lib_id "Device:R") (at 363.22 191.77 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 67c6a2e1-b3e9-4b1d-8822-c457013f63d2)
-    (property "Reference" "R19" (at 363.22 189.23 90)
+    (property "Reference" "R20" (at 363.22 189.23 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1k" (at 363.22 194.31 90)
@@ -7284,7 +7368,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R19") (unit 1)
+          (reference "R20") (unit 1)
         )
       )
     )
@@ -7320,7 +7404,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 337.82 73.66 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 69014e13-63e6-4d29-8be0-8eb7c8731f5b)
-    (property "Reference" "#PWR074" (at 337.82 80.01 0)
+    (property "Reference" "#PWR075" (at 337.82 80.01 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 337.82 77.47 0)
@@ -7336,7 +7420,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR074") (unit 1)
+          (reference "#PWR075") (unit 1)
         )
       )
     )
@@ -7370,7 +7454,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 257.81 213.36 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6af062e1-0169-4405-9a0a-4a9da1581e6a)
-    (property "Reference" "#PWR065" (at 257.81 219.71 0)
+    (property "Reference" "#PWR066" (at 257.81 219.71 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 257.81 217.17 0)
@@ -7386,16 +7470,16 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR065") (unit 1)
+          (reference "#PWR066") (unit 1)
         )
       )
     )
   )
 
   (symbol (lib_id "Device:C") (at 149.86 233.68 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid 6afad35b-af5e-4d72-874e-cb3574d86a15)
-    (property "Reference" "C10" (at 148.59 227.33 90)
+    (property "Reference" "C11" (at 148.59 227.33 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "1p*" (at 148.59 229.87 90)
@@ -7412,7 +7496,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C10") (unit 1)
+          (reference "C11") (unit 1)
         )
       )
     )
@@ -7421,7 +7505,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 307.34 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6afff568-f6d6-4b4b-b883-136750677c3c)
-    (property "Reference" "#PWR071" (at 307.34 62.23 0)
+    (property "Reference" "#PWR072" (at 307.34 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 307.34 59.69 0)
@@ -7437,32 +7521,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR071") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "#USER:GND_GOST") (at 67.31 157.48 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 6b6ebe71-eebe-409a-bd9a-f16f7c9dccf0)
-    (property "Reference" "#PWR07" (at 67.31 163.83 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND_GOST" (at 67.31 161.29 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "" (at 67.31 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 67.31 157.48 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 3e639539-fe04-4488-a5d3-c88b70840732))
-    (instances
-      (project "Bagryanets"
-        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR07") (unit 1)
+          (reference "#PWR072") (unit 1)
         )
       )
     )
@@ -7471,7 +7530,7 @@
   (symbol (lib_id "Device:C") (at 125.73 196.85 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6b89a16a-31c8-4efd-9bc7-742771df6966)
-    (property "Reference" "C6" (at 128.27 195.58 0)
+    (property "Reference" "C5" (at 128.27 195.58 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 128.27 198.12 0)
@@ -7488,7 +7547,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C6") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
     )
@@ -7519,32 +7578,6 @@
     )
   )
 
-  (symbol (lib_id "Device:R") (at 67.31 140.97 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 6e4e7ef5-0bac-466e-a6fa-7b85eaa343c6)
-    (property "Reference" "R2" (at 69.85 139.7 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Value" "100k" (at 69.85 142.24 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "Resistors:RES_0603" (at 69.088 140.97 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 67.31 140.97 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid f65a4dd6-5b7c-4acf-a6ec-8df54d49e7f7))
-    (pin "2" (uuid 5626d2a2-e6ff-47b7-9639-30164b5fb7db))
-    (instances
-      (project "Bagryanets"
-        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R2") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "#USER:GND_GOST") (at 177.8 151.13 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 708b164e-6f79-483f-8918-7f417d760dcf)
@@ -7565,6 +7598,31 @@
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
           (reference "#PWR040") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 53.34 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 70de860d-1970-4ce2-9f7c-b1aac844da61)
+    (property "Reference" "TP9" (at 174.498 53.34 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 53.34 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 48.26 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 48.26 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid bfe3f844-ba32-4007-8a13-03575abeaf7b))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP9") (unit 1)
         )
       )
     )
@@ -7596,10 +7654,61 @@
     )
   )
 
+  (symbol (lib_id "#USER:GND_GOST") (at 138.43 118.11 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 74ab4115-c1fd-486e-9927-bdbfb6de09e1)
+    (property "Reference" "#PWR025" (at 138.43 124.46 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND_GOST" (at 138.43 121.92 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Footprint" "" (at 138.43 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 138.43 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7aeb1cab-8262-4268-a0f4-cece41e32601))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "#PWR025") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 128.27 101.6 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 769068a8-88df-4177-874d-6e96d9081385)
+    (property "Reference" "R6" (at 130.81 100.33 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Value" "100k" (at 130.81 102.87 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Footprint" "Resistors:RES_0603" (at 130.048 101.6 90)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 128.27 101.6 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid c9d91d83-f8da-43ec-a9e7-f65d89ea40cf))
+    (pin "2" (uuid d9f16224-b873-452d-9444-6ac0b59efdf6))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "R6") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "#USER:GND_GOST") (at 96.52 146.05 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7840a4ea-8912-42d1-9a78-682b033d7262)
-    (property "Reference" "#PWR013" (at 96.52 152.4 0)
+    (property "Reference" "#PWR011" (at 96.52 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 96.52 149.86 0)
@@ -7615,7 +7724,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR013") (unit 1)
+          (reference "#PWR011") (unit 1)
         )
       )
     )
@@ -7624,7 +7733,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 405.13 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 78a5e38b-c4fa-4bc1-9364-bfdf309a2d72)
-    (property "Reference" "#PWR081" (at 405.13 62.23 0)
+    (property "Reference" "#PWR082" (at 405.13 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 405.13 59.69 0)
@@ -7640,7 +7749,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR081") (unit 1)
+          (reference "#PWR082") (unit 1)
         )
       )
     )
@@ -7727,7 +7836,7 @@
   (symbol (lib_id "Device:R") (at 345.44 148.59 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7ccef581-2fd7-4cd9-bf29-5a9875a1d0f5)
-    (property "Reference" "R17" (at 347.98 147.3199 0)
+    (property "Reference" "R18" (at 347.98 147.3199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10" (at 347.98 149.8599 0)
@@ -7744,7 +7853,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R17") (unit 1)
+          (reference "R18") (unit 1)
         )
       )
     )
@@ -7753,7 +7862,7 @@
   (symbol (lib_id "Device:C") (at 137.16 73.66 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 7f6747bf-8b15-4eca-9fb6-fb9889dbb10a)
-    (property "Reference" "C8" (at 142.24 72.39 0)
+    (property "Reference" "C7" (at 142.24 72.39 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10u" (at 143.51 74.93 0)
@@ -7770,7 +7879,32 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C8") (unit 1)
+          (reference "C7") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 43.18 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 8175e8d7-f550-400e-a666-1194072c5259)
+    (property "Reference" "TP8" (at 174.498 43.18 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 43.18 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 38.1 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 38.1 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 435e178f-1500-41c1-a743-221aac313015))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP8") (unit 1)
         )
       )
     )
@@ -7832,7 +7966,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 260.35 177.8 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 84384c09-34d6-4efe-8e22-f5ca6ef3d9ea)
-    (property "Reference" "#PWR066" (at 260.35 184.15 0)
+    (property "Reference" "#PWR067" (at 260.35 184.15 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 260.35 181.61 0)
@@ -7848,7 +7982,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR066") (unit 1)
+          (reference "#PWR067") (unit 1)
         )
       )
     )
@@ -7857,7 +7991,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 106.68 114.3 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8658cdf4-2ef0-44a1-9149-7f6897e58805)
-    (property "Reference" "#PWR015" (at 106.68 120.65 0)
+    (property "Reference" "#PWR013" (at 106.68 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 106.68 118.11 0)
@@ -7873,7 +8007,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR015") (unit 1)
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -7963,7 +8097,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 110.49 146.05 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 88402bed-702b-42ac-95b6-72352a3d7283)
-    (property "Reference" "#PWR016" (at 110.49 152.4 0)
+    (property "Reference" "#PWR014" (at 110.49 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 110.49 149.86 0)
@@ -7979,7 +8113,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR016") (unit 1)
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -7994,7 +8128,7 @@
     (property "Value" "MountingHole" (at 199.39 284.48 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Kais_Lib:Hole_2.4" (at 196.85 283.21 0)
+    (property "Footprint" "MountingHole:MountingHole_2.5mm" (at 196.85 283.21 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 196.85 283.21 0)
@@ -8309,7 +8443,7 @@
   (symbol (lib_id "Device:C") (at 121.92 139.7 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9801f28a-01ae-4493-a855-045d1b3587d7)
-    (property "Reference" "C5" (at 127 138.43 0)
+    (property "Reference" "C4" (at 127 138.43 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10u" (at 128.27 140.97 0)
@@ -8326,7 +8460,32 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C5") (unit 1)
+          (reference "C4") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 35.56 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 988196fa-e250-4943-8240-3f66244560a9)
+    (property "Reference" "TP5" (at 174.498 35.56 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 35.56 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 30.48 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 30.48 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 67425999-3f4b-4fef-8747-e95352f93c89))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP5") (unit 1)
         )
       )
     )
@@ -8364,7 +8523,7 @@
     (property "Reference" "C23" (at 200.66 144.78 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "12.5p" (at 201.93 147.32 0)
+    (property "Value" "9p" (at 199.39 147.32 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitors:CAP_0402" (at 192.0748 142.24 0)
@@ -8387,7 +8546,7 @@
   (symbol (lib_id "Device:R") (at 363.22 199.39 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 9e9bfcf1-4d5c-4d51-a351-24694c85fb40)
-    (property "Reference" "R20" (at 363.22 196.85 90)
+    (property "Reference" "R21" (at 363.22 196.85 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1k" (at 363.22 201.93 90)
@@ -8404,7 +8563,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R20") (unit 1)
+          (reference "R21") (unit 1)
         )
       )
     )
@@ -8493,7 +8652,7 @@
   (symbol (lib_id "power:+3.3V") (at 336.55 58.42 90) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a016becd-8bc1-4a7d-987e-27081d382334)
-    (property "Reference" "#PWR073" (at 340.36 58.42 0)
+    (property "Reference" "#PWR074" (at 340.36 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 332.74 58.4199 90)
@@ -8509,7 +8668,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR073") (unit 1)
+          (reference "#PWR074") (unit 1)
         )
       )
     )
@@ -8544,7 +8703,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 386.08 199.39 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a27c2003-c400-4bb3-a73a-1a5ccf4c2c1d)
-    (property "Reference" "#PWR079" (at 386.08 205.74 0)
+    (property "Reference" "#PWR080" (at 386.08 205.74 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 386.08 203.2 0)
@@ -8560,7 +8719,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR079") (unit 1)
+          (reference "#PWR080") (unit 1)
         )
       )
     )
@@ -8595,7 +8754,7 @@
   (symbol (lib_id "power:+3.3V") (at 241.3 201.93 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a504ee0d-df4e-4f39-b14d-d96f6db61a48)
-    (property "Reference" "#PWR061" (at 245.11 201.93 0)
+    (property "Reference" "#PWR062" (at 245.11 201.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 234.95 201.93 90)
@@ -8611,7 +8770,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR061") (unit 1)
+          (reference "#PWR062") (unit 1)
         )
       )
     )
@@ -8620,7 +8779,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 266.7 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a66d38bf-f15c-4cad-b627-02b06d635a0d)
-    (property "Reference" "#PWR067" (at 266.7 62.23 0)
+    (property "Reference" "#PWR068" (at 266.7 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 266.7 59.69 0)
@@ -8636,7 +8795,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR067") (unit 1)
+          (reference "#PWR068") (unit 1)
         )
       )
     )
@@ -8722,7 +8881,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 325.12 73.66 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid aafe495b-f605-4fb9-b1b3-b86a990bfe04)
-    (property "Reference" "#PWR072" (at 325.12 80.01 0)
+    (property "Reference" "#PWR073" (at 325.12 80.01 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 325.12 77.47 0)
@@ -8738,7 +8897,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR072") (unit 1)
+          (reference "#PWR073") (unit 1)
         )
       )
     )
@@ -8750,7 +8909,7 @@
     (property "Reference" "C19" (at 184.15 168.91 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "10p" (at 184.15 171.45 0)
+    (property "Value" "8p" (at 182.88 171.45 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitors:CAP_0402" (at 176.8348 166.37 0)
@@ -8770,26 +8929,26 @@
     )
   )
 
-  (symbol (lib_id "#USER:GND_GOST") (at 160.02 40.64 0) (unit 1)
+  (symbol (lib_id "#USER:GND_GOST") (at 153.67 40.64 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid af76c2a5-33a6-4b98-b039-12b91d8ddb19)
-    (property "Reference" "#PWR034" (at 160.02 46.99 0)
+    (property "Reference" "#PWR032" (at 153.67 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND_GOST" (at 160.02 44.45 0)
+    (property "Value" "GND_GOST" (at 153.67 44.45 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "" (at 160.02 40.64 0)
+    (property "Footprint" "" (at 153.67 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 160.02 40.64 0)
+    (property "Datasheet" "" (at 153.67 40.64 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 5daddd4b-f66e-491d-833e-d67afe05ccd7))
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR032") (unit 1)
         )
       )
     )
@@ -8804,7 +8963,7 @@
     (property "Value" "MountingHole" (at 199.39 274.32 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Kais_Lib:Hole_2.4" (at 196.85 273.05 0)
+    (property "Footprint" "MountingHole:MountingHole_2.5mm" (at 196.85 273.05 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 196.85 273.05 0)
@@ -8874,7 +9033,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 73.66 255.27 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b3e74066-d6d4-4938-bfa1-3e577b73710a)
-    (property "Reference" "#PWR09" (at 73.66 261.62 0)
+    (property "Reference" "#PWR08" (at 73.66 261.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 73.66 259.08 0)
@@ -8890,7 +9049,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR09") (unit 1)
+          (reference "#PWR08") (unit 1)
         )
       )
     )
@@ -8923,7 +9082,7 @@
   )
 
   (symbol (lib_id "Device:C") (at 393.7 58.42 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid b539c68d-bdf6-4f0a-b016-9d55f6a33bf2)
     (property "Reference" "C46" (at 396.24 57.15 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -8974,10 +9133,61 @@
     )
   )
 
+  (symbol (lib_id "Device:R") (at 128.27 111.76 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid bc9eab0d-9847-4e68-b3a3-2fb1d52a8849)
+    (property "Reference" "R7" (at 130.81 110.49 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Value" "100k" (at 130.81 113.03 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Footprint" "Resistors:RES_0603" (at 130.048 111.76 90)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 128.27 111.76 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 0c1cefc3-29a6-42e8-9abf-6982f48dd548))
+    (pin "2" (uuid 413865d8-a570-4bab-a9b0-3402ad268773))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "R7") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 175.26 261.62 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid bd168847-8946-424b-a0bb-b0e2fa83ad65)
+    (property "Reference" "TP2" (at 178.562 264.16 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 181.102 266.7 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 175.26 266.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 175.26 266.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 50f2f776-972e-4d2b-8cf1-0fd4f11cfcac))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP2") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "#USER:GND_GOST") (at 246.38 22.86 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bd292850-ae8e-437f-b0a6-a0a60f6c693d)
-    (property "Reference" "#PWR063" (at 246.38 16.51 0)
+    (property "Reference" "#PWR064" (at 246.38 16.51 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 246.38 19.05 0)
@@ -8993,7 +9203,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR063") (unit 1)
+          (reference "#PWR064") (unit 1)
         )
       )
     )
@@ -9061,7 +9271,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 281.94 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid beb1e356-dfa0-4144-961d-25c91d753ceb)
-    (property "Reference" "#PWR068" (at 281.94 82.55 0)
+    (property "Reference" "#PWR069" (at 281.94 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 281.94 80.01 0)
@@ -9077,7 +9287,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR068") (unit 1)
+          (reference "#PWR069") (unit 1)
         )
       )
     )
@@ -9086,7 +9296,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 118.11 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid beea3338-85a6-4447-9a93-8cacf2fcfc9c)
-    (property "Reference" "#PWR017" (at 118.11 115.57 0)
+    (property "Reference" "#PWR015" (at 118.11 115.57 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 118.11 113.03 0)
@@ -9102,7 +9312,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR017") (unit 1)
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -9117,7 +9327,7 @@
     (property "Value" "MountingHole" (at 199.39 269.24 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Kais_Lib:Hole_2.4" (at 196.85 267.97 0)
+    (property "Footprint" "MountingHole:MountingHole_2.5mm" (at 196.85 267.97 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 196.85 267.97 0)
@@ -9186,7 +9396,7 @@
   (symbol (lib_id "Device:R") (at 363.22 184.15 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c0ac64f6-2e8a-4cfb-912b-0e8540c9e5d7)
-    (property "Reference" "R18" (at 363.22 181.61 90)
+    (property "Reference" "R19" (at 363.22 181.61 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1k" (at 363.22 186.69 90)
@@ -9203,7 +9413,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R18") (unit 1)
+          (reference "R19") (unit 1)
         )
       )
     )
@@ -9212,7 +9422,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 87.63 226.06 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c0b59d05-c783-4e4d-8100-aba5783ffd2e)
-    (property "Reference" "#PWR012" (at 87.63 232.41 0)
+    (property "Reference" "#PWR010" (at 87.63 232.41 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 87.63 229.87 0)
@@ -9228,32 +9438,32 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR012") (unit 1)
+          (reference "#PWR010") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "#USER:GND_GOST") (at 152.4 46.99 0) (unit 1)
+  (symbol (lib_id "#USER:GND_GOST") (at 146.05 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c1871147-f354-42a1-899d-296822c50c39)
-    (property "Reference" "#PWR031" (at 152.4 53.34 0)
+    (property "Reference" "#PWR030" (at 146.05 53.34 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND_GOST" (at 152.4 50.8 0)
+    (property "Value" "GND_GOST" (at 146.05 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "" (at 152.4 46.99 0)
+    (property "Footprint" "" (at 146.05 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 152.4 46.99 0)
+    (property "Datasheet" "" (at 146.05 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 186a36ef-82f9-4d6a-a6b6-46cac1bd33cc))
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR031") (unit 1)
+          (reference "#PWR030") (unit 1)
         )
       )
     )
@@ -9262,7 +9472,7 @@
   (symbol (lib_id "power:+3.3V") (at 123.19 134.62 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c1b8d319-b9a2-45de-8e34-c6fc25237e10)
-    (property "Reference" "#PWR021" (at 119.38 134.62 0)
+    (property "Reference" "#PWR019" (at 119.38 134.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 127 134.6199 90)
@@ -9278,7 +9488,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR021") (unit 1)
+          (reference "#PWR019") (unit 1)
         )
       )
     )
@@ -9287,7 +9497,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 121.92 146.05 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c1ccc5a6-29e8-4360-a22a-6668ddeebbed)
-    (property "Reference" "#PWR018" (at 121.92 152.4 0)
+    (property "Reference" "#PWR016" (at 121.92 152.4 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 121.92 149.86 0)
@@ -9303,7 +9513,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR018") (unit 1)
+          (reference "#PWR016") (unit 1)
         )
       )
     )
@@ -9338,7 +9548,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 297.18 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c443023c-ef11-46e6-b48b-0d9ed7ad1a4b)
-    (property "Reference" "#PWR070" (at 297.18 62.23 0)
+    (property "Reference" "#PWR071" (at 297.18 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 297.18 59.69 0)
@@ -9354,7 +9564,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR070") (unit 1)
+          (reference "#PWR071") (unit 1)
         )
       )
     )
@@ -9389,7 +9599,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 383.54 63.5 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid ca3ae1ed-8f8f-40ae-bd3c-4bcdb3928c92)
-    (property "Reference" "#PWR077" (at 383.54 69.85 0)
+    (property "Reference" "#PWR078" (at 383.54 69.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 383.54 67.31 0)
@@ -9405,7 +9615,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR077") (unit 1)
+          (reference "#PWR078") (unit 1)
         )
       )
     )
@@ -9464,7 +9674,7 @@
   )
 
   (symbol (lib_id "Device:C") (at 383.54 58.42 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid cc657d40-63ca-443e-919e-479e18dbb4a3)
     (property "Reference" "C45" (at 386.08 57.15 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -9518,7 +9728,7 @@
   (symbol (lib_id "power:+3.3V") (at 135.89 58.42 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d2135692-6dcc-46be-af62-6a66c796e987)
-    (property "Reference" "#PWR022" (at 139.7 58.42 0)
+    (property "Reference" "#PWR021" (at 139.7 58.42 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 129.54 58.42 90)
@@ -9534,7 +9744,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR022") (unit 1)
+          (reference "#PWR021") (unit 1)
         )
       )
     )
@@ -9543,7 +9753,7 @@
   (symbol (lib_id "Device:R") (at 224.79 167.64 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d44d2f5e-15be-4eb5-b7d1-c10020fb45b7)
-    (property "Reference" "R22" (at 218.44 166.3699 0)
+    (property "Reference" "R16" (at 218.44 166.3699 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "*" (at 220.98 168.9099 0)
@@ -9560,7 +9770,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R22") (unit 1)
+          (reference "R16") (unit 1)
         )
       )
     )
@@ -9649,7 +9859,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 78.74 241.3 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d5c46905-1a6f-4d32-a421-f317a76ddb60)
-    (property "Reference" "#PWR011" (at 78.74 247.65 0)
+    (property "Reference" "#PWR09" (at 78.74 247.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 78.74 245.11 0)
@@ -9665,7 +9875,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR09") (unit 1)
         )
       )
     )
@@ -9699,7 +9909,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 255.27 22.86 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid db0f2d8d-82b3-4c56-a265-e52abb791f6b)
-    (property "Reference" "#PWR064" (at 255.27 16.51 0)
+    (property "Reference" "#PWR065" (at 255.27 16.51 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 255.27 19.05 0)
@@ -9715,14 +9925,14 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR064") (unit 1)
+          (reference "#PWR065") (unit 1)
         )
       )
     )
   )
 
   (symbol (lib_id "Device:L") (at 388.62 53.34 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom yes) (on_board yes) (dnp yes)
     (uuid db3ec104-44db-4791-b0bb-8a81b544afa3)
     (property "Reference" "L8" (at 388.62 49.53 90)
       (effects (font (size 1.27 1.27)))
@@ -9826,7 +10036,7 @@
   (symbol (lib_id "Device:C") (at 146.05 73.66 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid deab4195-ae60-4bb3-8d7f-281e66928360)
-    (property "Reference" "C9" (at 151.13 72.39 0)
+    (property "Reference" "C10" (at 151.13 72.39 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 153.67 74.93 0)
@@ -9843,7 +10053,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C9") (unit 1)
+          (reference "C10") (unit 1)
         )
       )
     )
@@ -9852,7 +10062,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 104.14 99.06 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e068ced2-9bd5-4b46-9faa-b025e6ebb40a)
-    (property "Reference" "#PWR014" (at 104.14 92.71 0)
+    (property "Reference" "#PWR012" (at 104.14 92.71 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 104.14 95.25 0)
@@ -9868,7 +10078,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR014") (unit 1)
+          (reference "#PWR012") (unit 1)
         )
       )
     )
@@ -9877,7 +10087,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 137.16 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e2bc8348-0a68-453a-8f14-3be775d436d3)
-    (property "Reference" "#PWR025" (at 137.16 85.09 0)
+    (property "Reference" "#PWR024" (at 137.16 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 137.16 82.55 0)
@@ -9893,7 +10103,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR025") (unit 1)
+          (reference "#PWR024") (unit 1)
         )
       )
     )
@@ -10030,7 +10240,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 393.7 63.5 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f2929dbb-8ac9-49bd-8937-a27bbd1dffb7)
-    (property "Reference" "#PWR080" (at 393.7 69.85 0)
+    (property "Reference" "#PWR081" (at 393.7 69.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 393.7 67.31 0)
@@ -10046,7 +10256,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR080") (unit 1)
+          (reference "#PWR081") (unit 1)
         )
       )
     )
@@ -10081,7 +10291,7 @@
   (symbol (lib_id "Device:R") (at 68.58 223.52 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f497580e-3f31-4bf5-a3aa-486f65c5e3aa)
-    (property "Reference" "R4" (at 68.58 218.44 90)
+    (property "Reference" "R2" (at 68.58 218.44 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "5.1k" (at 68.58 220.98 90)
@@ -10098,7 +10308,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R4") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
     )
@@ -10107,7 +10317,7 @@
   (symbol (lib_id "Device:C") (at 125.73 246.38 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f80bf7fd-e661-4413-b7e2-75bae69c6b73)
-    (property "Reference" "C7" (at 128.27 245.11 0)
+    (property "Reference" "C6" (at 128.27 245.11 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100n" (at 128.27 247.65 0)
@@ -10124,7 +10334,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "C7") (unit 1)
+          (reference "C6") (unit 1)
         )
       )
     )
@@ -10133,7 +10343,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 121.92 265.43 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f8ec0287-55b4-405a-8787-482b8daaadf5)
-    (property "Reference" "#PWR020" (at 121.92 271.78 0)
+    (property "Reference" "#PWR018" (at 121.92 271.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 121.92 269.24 0)
@@ -10149,7 +10359,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR020") (unit 1)
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -10158,7 +10368,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 341.63 62.23 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f9306c2e-d9cf-4c9e-8162-62131e6e963f)
-    (property "Reference" "#PWR075" (at 341.63 68.58 0)
+    (property "Reference" "#PWR076" (at 341.63 68.58 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 341.63 66.04 0)
@@ -10174,7 +10384,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR075") (unit 1)
+          (reference "#PWR076") (unit 1)
         )
       )
     )
@@ -10210,10 +10420,35 @@
     )
   )
 
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 17.78 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid fcb06396-ce58-4554-b3bb-c89f27f223fe)
+    (property "Reference" "TP3" (at 175.768 17.78 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 17.78 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 12.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 12.7 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 412131ff-020a-4d6b-98dc-c916b29638bb))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP3") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "#USER:GND_GOST") (at 287.02 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fd0e3efe-bdfb-43ed-9afa-4cc901990613)
-    (property "Reference" "#PWR069" (at 287.02 62.23 0)
+    (property "Reference" "#PWR070" (at 287.02 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 287.02 59.69 0)
@@ -10229,7 +10464,7 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR069") (unit 1)
+          (reference "#PWR070") (unit 1)
         )
       )
     )
@@ -10238,7 +10473,7 @@
   (symbol (lib_id "#USER:GND_GOST") (at 157.48 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fe2a3ff7-6612-4970-9b65-4c7963e30e40)
-    (property "Reference" "#PWR033" (at 157.48 85.09 0)
+    (property "Reference" "#PWR034" (at 157.48 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND_GOST" (at 157.48 82.55 0)
@@ -10254,7 +10489,32 @@
     (instances
       (project "Bagryanets"
         (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "#PWR033") (unit 1)
+          (reference "#PWR034") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 191.77 40.64 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid fe7e75cb-ad20-4407-9473-3fcf9ccc137b)
+    (property "Reference" "TP7" (at 174.498 40.64 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "TestPoint" (at 182.118 40.64 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "PCB:TESTPOINT_1MM" (at 191.77 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 191.77 35.56 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7ee16030-a56d-46f6-b3e0-90fe3bab2d77))
+    (instances
+      (project "Bagryanets"
+        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
+          (reference "TP7") (unit 1)
         )
       )
     )

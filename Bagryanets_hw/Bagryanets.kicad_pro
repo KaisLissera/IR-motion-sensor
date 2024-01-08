@@ -34,9 +34,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 1.524,
-          "width": 2.286
+          "drill": 2.5,
+          "height": 2.5,
+          "width": 2.5
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -180,7 +180,8 @@
         }
       ],
       "track_widths": [
-        0.0
+        0.0,
+        0.5
       ],
       "via_dimensions": [
         {
@@ -496,7 +497,7 @@
       "/VDDA": "PWR",
       "/VSSA": "PWR",
       "GND": "PWR",
-      "Net-(R7-Pad1)": "PWR",
+      "Net-(R5-Pad1)": "PWR",
       "Net-(U1-VR_ANA)": "PWR",
       "Net-(U1-VR_DIG)": "PWR"
     },
