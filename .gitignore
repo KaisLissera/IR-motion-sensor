@@ -52,38 +52,24 @@ Mkfile.old
 dkms.conf
 
 # CST results
-.slim
-.tet
-.parmap
-.m3t
-.rex
-.feh
-.ffm
-.fme
-.spd
-.fsf
-.dat
-.axg
-.db
-.gex
-.hmi
-.mss
-.pmi
-.rdb
-.res
-.sa
-.swp
-.mlg
-.sct
-
-
+Model/
+ModelCache/
+Result/
+SP/
+Temp/
 
 # Kicad
 
-
 # Other
-.ini
-.cfg
-.log
-.info
-.zip
+*.ini
+*.cfg
+*.log
+*.info
+*.zip
+*.xml
+Datasheets/
+*.pdf
+
+# Pictures
+*.jpg
+*.png

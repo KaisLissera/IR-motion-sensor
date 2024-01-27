@@ -1,4 +1,4 @@
-23099127347480860
+23111032776289826
 Antennas
 ANT_868_10d4x36
 PCB 75.7x37.5, AntPcb 14.8mm
@@ -62832,12 +62832,61 @@ solder jumper open
 5
 3
 Kais_Lib
+AKB_05x30x40
+
+
+0
+0
+0
+Kais_Lib
 Antenna_868_Bagryanets
 
 
 0
 2
 2
+Kais_Lib
+Bagryanets_QR
+
+
+0
+0
+0
+Kais_Lib
+Break
+
+
+0
+0
+0
+Kais_Lib
+Double_smd_solder
+
+
+0
+2
+2
+Kais_Lib
+Gerb_RE
+
+
+0
+0
+0
+Kais_Lib
+Hole_2.4
+
+
+0
+0
+0
+Kais_Lib
+JDY-23_BLE_module
+
+
+0
+24
+24
 Kais_Lib
 KLS7-P8.5x8.5
 
