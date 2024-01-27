@@ -50,3 +50,26 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# CST results
+Model/
+ModelCache/
+Result/
+SP/
+Temp/
+
+# Kicad
+
+# Other
+*.ini
+*.cfg
+*.log
+*.info
+*.zip
+*.xml
+Datasheets/
+*.pdf
+
+# Pictures
+*.jpg
+*.png
