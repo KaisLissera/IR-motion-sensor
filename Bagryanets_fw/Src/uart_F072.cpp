@@ -11,12 +11,12 @@
 /////////////////////////////////////////////////////////////////////
 
 void UartBase_t::Init(uint32_t bod) {
-	ezhrcc::EnableClkUART(Usart);
+	rcc::EnableClkUART(Usart);
 	ezhgpio::SetupPin(GpioTx, PinTx, PullUp, AlternateFunction, AF7);
 	ezhgpio::SetupPin(GpioRx, PinRx, NoPullUpDown, AlternateFunction, AF7);
 
-	uint32_t Apb1Clock = ezhrcc::GetCurrentAPB1Clock();
-	Usart -> BRR = (uint32_t)Apb1Clock/bod;
+	uint32_t ApbClock = rcc::GetCurrentAPBClock();
+	Usart -> BRR = (uint32_t)ApbClock/bod;
 	Usart -> CR3 |= USART_CR3_OVRDIS; //Disable overrun
 	Usart -> CR1 |= USART_CR1_TE | USART_CR1_RE ; //UART TX RX enable
 	Usart -> CR1 |= USART_CR1_UE; //UART enable
@@ -48,7 +48,7 @@ void UartBase_t::EnableCharMatch(char CharForMatch, uint32_t prio) {
 	Disable();
 	Usart -> CR2 |= (uint8_t)CharForMatch << USART_CR2_ADD_Pos;
 	Usart -> CR1 |= USART_CR1_CMIE;
-	ezhnvic::SetupIrq(ReturnIrqVectorUsart(Usart), prio);
+	nvic::SetupIrq(ReturnIrqVectorUsart(Usart), prio);
 	Enable();
 } //UartBase_t::EnableCF
 
@@ -60,7 +60,7 @@ void UartBase_t::UartIrqHandler() {
 /////////////////////////////////////////////////////////////////////
 
 void UartDma_t::InitDmaTx(uint32_t prio) {
-	ezhrcc::EnableClkDMA(DMA1);
+	rcc::EnableClkDMA(DMA1);
 	uint32_t num = ReturnChannelNumberDma(DmaTxChannel);
 
 	DMA1_CSELR -> CSELR &= ~(0b1111UL << (num - 1)*4); //Clean
@@ -68,13 +68,13 @@ void UartDma_t::InitDmaTx(uint32_t prio) {
 	DmaTxChannel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_DIR;
 	Usart -> CR3 |= USART_CR3_DMAT; //USART DMA request enable
 	//
-	ezhnvic::SetupIrq(ReturnIrqVectorDma(DmaTxChannel), prio);
+	nvic::SetupIrq(ReturnIrqVectorDma(DmaTxChannel), prio);
 	DmaTxChannel -> CCR |= DMA_CCR_TCIE;
 	DmaTxChannel -> CPAR = (uint32_t)&(Usart -> TDR); //Peripheral register
 } //UartBase_t::InitDMA_Tx
 
 void UartDma_t::InitDmaRx() {
-	ezhrcc::EnableClkDMA(DMA1);
+	rcc::EnableClkDMA(DMA1);
 	uint32_t num = ReturnChannelNumberDma(DmaRxChannel);
 	DMA1_CSELR -> CSELR &= ~(0b1111UL << (num - 1)*4); //Clean
 	DMA1_CSELR -> CSELR |= DMA_RX_REQUEST << (num - 1)*4; //Select request source
@@ -304,8 +304,7 @@ void UartCli_t::Echo() {
 }
 
 void UartCli_t::PrintBusFrequencies() {
-	Printf("Current System Clock %d Hz\r", ezhrcc::GetCurrentSystemClock());
-	Printf("Current AHB Clock %d Hz\r", ezhrcc::GetCurrentAHBClock());
-	Printf("Current APB1 Clock %d Hz\r", ezhrcc::GetCurrentAPB1Clock());
-	Printf("Current APB2 Clock %d Hz\r", ezhrcc::GetCurrentAPB2Clock());
+	Printf("Current System Clock %d Hz\r", rcc::GetCurrentSystemClock());
+	Printf("Current AHB Clock %d Hz\r", rcc::GetCurrentAHBClock());
+	Printf("Current APB1 Clock %d Hz\r", rcc::GetCurrentAPBClock());
 }

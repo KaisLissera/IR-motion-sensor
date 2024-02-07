@@ -13,8 +13,6 @@
 #include <lib_F072.h>
 //
 #include <rcc_F072.h>
-#include <tim_F072.h>
-#include <uart_F072.h>
 
 //GPIO setup
 /////////////////////////////////////////////////////////////////////

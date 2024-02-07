@@ -19,7 +19,6 @@
 //
 #include <gpio_F072.h>
 #include <rcc_F072.h>
-#include <tim_F072.h>
 
 #define TX_BUFFER_SIZE 		(1024UL)
 #define RX_BUFFER_SIZE 		(1024UL)
@@ -171,7 +170,7 @@ constexpr uint32_t ReturnChannelNumberDma(DMA_Channel_TypeDef* ch){
 	else if(ch == DMA1_Channel7)
 		return 7;
 	else
-		ezhAssert(0); //Bad DMA channel name
+		ASSERT_SIMPLE(0); //Bad DMA channel name
 } //ReturnChNum_DMA end
 
 constexpr IRQn_Type ReturnIrqVectorDma(DMA_Channel_TypeDef* ch){

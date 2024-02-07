@@ -1,5 +1,5 @@
 /*
- * rcc.h
+ * rcc_F072.h
  *
  *  Created on: 2023.07.31
  *      Author: Kais Lissera
@@ -11,10 +11,6 @@
 #include <stdint.h>
 //
 #include <lib_F072.h>
-//
-#include <gpio_F072.h>
-#include <tim_F072.h>
-#include <uart_F072.h>
 
 //Convert milliseconds to FreeRTOS ticks
 #ifdef FREE_RTOS_TICK
@@ -49,7 +45,7 @@ void BlockingDelay(uint32_t ms);
 
 typedef enum {
 	apbDiv1 = 0b000, apbDiv2 = 0b100, apbDiv4 = 0b101, apbDiv8 = 0b110,	apbDiv16 = 0b111
-} APBDiv_t; // PCLK prescaler
+} ApbDiv_t; // PCLK prescaler  - RCC_CFGR_PPRE
 
 typedef enum {
     ahbDiv1		= 0b0000,
@@ -61,7 +57,7 @@ typedef enum {
     ahbDiv128	= 0b1101,
     ahbDiv256	= 0b1110,
     ahbDiv512	= 0b1111
-} AHBDiv_t; // HCLK prescaler
+} AhbDiv_t; // HCLK prescaler - RCC_CFGR_HPRE
 
 typedef enum {
 	sysClkHsi = 0b00, sysClkHse = 0b01, sysClkPll = 0b10, sysClkHsi48 = 0b11
@@ -74,12 +70,11 @@ typedef enum {
 namespace rcc {
 	uint8_t EnableLSI(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSI(uint32_t Timeout = 0xFFF);
-	uint8_t EnableHSE(uint32_t Timeout = 0xFFF); // Not tested
-	uint8_t EnableHSI14(uint32_t Timeout = 0xFFF); // Not tested
-	uint8_t EnableHSI48(uint32_t Timeout = 0xFFF); // Not tested
+	uint8_t EnableHSE(uint32_t Timeout = 0xFFF);
+	uint8_t EnableHSI14(uint32_t Timeout = 0xFFF);
+	uint8_t EnableHSI48(uint32_t Timeout = 0xFFF);
 	uint8_t EnablePLL(uint32_t Timeout = 0xFFF);
-	uint8_t BypassHSE(uint32_t Timeout = 0xFFF); // Not tested
-	//
+	// Need to add timeout until RDY bit is cleared !!!!
 	inline void DisableLSI() {RCC -> CSR &= ~RCC_CSR_LSION;};
 	inline void DisableHSI() {RCC -> CR &= ~RCC_CR_HSION;};
 	inline void DisableHSI14() {RCC -> CR2 &= ~RCC_CR2_HSI14ON;};
@@ -88,17 +83,18 @@ namespace rcc {
 	inline void DisablePLL() {RCC -> CR &= ~RCC_CR_PLLON;};
 	//
 	uint8_t SetSysClk(SysClkSource_t SysClkSource, uint32_t Timeout = 0xFFF);
-	void SetBusDividers(AHBDiv_t AHBDiv, APBDiv_t APBDiv);
-	//
-	uint8_t SetPLL(PllSource_t pllSrc, uint32_t pllMul, uint32_t pllPrediv);
+	void SetBusDividers(AhbDiv_t AhbDiv, ApbDiv_t ApbDiv);
+
+	// 2 <= pllMul <= 16, 1 <= pllPrediv <= 16
+	uint8_t SetupPLL(PllSource_t pllSrc, uint32_t pllMul, uint32_t pllPrediv);
 	//
 	uint32_t GetCurrentSystemClock();
 	uint32_t GetCurrentAHBClock();
 	uint32_t GetCurrentAPBClock();
 	//
-	uint8_t SetSystemClk48MHz();
-	uint8_t SetSystemClk8MHz();
-	uint8_t SetSystemClk4MHz();
+//	uint8_t SetSystemClk48MHz();
+//	uint8_t SetSystemClk8MHz();
+//	uint8_t SetSystemClk4MHz();
 
 	//Functions to enable peripheral clocks
 /////////////////////////////////////////////////////////////////////

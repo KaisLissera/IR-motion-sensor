@@ -14,7 +14,6 @@
 //
 #include <gpio_F072.h>
 #include <rcc_F072.h>
-#include <uart_F072.h>
 
 typedef enum {
 	DownCounter 	= 0,
@@ -42,7 +41,7 @@ public:
 
 	//Minimum Frequency = SYS_CLK/65536, 1.2 kHz if core clock 80 MHz
 	void Init(uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
-		ezhrcc::EnableClkTIM(Timer);
+		rcc::EnableClkTIM(Timer);
 		//Frequency
 		Timer -> PSC = (uint32_t)(SYS_CLK/Frequency) + 1;
 		if(Dir)
@@ -54,7 +53,7 @@ public:
 
 	void ConfigureChannel(GPIO_TypeDef* Gpio, uint32_t Pin, AltFunction_t Af, uint8_t ChannelNumber, OutputCompare_t CompareType) {
 		//TIM channel pin initialization
-		ezhgpio::SetupPin(Gpio, Pin, NoPullUpDown, AlternateFunction, Af); // PA5 AF1
+		gpio::SetupPin(Gpio, Pin, NoPullUpDown, AlternateFunction, Af); // PA5 AF1
 		//Channel Compare Type
 		switch (ChannelNumber) {
 		case 1:
