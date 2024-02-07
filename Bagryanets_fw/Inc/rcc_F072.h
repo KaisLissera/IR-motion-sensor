@@ -43,7 +43,7 @@ void BlockingDelay(uint32_t ms);
 //Frequencies of the internal oscillators in Hz
 #define HSI_FREQ_HZ     8000000UL
 #define HSI14_FREQ_HZ   14000000UL // Dedicated for ADC
-#define HSI48_FREQ_HZ   48000000UL // Mainly for USB
+#define HSI48_FREQ_HZ   48000000UL // Primarily for USB
 #define LSI_FREQ_HZ     40000UL
 #define LSE_FREQ_HZ     32768UL
 
