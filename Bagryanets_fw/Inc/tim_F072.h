@@ -43,7 +43,8 @@ public:
 	void Init(uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
 		rcc::EnableClkTIM(Timer);
 		//Frequency
-		Timer -> PSC = (uint32_t)(SYS_CLK/Frequency) + 1;
+		uint32_t Clk = rcc::GetCurrentSystemClock();
+		Timer -> PSC = (uint32_t)(Clk/Frequency) + 1;
 		if(Dir)
 			Timer -> CR1 |= TIM_CR1_DIR; // 1 - Up counter
 		else
@@ -53,7 +54,7 @@ public:
 
 	void ConfigureChannel(GPIO_TypeDef* Gpio, uint32_t Pin, AltFunction_t Af, uint8_t ChannelNumber, OutputCompare_t CompareType) {
 		//TIM channel pin initialization
-		gpio::SetupPin(Gpio, Pin, NoPullUpDown, AlternateFunction, Af); // PA5 AF1
+		gpio::SetupPin(Gpio, Pin, PullAir, AlternateFunction, Af); // PA5 AF1
 		//Channel Compare Type
 		switch (ChannelNumber) {
 		case 1:

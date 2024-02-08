@@ -7,30 +7,36 @@
 
 #include <uart_F072.h>
 
-//UartBase_t
+//Uart_t
 /////////////////////////////////////////////////////////////////////
 
-void UartBase_t::Init(uint32_t bod) {
-	rcc::EnableClkUART(Usart);
-	ezhgpio::SetupPin(GpioTx, PinTx, PullUp, AlternateFunction, AF7);
-	ezhgpio::SetupPin(GpioRx, PinRx, NoPullUpDown, AlternateFunction, AF7);
+void Uart_t::Init(USART_TypeDef* _Usart, GPIO_TypeDef* GpioTx, uint8_t PinTx,
+				GPIO_TypeDef* GpioRx, uint8_t PinRx,
+				AltFunction_t Af, uint32_t Bod) {
+	Usart = _Usart; // Set class parameter
+	rcc::EnableClkUSART(Usart);
+	gpio::SetupPin(GpioTx, PinTx, PullUp, AlternateFunction, Af);
+	gpio::SetupPin(GpioRx, PinRx, PullAir, AlternateFunction, Af);
 
-	uint32_t ApbClock = rcc::GetCurrentAPBClock();
-	Usart -> BRR = (uint32_t)ApbClock/bod;
-	Usart -> CR3 |= USART_CR3_OVRDIS; //Disable overrun
-	Usart -> CR1 |= USART_CR1_TE | USART_CR1_RE ; //UART TX RX enable
-	Usart -> CR1 |= USART_CR1_UE; //UART enable
-} //UartBase_t::Init
+	// USART must be disabled before configuring
+	Usart->CR1 &= ~(USART_CR1_M1_Msk | USART_CR1_M0_Msk); // M[1:0] = 00 - 8 data bits
+	Usart->CR1 &= ~USART_CR1_OVER8; // 0 - oversampling 16, 1 - oversampling 8
+	uint32_t ApbClock = rcc::GetCurrentAPBClock(); // Get current bus clock
+	Usart->BRR = (uint32_t)ApbClock/Bod; // Setup baud rate
+	Usart->CR3 |= USART_CR3_OVRDIS; //Disable overrun
+	Usart->CR1 |= USART_CR1_TE | USART_CR1_RE ; //USART TX RX enable
+	Usart->CR1 |= USART_CR1_UE; //USART enable
+} //Uart_t constructor
 
 //Simple UART byte transmit, wait until fully transmitted
-void UartBase_t::TxByte(uint8_t data) {
-	while ((Usart -> ISR & USART_ISR_TXE) == 0) {}
-	Usart -> TDR = data;
-} //UartBase_t::Txbyte
+void Uart_t::TxByte(uint8_t data) {
+	while ((Usart->ISR & USART_ISR_TXE) == 0) {}
+	Usart->TDR = data;
+}
 
 //Simple UART byte receive, wait until receive
-uint8_t UartBase_t::RxByte(uint8_t* fl, uint32_t timeout) {
-	while ((Usart -> ISR & USART_ISR_RXNE) == 0) {
+uint8_t Uart_t::RxByte(uint8_t* fl, uint32_t timeout) {
+	while ((Usart->ISR & USART_ISR_RXNE) == 0) {
 		timeout--;
 		if(timeout == 0) {
 			*fl = retvTimeout;
@@ -38,53 +44,55 @@ uint8_t UartBase_t::RxByte(uint8_t* fl, uint32_t timeout) {
 		}
 	}
 	// Data received
-	uint8_t data = Usart -> RDR;
+	uint8_t data = Usart->RDR;
 	*fl = retvOk;
 	return data;
-} //UartBase_t::Rxbyte
+}
 
-//USART Must be disabled, this need IRQ handler
-void UartBase_t::EnableCharMatch(char CharForMatch, uint32_t prio) {
-	Disable();
-	Usart -> CR2 |= (uint8_t)CharForMatch << USART_CR2_ADD_Pos;
-	Usart -> CR1 |= USART_CR1_CMIE;
+//USART Must be disabled, this function need IRQ handler
+void Uart_t::EnableCharMatch(char CharForMatch, uint32_t prio) {
+	Usart->CR2 |= (uint8_t)CharForMatch << USART_CR2_ADD_Pos;
+	Usart->CR1 |= USART_CR1_CMIE;
 	nvic::SetupIrq(ReturnIrqVectorUsart(Usart), prio);
-	Enable();
-} //UartBase_t::EnableCF
+}
 
-void UartBase_t::UartIrqHandler() {
-	Usart -> ICR = USART_ICR_CMCF;
+// If return value = retvOk - character match detected
+uint8_t Uart_t::UartIrqHandler() {
+	if (Usart->ISR & USART_ISR_CMF_Msk) {
+		Usart->ICR = USART_ICR_CMCF;
+		return retvOk;
+	} else
+		return retvFail;
 };
 
-//UartDma_t
+void Uart_t::EnableDmaRequest() {
+	Usart->CR3 |= USART_CR3_DMAT | USART_CR3_DMAR;
+}
+
+//Dma_t
 /////////////////////////////////////////////////////////////////////
+// Init RX and TX DMA channels
+void Dma_t::Init(DMA_Channel_TypeDef* _DmaTxChannel, DMA_Channel_TypeDef* _DmaRxChannel,
+		uint32_t PeriphTxRegAdr, uint32_t PeriphRxRegAdr, uint32_t prio){
+	// Setup class parameters
+	DmaTxChannel = _DmaTxChannel;
+	DmaRxChannel = _DmaRxChannel;
+	TxBufferStartPtr = 0;
+	RxBufferStartPtr = 0;
+	TxBufferEndPtr = 0;
 
-void UartDma_t::InitDmaTx(uint32_t prio) {
 	rcc::EnableClkDMA(DMA1);
-	uint32_t num = ReturnChannelNumberDma(DmaTxChannel);
-
-	DMA1_CSELR -> CSELR &= ~(0b1111UL << (num - 1)*4); //Clean
-	DMA1_CSELR -> CSELR |= DMA_TX_REQUEST << (num - 1)*4; //Select request source
+	// Init DMA TX
 	DmaTxChannel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_DIR;
-	Usart -> CR3 |= USART_CR3_DMAT; //USART DMA request enable
-	//
 	nvic::SetupIrq(ReturnIrqVectorDma(DmaTxChannel), prio);
 	DmaTxChannel -> CCR |= DMA_CCR_TCIE;
-	DmaTxChannel -> CPAR = (uint32_t)&(Usart -> TDR); //Peripheral register
-} //UartBase_t::InitDMA_Tx
-
-void UartDma_t::InitDmaRx() {
-	rcc::EnableClkDMA(DMA1);
-	uint32_t num = ReturnChannelNumberDma(DmaRxChannel);
-	DMA1_CSELR -> CSELR &= ~(0b1111UL << (num - 1)*4); //Clean
-	DMA1_CSELR -> CSELR |= DMA_RX_REQUEST << (num - 1)*4; //Select request source
+	DmaTxChannel -> CPAR = PeriphTxRegAdr; //Peripheral register
+	// Init DMA RX
 	DmaRxChannel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_CIRC;
-	Usart -> CR3 |= USART_CR3_DMAR; //USART DMA request enable
-	//
-	DmaRxChannel -> CPAR = (uint32_t)&(Usart -> RDR); //Peripheral register
-} //UartBase_t::InitDMA_Rx
+	DmaRxChannel -> CPAR = PeriphRxRegAdr; //Peripheral register
+}
 
-uint8_t UartDma_t::StartDmaTxIfNotYet() {
+uint8_t Dma_t::StartDmaTx() {
 	if(CheckDmaStatus(DmaTxChannel) != 0)
 		return retvBusy; //Nothing changes if DMA already running
 
@@ -102,31 +110,31 @@ uint8_t UartDma_t::StartDmaTxIfNotYet() {
 	DmaTxChannel -> CCR |= DMA_CCR_EN;
 
 	return retvOk;
-} //UartBase_t::EnableTxDMA_Numbers
+}
 
-uint32_t UartDma_t::CheckDmaStatus(DMA_Channel_TypeDef* DmaChannel) {
+uint32_t Dma_t::CheckDmaStatus(DMA_Channel_TypeDef* DmaChannel) {
 	uint32_t temp = DmaChannel -> CCR;
 	return temp & DMA_CCR_EN;
 }
 
-void UartDma_t::StartDmaRx() {
+void Dma_t::StartDmaRx() {
 	DmaRxChannel -> CNDTR = RX_BUFFER_SIZE;
 	DmaRxChannel -> CMAR = (uint32_t)&RxBuffer[0];
 	DmaRxChannel -> CCR |= DMA_CCR_EN;
 } //UartBase_t::EnableRxDMA()
 
-uint32_t UartDma_t::GetRxBufferEndPtr() {
+uint32_t Dma_t::GetRxBufferEndPtr() {
 	return RX_BUFFER_SIZE - (DmaRxChannel -> CNDTR);
 }
 
-uint32_t UartDma_t::GetNumberOfBytesInTxBuffer() {
+uint32_t Dma_t::GetNumberOfBytesInTxBuffer() {
 	if (TxBufferEndPtr >= TxBufferStartPtr)
 		return TxBufferEndPtr - TxBufferStartPtr;
 	else
 		return TX_BUFFER_SIZE - TxBufferStartPtr + TxBufferEndPtr;
 }
 
-uint32_t UartDma_t::GetNumberOfBytesInRxBuffer() {
+uint32_t Dma_t::GetNumberOfBytesInRxBuffer() {
 	uint32_t RxBufferEndPtr = GetRxBufferEndPtr();
 	if (RxBufferEndPtr >= RxBufferStartPtr)
 		return RxBufferEndPtr - RxBufferStartPtr;
@@ -134,7 +142,7 @@ uint32_t UartDma_t::GetNumberOfBytesInRxBuffer() {
 		return RX_BUFFER_SIZE - RxBufferStartPtr + RxBufferEndPtr;
 }
 
-uint8_t UartDma_t::WriteToBuffer(uint8_t data) {
+uint8_t Dma_t::WriteToBuffer(uint8_t data) {
 	uint32_t EndPtrTemp = (TxBufferEndPtr + 1) % TX_BUFFER_SIZE;
 	if (EndPtrTemp == TxBufferStartPtr)
 		return retvOutOfMemory;
@@ -143,18 +151,23 @@ uint8_t UartDma_t::WriteToBuffer(uint8_t data) {
 	return retvOk;
 }
 
-uint8_t UartDma_t::ReadFromBuffer() {
+uint8_t Dma_t::ReadFromBuffer() {
 	uint8_t temp = RxBuffer[RxBufferStartPtr];
 	RxBufferStartPtr = (RxBufferStartPtr + 1) % RX_BUFFER_SIZE;
 	return temp;
 }
 
-void UartDma_t::DmaIrqHandler() {
-	DMA1 -> IFCR = DMA_IFCR_CTCIF7;
-	DmaTxChannel -> CCR &= ~DMA_CCR_EN;
-	if(TxBufferStartPtr != TxBufferEndPtr) {
-		StartDmaTxIfNotYet();
-	}
+uint8_t Dma_t::DmaIrqHandler() {
+	uint8_t ChNum = ReturnChannelNumberDma(DmaTxChannel);
+	if(DMA1->ISR & DMA_ISR_TCIF1 << (ChNum - 1)){
+		DMA1->IFCR = DMA_IFCR_CTCIF1 << (ChNum - 1);
+		DmaTxChannel -> CCR &= ~DMA_CCR_EN;
+		if(TxBufferStartPtr != TxBufferEndPtr) {
+			StartDmaTx();
+		}
+		return retvOk;
+	} else
+		return retvFail;
 }
 
 //UartCli_t
@@ -218,7 +231,7 @@ void UartCli_t::Printf(const char* text, ...) {
 	}
 	va_end(args); // End format processing
 	//
-	Channel->StartDmaTxIfNotYet();
+	Channel->StartDmaTx();
 }
 
 char* UartCli_t::Read() {

@@ -152,9 +152,9 @@ g_pfnVectors:
   .word	EXTI2_3_IRQHandler            			/* EXTI Line[3:2] interrupts                             */
   .word	EXTI4_15_IRQHandler           			/* EXTI Line15 and EXTI4 interrupts                      */
   .word	TSC_IRQHandler                			/* Touch sensing interrupt                               */
-  .word	DMA1_CH1_IRQHandler           			/* DMA1 channel 1 interrupt                              */
-  .word	0                             			/* Reserved                                              */
-  .word	0                             			/* Reserved                                              */
+  .word	DMA1_Channel1_IRQHandler           		/* DMA1 channel 1 interrupt                              */
+  .word	DMA1_Channel2_3_IRQHandler              /* Reserved                                              */
+  .word	DMA1_Channel4_5_6_7_IRQHandler     		    /* Reserved                                              */
   .word	ADC_COMP_IRQHandler           			/* ADC and comparator interrupts                         */
   .word	TIM1_BRK_UP_TRG_COM_IRQHandler			/* TIM1 break, update, trigger and commutation interrupt */
   .word	TIM1_CC_IRQHandler            			/* TIM1 Capture Compare interrupt                        */
@@ -226,8 +226,14 @@ g_pfnVectors:
 	.weak	TSC_IRQHandler
 	.thumb_set TSC_IRQHandler,Default_Handler
 
-	.weak	DMA1_CH1_IRQHandler
-	.thumb_set DMA1_CH1_IRQHandler,Default_Handler
+	.weak	DMA1_Channel1_IRQHandler
+	.thumb_set DMA1_Channel1_IRQHandler,Default_Handler
+
+	.weak	DMA1_Channel2_3_IRQHandler
+	.thumb_set DMA1_Channel2_3_IRQHandler,Default_Handler
+
+	.weak	DMA1_Channel4_5_6_7_IRQHandler
+	.thumb_set DMA1_Channel4_5_6_7_IRQHandler,Default_Handler
 
 	.weak	ADC_COMP_IRQHandler
 	.thumb_set ADC_COMP_IRQHandler,Default_Handler

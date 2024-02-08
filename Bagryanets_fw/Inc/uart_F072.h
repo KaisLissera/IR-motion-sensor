@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <cstring>
 #include <cctype>
 //
@@ -20,8 +20,6 @@
 #include <gpio_F072.h>
 #include <rcc_F072.h>
 
-#define TX_BUFFER_SIZE 		(1024UL)
-#define RX_BUFFER_SIZE 		(1024UL)
 //Remade but not today, same for all UARTs
 #define DMA_TX_REQUEST 		0b0010
 #define DMA_RX_REQUEST 		0b0010
@@ -39,34 +37,22 @@ void UARTx_IRQHandler_IRQHandler(){ -
 }
 */
 
-class UartBase_t {
+class Uart_t {
 protected:
 	USART_TypeDef* Usart;
-	GPIO_TypeDef* GpioTx;
-	uint8_t PinTx;
-	GPIO_TypeDef* GpioRx;
-	uint8_t PinRx;
 public:
-	UartBase_t(USART_TypeDef* _USART,
-	GPIO_TypeDef* _GPIO_TX, uint8_t _PIN_TX,
-	GPIO_TypeDef* _GPIO_RX, uint8_t _PIN_RX) {
-		Usart = _USART;
-		GpioTx = _GPIO_TX;
-		PinTx = _PIN_TX;
-		GpioRx = _GPIO_RX;
-		PinRx = _PIN_RX;
-	}
-	void Init(uint32_t _Bod);
+	void Init(USART_TypeDef* _Usart, GPIO_TypeDef* GpioTx, uint8_t PinTx,
+			GPIO_TypeDef* GpioRx, uint8_t PinRx,
+			AltFunction_t Af, uint32_t Bod);
 	void Enable() { Usart->CR1 |= USART_CR1_UE; }
 	void Disable() { Usart->CR1 &= ~USART_CR1_UE; }
-	//
 	void EnableCharMatch(char CharForMatch, uint32_t prio = 0);
-	void UartIrqHandler();
 	void DisableCharMatch(void) { Usart->CR1 &= USART_CR1_CMIE; }
+	void EnableDmaRequest();
 	void TxByte(uint8_t data);
 	uint8_t RxByte(uint8_t* fl = NULL, uint32_t timeout = 0xFFFF);
-	//
-}; //UartBase_t end
+	uint8_t UartIrqHandler();
+}; //Uart_t end
 
 //UartDma_t - enables capability to transmit and receive data through DMA
 /////////////////////////////////////////////////////////////////////
@@ -84,7 +70,11 @@ void DMAx_Channelx_IRQHandler(){ -
 } }
 */
 
-class UartDma_t : public UartBase_t {
+//DMA buffers sizes
+#define TX_BUFFER_SIZE 		(256UL)
+#define RX_BUFFER_SIZE 		(256UL)
+
+class Dma_t {
 protected:
 	uint8_t TxBuffer[TX_BUFFER_SIZE];
 	uint32_t TxBufferStartPtr;
@@ -95,20 +85,9 @@ protected:
 	DMA_Channel_TypeDef* DmaTxChannel;
 	DMA_Channel_TypeDef* DmaRxChannel;
 public:
-	UartDma_t(USART_TypeDef* _USART,
-	GPIO_TypeDef* _GPIO_TX, uint8_t _PIN_TX,
-	GPIO_TypeDef* _GPIO_RX, uint8_t _PIN_RX,
-	DMA_Channel_TypeDef* _DmaTxChannel, DMA_Channel_TypeDef* _DmaRxChannel):
-		UartBase_t(_USART, _GPIO_TX, _PIN_TX, _GPIO_RX, _PIN_RX) {
-		DmaTxChannel = _DmaTxChannel;
-		DmaRxChannel = _DmaRxChannel;
-		TxBufferStartPtr = 0;
-		RxBufferStartPtr = 0;
-		TxBufferEndPtr = 0;
-	}
-	void InitDmaTx(uint32_t prio = 0);
-	void InitDmaRx();
-	uint8_t StartDmaTxIfNotYet();
+	void Init(DMA_Channel_TypeDef* _DmaTxChannel, DMA_Channel_TypeDef* _DmaRxChannel,
+			uint32_t PeriphTxRegAdr, uint32_t PeriphRxRegAdr, uint32_t prio = 0);
+	uint8_t StartDmaTx();
 	void StartDmaRx();
 	void StopDmaRx(void) { DmaRxChannel -> CCR &= ~DMA_CCR_EN; }
 	uint32_t GetNumberOfBytesInRxBuffer();
@@ -117,8 +96,8 @@ public:
 	//
 	uint8_t WriteToBuffer(uint8_t data);
 	uint8_t ReadFromBuffer();
-	void DmaIrqHandler(); //Only TX IRQ implemented
-}; //UartDma_t end
+	uint8_t DmaIrqHandler(); //Only TX IRQ implemented
+}; //Dma_t end
 
 //typedef enum {
 //} DmaIrqRetv_t;
@@ -126,14 +105,14 @@ public:
 //UartCli_t - provides simple command line interface
 /////////////////////////////////////////////////////////////////////
 
-#define COMMAND_BUFFER_SIZE (128)
-#define ARG_BUFFER_SIZE (128)
+#define COMMAND_BUFFER_SIZE (64UL)
+#define ARG_BUFFER_SIZE (10UL)
 
 class UartCli_t {
 private:
-	UartDma_t* Channel;
+	Dma_t* Channel;
 public:
-	UartCli_t(UartDma_t* _Channel) {
+	UartCli_t(Dma_t* _Channel) {
 		Channel = _Channel;
 	}
 	char CommandBuffer[COMMAND_BUFFER_SIZE];
@@ -174,35 +153,24 @@ constexpr uint32_t ReturnChannelNumberDma(DMA_Channel_TypeDef* ch){
 } //ReturnChNum_DMA end
 
 constexpr IRQn_Type ReturnIrqVectorDma(DMA_Channel_TypeDef* ch){
-	if(ch == DMA1_Channel1)
+	if (ch == DMA1_Channel1)
 		return DMA1_Channel1_IRQn;
-	else if(ch == DMA1_Channel2)
-		return DMA1_Channel2_IRQn;
-	else if(ch == DMA1_Channel3)
-		return DMA1_Channel3_IRQn;
-	else if(ch == DMA1_Channel4)
-		return DMA1_Channel4_IRQn;
-	else if(ch == DMA1_Channel5)
-		return DMA1_Channel5_IRQn;
-	else if(ch == DMA1_Channel6)
-		return DMA1_Channel6_IRQn;
-	else if(ch == DMA1_Channel7)
-		return DMA1_Channel7_IRQn;
+	else if ((ch == DMA1_Channel2) or (ch == DMA1_Channel3))
+		return DMA1_Channel2_3_IRQn;
+	else if ((ch == DMA1_Channel4) or (ch == DMA1_Channel5) or (ch == DMA1_Channel6) or (ch == DMA1_Channel7))
+		return DMA1_Channel4_5_6_7_IRQn;
+
 	else
 		ASSERT_SIMPLE(0); //Bad DMA channel name
 } //ReturnIRQNum_DMA end
 
 constexpr IRQn_Type ReturnIrqVectorUsart(USART_TypeDef* ch){
-	if(ch == USART1)
+	if (ch == USART1)
 		return USART1_IRQn;
-	else if(ch == USART2)
+	else if (ch == USART2)
 		return USART2_IRQn;
-	else if(ch == USART3)
-		return USART3_IRQn;
-	else if(ch == UART4)
-		return UART4_IRQn;
-	else if(ch == UART5)
-		return UART5_IRQn;
+	else if ((ch == USART3) or (ch == USART4))
+		return USART3_4_IRQn;
 	else
 		ASSERT_SIMPLE(0); //Bad USART name
 } //ReturnIRQNum_USART end

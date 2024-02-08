@@ -25,9 +25,9 @@ typedef enum {
 } PinMode_t;
 
 typedef enum {
-	NoPullUpDown 	= 0b00UL,
-	PullUp 			= 0b01UL,
-	PullDown 		= 0b10UL
+	PullAir 	= 0b00UL,
+	PullUp 		= 0b01UL,
+	PullDown 	= 0b10UL
 } PinPupd_t;
 
 typedef enum {
@@ -49,7 +49,7 @@ typedef enum {
 	AF15
 } AltFunction_t;
 
-namespace ezhgpio {
+namespace gpio {
 	void SetupPin(GPIO_TypeDef* Gpio, uint8_t Pin, PinPupd_t Pupd, PinMode_t Mode, AltFunction_t Af = AF0);
 	void SetPinMode(GPIO_TypeDef* _GPIO, uint32_t _PIN ,uint32_t mode);
 	void SetPinPupd(GPIO_TypeDef* _GPIO, uint32_t _PIN ,uint32_t pupd);
@@ -103,7 +103,7 @@ public:
 	}
 
 	void Init(){
-		ezhgpio::SetupPin(Gpio,Pin,PullUp,Input);
+		gpio::SetupPin(Gpio,Pin,PullUp,Input);
 	}
 
 	ButtonState_t CheckState();

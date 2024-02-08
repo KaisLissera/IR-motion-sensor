@@ -24,14 +24,16 @@ void DelayMs(uint32_t ms) {
 	systickCount = ms;
 	SysTick->VAL = 0x0u;
 	// In stm32f0x7x SysTick frequency equals core frequency HCLK divided by 8
-	SysTick->LOAD = (uint32_t)(SYS_CLK >> 13); // SYS_CLK/8/1000 + 1 - precise value
+	uint32_t Clk = rcc::GetCurrentSystemClock();
+	SysTick->LOAD = (uint32_t)(Clk >> 13); // SYS_CLK/8/1000 + 1 - precise value
 	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk; //Clock, interrupt, systick enable
 	while(systickCount);
 }
 #endif
 
 void BlockingDelay(uint32_t ms) {
-	uint32_t temp = ms*SYS_CLK >> 4; // Check why 20!!!
+	uint32_t Clk = rcc::GetCurrentSystemClock();
+	uint32_t temp = ms*Clk >> 4; // Check why 20!!!
 	for(volatile uint32_t i = 0; i < temp; i++) {};
 }
 
@@ -48,7 +50,7 @@ uint8_t rcc::EnableLSI(uint32_t Timeout) {
 	return retvOk;
 }
 
-uint8_t rcc::EnableHSI(uint32_t Timeout) {
+uint8_t rcc::EnableHSI8(uint32_t Timeout) {
 	RCC->CR |= RCC_CR_HSION;
 	while(!(RCC->CR & RCC_CR_HSIRDY)) {
 		Timeout--;
@@ -99,7 +101,8 @@ uint8_t rcc::EnablePLL(uint32_t Timeout) {
 	return retvOk;
 }
 
-uint8_t rcc::SetSysClk(SysClkSource_t SysClkSource, uint32_t Timeout) {
+// sysClkHsi, sysClkHse, sysClkPll, sysClkHsi48
+uint8_t rcc::SwitchSysClk(SysClkSource_t SysClkSource, uint32_t Timeout) {
 	RCC->CFGR &= ~RCC_CFGR_SW; // Clear
 	RCC->CFGR |= (SysClkSource << RCC_CFGR_SW_Pos); // Switch system clock
 	// Check system clock switch status
@@ -149,7 +152,7 @@ uint32_t rcc::GetCurrentSystemClock() {
     uint32_t Temp = (RCC->CFGR & RCC_CFGR_SWS) >> RCC_CFGR_SWS_Pos;  // System clock switch status
     switch(Temp) {
         case sysClkHsi48: return HSI48_FREQ_HZ;
-        case sysClkHsi: return HSI_FREQ_HZ;
+        case sysClkHsi: return HSI8_FREQ_HZ;
 #ifdef HSE_FREQ_HZ
         case sysClkHse: return HSE_FREQ_HZ;
 #endif
@@ -161,9 +164,9 @@ uint32_t rcc::GetCurrentSystemClock() {
             pllMul = pllMul + 2; // Conversion to multiplier
             switch(PllSource) {
             	case pllSrcHsiDiv2:
-            		return HSI_FREQ_HZ*pllMul/(pllPreDiv*2);
+            		return HSI8_FREQ_HZ*pllMul/(pllPreDiv*2);
                 case pllSrcHsiPrediv:
-                	return HSI_FREQ_HZ*pllMul/pllPreDiv;
+                	return HSI8_FREQ_HZ*pllMul/pllPreDiv;
 #ifdef HSE_FREQ_HZ
                 case pllSrcHsePrediv:
                 	return HSE_FREQ_HZ*pllMul/pllPreDiv;
@@ -211,7 +214,7 @@ uint32_t rcc::GetCurrentAPBClock() {
 //flash
 /////////////////////////////////////////////////////////////////////
 
-// Setup Flash latency depending on CPU frequency and voltage
+// Setup Flash latency depending on CPU frequency
 void flash::SetFlashLatency(uint8_t AhbClkMHz) {
     uint32_t Temp = FLASH->ACR;
     Temp &= ~FLASH_ACR_LATENCY_Msk;

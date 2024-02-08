@@ -37,7 +37,7 @@ void BlockingDelay(uint32_t ms);
 /////////////////////////////////////////////////////////////////////
 
 //Frequencies of the internal oscillators in Hz
-#define HSI_FREQ_HZ     8000000UL
+#define HSI8_FREQ_HZ     8000000UL
 #define HSI14_FREQ_HZ   14000000UL // Dedicated for ADC
 #define HSI48_FREQ_HZ   48000000UL // Primarily for USB
 #define LSI_FREQ_HZ     40000UL
@@ -69,20 +69,20 @@ typedef enum {
 
 namespace rcc {
 	uint8_t EnableLSI(uint32_t Timeout = 0xFFF);
-	uint8_t EnableHSI(uint32_t Timeout = 0xFFF);
+	uint8_t EnableHSI8(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSE(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSI14(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSI48(uint32_t Timeout = 0xFFF);
 	uint8_t EnablePLL(uint32_t Timeout = 0xFFF);
 	// Need to add timeout until RDY bit is cleared !!!!
 	inline void DisableLSI() {RCC -> CSR &= ~RCC_CSR_LSION;};
-	inline void DisableHSI() {RCC -> CR &= ~RCC_CR_HSION;};
+	inline void DisableHSI8() {RCC -> CR &= ~RCC_CR_HSION;};
 	inline void DisableHSI14() {RCC -> CR2 &= ~RCC_CR2_HSI14ON;};
 	inline void DisableHSI48() {RCC -> CR2 &= ~RCC_CR2_HSI48ON;};
 	inline void DisableHSE() {RCC -> CR &= ~RCC_CR_HSEON;};
 	inline void DisablePLL() {RCC -> CR &= ~RCC_CR_PLLON;};
 	//
-	uint8_t SetSysClk(SysClkSource_t SysClkSource, uint32_t Timeout = 0xFFF);
+	uint8_t SwitchSysClk(SysClkSource_t SysClkSource, uint32_t Timeout = 0xFFF);
 	void SetBusDividers(AhbDiv_t AhbDiv, ApbDiv_t ApbDiv);
 
 	// 2 <= pllMul <= 16, 1 <= pllPrediv <= 16
@@ -91,10 +91,6 @@ namespace rcc {
 	uint32_t GetCurrentSystemClock();
 	uint32_t GetCurrentAHBClock();
 	uint32_t GetCurrentAPBClock();
-	//
-//	uint8_t SetSystemClk48MHz();
-//	uint8_t SetSystemClk8MHz();
-//	uint8_t SetSystemClk4MHz();
 
 	//Functions to enable peripheral clocks
 /////////////////////////////////////////////////////////////////////
@@ -154,7 +150,7 @@ namespace rcc {
 		else
 			ASSERT_SIMPLE(0); // Bad timer name
 	}
-	inline void EnableClkUART(USART_TypeDef* Uart) {
+	inline void EnableClkUSART(USART_TypeDef* Uart) {
 		if(Uart == USART1)
 			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 		else if(Uart == USART2)
