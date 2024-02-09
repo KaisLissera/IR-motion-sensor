@@ -5,7 +5,7 @@
  *      Author: Kais Lissera
  */
 
-#include <uart_F072.h>
+#include <interface_F072.h>
 
 //Uart_t
 /////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ void Uart_t::EnableCharMatch(char CharForMatch, uint32_t prio) {
 }
 
 // If return value = retvOk - character match detected
-uint8_t Uart_t::UartIrqHandler() {
+uint8_t Uart_t::IrqHandler() {
 	if (Usart->ISR & USART_ISR_CMF_Msk) {
 		Usart->ICR = USART_ICR_CMCF;
 		return retvOk;
@@ -69,118 +69,135 @@ void Uart_t::EnableDmaRequest() {
 	Usart->CR3 |= USART_CR3_DMAT | USART_CR3_DMAR;
 }
 
-//Dma_t
+//DmaTx_t
 /////////////////////////////////////////////////////////////////////
-// Init RX and TX DMA channels
-void Dma_t::Init(DMA_Channel_TypeDef* _DmaTxChannel, DMA_Channel_TypeDef* _DmaRxChannel,
-		uint32_t PeriphTxRegAdr, uint32_t PeriphRxRegAdr, uint32_t prio){
+// Initialize memory to peripheral DMA TX channel
+void DmaTx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio){
 	// Setup class parameters
-	DmaTxChannel = _DmaTxChannel;
-	DmaRxChannel = _DmaRxChannel;
-	TxBufferStartPtr = 0;
-	RxBufferStartPtr = 0;
-	TxBufferEndPtr = 0;
+	Channel = _Channel;
+	BufferStartPtr = 0;
+	BufferEndPtr = 0;
 
 	rcc::EnableClkDMA(DMA1);
-	// Init DMA TX
-	DmaTxChannel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_DIR;
-	nvic::SetupIrq(ReturnIrqVectorDma(DmaTxChannel), prio);
-	DmaTxChannel -> CCR |= DMA_CCR_TCIE;
-	DmaTxChannel -> CPAR = PeriphTxRegAdr; //Peripheral register
-	// Init DMA RX
-	DmaRxChannel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_CIRC;
-	DmaRxChannel -> CPAR = PeriphRxRegAdr; //Peripheral register
+	Channel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_DIR;
+	nvic::SetupIrq(ReturnIrqVectorDma(Channel), prio);
+	Channel -> CCR |= DMA_CCR_TCIE;
+	Channel -> CPAR = PeriphRegAdr; //Peripheral register
 }
 
-uint8_t Dma_t::StartDmaTx() {
-	if(CheckDmaStatus(DmaTxChannel) != 0)
+uint8_t DmaTx_t::Start() {
+	if(CheckStatus() != 0)
 		return retvBusy; //Nothing changes if DMA already running
 
-	if(TxBufferStartPtr == TxBufferEndPtr)
+	if(BufferStartPtr == BufferEndPtr)
 		return retvEmpty; //Nothing changes if Buffer Empty
 
-	uint32_t NumberOfBytesReadyToTx;
-	if (TxBufferEndPtr > TxBufferStartPtr)
-		NumberOfBytesReadyToTx = GetNumberOfBytesInTxBuffer();
+	uint32_t NumberOfBytesReady;
+	if (BufferEndPtr > BufferStartPtr)
+		NumberOfBytesReady = GetNumberOfBytesInBuffer();
 	else
-		NumberOfBytesReadyToTx = TX_BUFFER_SIZE - TxBufferStartPtr;
-	DmaTxChannel -> CNDTR = NumberOfBytesReadyToTx;
-	DmaTxChannel -> CMAR = (uint32_t)&TxBuffer[TxBufferStartPtr];
-	TxBufferStartPtr = (TxBufferStartPtr + NumberOfBytesReadyToTx) % TX_BUFFER_SIZE;
-	DmaTxChannel -> CCR |= DMA_CCR_EN;
+		NumberOfBytesReady = TX_BUFFER_SIZE - BufferStartPtr;
+	Channel -> CNDTR = NumberOfBytesReady;
+	Channel -> CMAR = (uint32_t)&Buffer[BufferStartPtr];
+	BufferStartPtr = (BufferStartPtr + NumberOfBytesReady) % TX_BUFFER_SIZE;
+	Channel -> CCR |= DMA_CCR_EN;
 
 	return retvOk;
 }
 
-uint32_t Dma_t::CheckDmaStatus(DMA_Channel_TypeDef* DmaChannel) {
-	uint32_t temp = DmaChannel -> CCR;
+uint32_t DmaTx_t::CheckStatus() {
+	uint32_t temp = Channel -> CCR;
 	return temp & DMA_CCR_EN;
 }
 
-void Dma_t::StartDmaRx() {
-	DmaRxChannel -> CNDTR = RX_BUFFER_SIZE;
-	DmaRxChannel -> CMAR = (uint32_t)&RxBuffer[0];
-	DmaRxChannel -> CCR |= DMA_CCR_EN;
-} //UartBase_t::EnableRxDMA()
-
-uint32_t Dma_t::GetRxBufferEndPtr() {
-	return RX_BUFFER_SIZE - (DmaRxChannel -> CNDTR);
-}
-
-uint32_t Dma_t::GetNumberOfBytesInTxBuffer() {
-	if (TxBufferEndPtr >= TxBufferStartPtr)
-		return TxBufferEndPtr - TxBufferStartPtr;
+uint32_t DmaTx_t::GetNumberOfBytesInBuffer() {
+	if (BufferEndPtr >= BufferStartPtr)
+		return BufferEndPtr - BufferStartPtr;
 	else
-		return TX_BUFFER_SIZE - TxBufferStartPtr + TxBufferEndPtr;
+		return TX_BUFFER_SIZE - BufferStartPtr + BufferEndPtr;
 }
 
-uint32_t Dma_t::GetNumberOfBytesInRxBuffer() {
-	uint32_t RxBufferEndPtr = GetRxBufferEndPtr();
-	if (RxBufferEndPtr >= RxBufferStartPtr)
-		return RxBufferEndPtr - RxBufferStartPtr;
-	else
-		return RX_BUFFER_SIZE - RxBufferStartPtr + RxBufferEndPtr;
-}
-
-uint8_t Dma_t::WriteToBuffer(uint8_t data) {
-	uint32_t EndPtrTemp = (TxBufferEndPtr + 1) % TX_BUFFER_SIZE;
-	if (EndPtrTemp == TxBufferStartPtr)
+uint8_t DmaTx_t::WriteToBuffer(uint8_t data) {
+	uint32_t EndPtrTemp = (BufferEndPtr + 1) % TX_BUFFER_SIZE;
+	if (EndPtrTemp == BufferStartPtr)
 		return retvOutOfMemory;
-	TxBuffer[TxBufferEndPtr] = data;
-	TxBufferEndPtr = EndPtrTemp;
+	Buffer[BufferEndPtr] = data;
+	BufferEndPtr = EndPtrTemp;
 	return retvOk;
 }
 
-uint8_t Dma_t::ReadFromBuffer() {
-	uint8_t temp = RxBuffer[RxBufferStartPtr];
-	RxBufferStartPtr = (RxBufferStartPtr + 1) % RX_BUFFER_SIZE;
-	return temp;
-}
-
-uint8_t Dma_t::DmaIrqHandler() {
-	uint8_t ChNum = ReturnChannelNumberDma(DmaTxChannel);
+uint8_t DmaTx_t::IrqHandler() {
+	uint8_t ChNum = ReturnChannelNumberDma(Channel);
 	if(DMA1->ISR & DMA_ISR_TCIF1 << (ChNum - 1)){
 		DMA1->IFCR = DMA_IFCR_CTCIF1 << (ChNum - 1);
-		DmaTxChannel -> CCR &= ~DMA_CCR_EN;
-		if(TxBufferStartPtr != TxBufferEndPtr) {
-			StartDmaTx();
+		Channel -> CCR &= ~DMA_CCR_EN;
+		if(BufferStartPtr != BufferEndPtr) {
+			Start();
 		}
 		return retvOk;
 	} else
 		return retvFail;
 }
 
-//UartCli_t
+//DmaRx_t
+/////////////////////////////////////////////////////////////////////
+// Initialize peripheral to memory DMA RX channel
+void DmaRx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio){
+	// Setup class parameters
+	Channel = _Channel;
+	BufferStartPtr = 0;
+
+	rcc::EnableClkDMA(DMA1);
+	// Initialize DMA RX
+	//
+	Channel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_CIRC;
+	Channel -> CPAR = PeriphRegAdr; //Peripheral register
+}
+
+uint32_t DmaRx_t::GetBufferEndPtr() {
+	return RX_BUFFER_SIZE - (Channel -> CNDTR);
+}
+
+void DmaRx_t::Start() {
+	Channel -> CNDTR = RX_BUFFER_SIZE;
+	Channel -> CMAR = (uint32_t)&Buffer[0];
+	Channel -> CCR |= DMA_CCR_EN;
+}
+
+void DmaRx_t::Stop() {
+	Channel -> CCR &= ~DMA_CCR_EN;
+}
+
+uint32_t DmaRx_t::GetNumberOfBytesInBuffer() {
+	uint32_t BufferEndPtr = GetBufferEndPtr();
+	if (BufferEndPtr >= BufferStartPtr)
+		return BufferEndPtr - BufferStartPtr;
+	else
+		return RX_BUFFER_SIZE - BufferStartPtr + BufferEndPtr;
+}
+
+uint32_t DmaRx_t::CheckStatus() {
+	uint32_t temp = Channel -> CCR;
+	return temp & DMA_CCR_EN;
+}
+
+uint8_t DmaRx_t::ReadFromBuffer() {
+	uint8_t temp = Buffer[BufferStartPtr];
+	BufferStartPtr = (BufferStartPtr + 1) % RX_BUFFER_SIZE;
+	return temp;
+}
+
+//Cli_t
 /////////////////////////////////////////////////////////////////////
 
-void UartCli_t::SimplePrint(const char* text) {
+void Cli_t::SimplePrint(const char* text) {
 	uint8_t length = strlen(text);
 	for(uint32_t i = 0; i < length; i++) {
-		Channel->WriteToBuffer((uint8_t)text[i]);
+		TxChannel->WriteToBuffer((uint8_t)text[i]);
 	}
 }
 
-void UartCli_t::PrintBinaryString(uint32_t number) {
+void Cli_t::PrintBinaryString(uint32_t number) {
 	char BinaryString[35] = "0b";
 	uint32_t mask = 1UL << 31;
 	for(uint8_t i = 0; i < 32; i++) {
@@ -192,10 +209,9 @@ void UartCli_t::PrintBinaryString(uint32_t number) {
 	}
 	BinaryString[2 + 32] = '\0';
 	SimplePrint(BinaryString);
-//	return BinaryString;
 }
 
-void UartCli_t::Printf(const char* text, ...) {
+void Cli_t::Printf(const char* text, ...) {
 	// String format processing
 	va_list args;
 	va_start(args, text); // Start string processing
@@ -217,35 +233,35 @@ void UartCli_t::Printf(const char* text, ...) {
 					SimplePrint(va_arg(args,char*));
 					break;
 				case 'c': // char
-					Channel->WriteToBuffer(va_arg(args,int));
+					TxChannel->WriteToBuffer(va_arg(args,int));
 					break;
 				case 'b': // print uint32 as binary
 					PrintBinaryString(va_arg(args,uint32_t));
 					break;
 				default:
-					Channel->WriteToBuffer((uint8_t)'%');
-					Channel->WriteToBuffer((uint8_t)text[i]);
+					TxChannel->WriteToBuffer((uint8_t)'%');
+					TxChannel->WriteToBuffer((uint8_t)text[i]);
 			}
 		} else
-			Channel->WriteToBuffer((uint8_t)text[i]);
+			TxChannel->WriteToBuffer((uint8_t)text[i]);
 	}
 	va_end(args); // End format processing
 	//
-	Channel->StartDmaTx();
+	TxChannel->Start();
 }
 
-char* UartCli_t::Read() {
+char* Cli_t::Read() {
 	uint32_t CmdBufferPtr = 0;
-	char temp = (char)Channel->ReadFromBuffer();
+	char temp = (char)RxChannel->ReadFromBuffer();
 	//Clear buffer beginning from useless symbols
 	while((temp == '\n') || (temp == ' ')) {
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Get command from buffer
 	while((temp != '\r') && (temp != '\n') && (temp != ' ')) {
 		CommandBuffer[CmdBufferPtr] = std::tolower(temp); //Char normalization
 		CmdBufferPtr++;
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Add terminators to strings
 	CommandBuffer[CmdBufferPtr] = '\0';
@@ -256,18 +272,18 @@ char* UartCli_t::Read() {
 	return CommandBuffer;
 }
 
-char* UartCli_t::ReadLine() {
+char* Cli_t::ReadLine() {
 	uint32_t CmdBufferPtr = 0;
-	char temp = (char)Channel->ReadFromBuffer();
+	char temp = (char)RxChannel->ReadFromBuffer();
 	//Clear buffer beginning from useless symbols
 	while((temp == '\n') || (temp == ' ')) {
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Get command from buffer
 	while((temp != '\r') && (temp != '\n')) {
 		CommandBuffer[CmdBufferPtr] = std::tolower(temp); //Char normalization
 		CmdBufferPtr++;
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Add terminators to strings
 	CommandBuffer[CmdBufferPtr] = '\0';
@@ -278,27 +294,27 @@ char* UartCli_t::ReadLine() {
 	return CommandBuffer;
 }
 
-void UartCli_t::ReadCommand() {
+void Cli_t::ReadCommand() {
 	uint32_t CmdBufferPtr = 0;
-	char temp = (char)Channel->ReadFromBuffer();
+	char temp = (char)RxChannel->ReadFromBuffer();
 	//Clear buffer beginning from useless symbols
 	while((temp == '\n') || (temp == ' ')) {
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Get command from buffer
-	while((temp != '\r') && (temp != '\n') && (temp != ' ') && (Channel->GetNumberOfBytesInRxBuffer() != 0)) {
+	while((temp != '\r') && (temp != '\n') && (temp != ' ') && (RxChannel->GetNumberOfBytesInBuffer() != 0)) {
 		CommandBuffer[CmdBufferPtr] = std::tolower(temp); //Char normalization
 		CmdBufferPtr++;
-		temp = (char)Channel->ReadFromBuffer();
+		temp = (char)RxChannel->ReadFromBuffer();
 	}
 	//Get argument from buffer if exist
 	uint32_t ArgumentBufferPtr = 0;
 	if (temp == ' ') {
-		temp = (char)Channel->ReadFromBuffer();
-		while((temp != '\r') && (temp != '\n') && (Channel->GetNumberOfBytesInRxBuffer() != 0)) {
+		temp = (char)RxChannel->ReadFromBuffer();
+		while((temp != '\r') && (temp != '\n') && (RxChannel->GetNumberOfBytesInBuffer() != 0)) {
 			ArgBuffer[ArgumentBufferPtr] = temp;
 			ArgumentBufferPtr++;
-			temp = (char)Channel->ReadFromBuffer();
+			temp = (char)RxChannel->ReadFromBuffer();
 		}
 	}
 	//Add terminators to strings
@@ -309,14 +325,14 @@ void UartCli_t::ReadCommand() {
 		Echo();
 }
 
-void UartCli_t::Echo() {
+void Cli_t::Echo() {
 	if(ArgBuffer[0] != '\0')
 		Printf("[ECHO] %s %s\n\r",CommandBuffer, ArgBuffer);
 	else
 		Printf("[ECHO] %s\n\r", CommandBuffer);
 }
 
-void UartCli_t::PrintBusFrequencies() {
+void Cli_t::PrintBusFrequencies() {
 	Printf("Current System Clock %d Hz\r", rcc::GetCurrentSystemClock());
 	Printf("Current AHB Clock %d Hz\r", rcc::GetCurrentAHBClock());
 	Printf("Current APB1 Clock %d Hz\r", rcc::GetCurrentAPBClock());

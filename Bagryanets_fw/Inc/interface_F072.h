@@ -5,8 +5,8 @@
  *      Author: Kais Lissera
  */
 
-#ifndef INC_UART_H_
-#define INC_UART_H_
+#ifndef INC_INTERFACE_H_
+#define INC_INTERFACE_H_
 
 #include <stdio.h>
 #include <stdarg.h>
@@ -51,7 +51,7 @@ public:
 	void EnableDmaRequest();
 	void TxByte(uint8_t data);
 	uint8_t RxByte(uint8_t* fl = NULL, uint32_t timeout = 0xFFFF);
-	uint8_t UartIrqHandler();
+	uint8_t IrqHandler();
 }; //Uart_t end
 
 //UartDma_t - enables capability to transmit and receive data through DMA
@@ -74,46 +74,53 @@ void DMAx_Channelx_IRQHandler(){ -
 #define TX_BUFFER_SIZE 		(256UL)
 #define RX_BUFFER_SIZE 		(256UL)
 
-class Dma_t {
+// Memory to peripheral DMA TX channel
+class DmaTx_t{
 protected:
-	uint8_t TxBuffer[TX_BUFFER_SIZE];
-	uint32_t TxBufferStartPtr;
-	uint32_t TxBufferEndPtr;
-	uint8_t RxBuffer[RX_BUFFER_SIZE];
-	uint32_t RxBufferStartPtr;
-	uint32_t GetRxBufferEndPtr();
-	DMA_Channel_TypeDef* DmaTxChannel;
-	DMA_Channel_TypeDef* DmaRxChannel;
+	uint8_t Buffer[TX_BUFFER_SIZE];
+	uint32_t BufferStartPtr;
+	uint32_t BufferEndPtr;
+	DMA_Channel_TypeDef* Channel;
 public:
-	void Init(DMA_Channel_TypeDef* _DmaTxChannel, DMA_Channel_TypeDef* _DmaRxChannel,
-			uint32_t PeriphTxRegAdr, uint32_t PeriphRxRegAdr, uint32_t prio = 0);
-	uint8_t StartDmaTx();
-	void StartDmaRx();
-	void StopDmaRx(void) { DmaRxChannel -> CCR &= ~DMA_CCR_EN; }
-	uint32_t GetNumberOfBytesInRxBuffer();
-	uint32_t GetNumberOfBytesInTxBuffer();
-	uint32_t CheckDmaStatus(DMA_Channel_TypeDef* DmaChannel); //0 - disable
-	//
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio = 0);
+	uint8_t Start();
+	uint32_t GetNumberOfBytesInBuffer();
+	uint32_t CheckStatus(); //0 - disable
 	uint8_t WriteToBuffer(uint8_t data);
+	uint8_t IrqHandler();
+}; //DmaTx_t end
+
+// Peripheral to memory DMA RX channel
+class DmaRx_t {
+protected:
+	uint8_t Buffer[RX_BUFFER_SIZE];
+	uint32_t BufferStartPtr;
+	uint32_t GetBufferEndPtr();
+	DMA_Channel_TypeDef* Channel;
+public:
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio = 0);
+	void Start();
+	void Stop();
+	uint32_t GetNumberOfBytesInBuffer();
+	uint32_t CheckStatus(); //0 - disable
 	uint8_t ReadFromBuffer();
-	uint8_t DmaIrqHandler(); //Only TX IRQ implemented
-}; //Dma_t end
+//	uint8_t IrqHandler();
+}; //DmaRx_t end
 
-//typedef enum {
-//} DmaIrqRetv_t;
-
-//UartCli_t - provides simple command line interface
+//Cli_t - Simple command line interface
 /////////////////////////////////////////////////////////////////////
 
-#define COMMAND_BUFFER_SIZE (64UL)
+#define COMMAND_BUFFER_SIZE (128UL)
 #define ARG_BUFFER_SIZE (10UL)
 
-class UartCli_t {
-private:
-	Dma_t* Channel;
+class Cli_t {
+protected:
+	DmaTx_t* TxChannel;
+	DmaRx_t* RxChannel;
 public:
-	UartCli_t(Dma_t* _Channel) {
-		Channel = _Channel;
+	Cli_t(DmaTx_t* _TxChannel, DmaRx_t* _RxChannel) {
+		TxChannel = _TxChannel;
+		RxChannel = _RxChannel;
 	}
 	char CommandBuffer[COMMAND_BUFFER_SIZE];
 	char ArgBuffer[COMMAND_BUFFER_SIZE];
@@ -175,4 +182,4 @@ constexpr IRQn_Type ReturnIrqVectorUsart(USART_TypeDef* ch){
 		ASSERT_SIMPLE(0); //Bad USART name
 } //ReturnIRQNum_USART end
 
-#endif /* INC_UART_H_ */
+#endif /* INC_INTERFACE_H_ */

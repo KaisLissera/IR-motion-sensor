@@ -13,27 +13,29 @@
 #include <lib_F072.h>
 #include <rcc_F072.h>
 #include <gpio_F072.h>
-#include <uart_F072.h>
 #include <tim_F072.h>
+#include <interface_F072.h>
 
 #include <board.h>
 
 //Peripheral declaration
 /////////////////////////////////////////////////////////////////////
 Uart_t UartCmd;
-Dma_t UartCmdDma;
+DmaTx_t UartCmdDmaTx;
+DmaRx_t UartCmdDmaRx;
+Cli_t UartCmdCli(&UartCmdDmaTx, &UartCmdDmaRx);
 
 //IRQ Handlers
 /////////////////////////////////////////////////////////////////////
 extern "C"{
 	void USART1_IRQHandler(){
-		UartCmd.UartIrqHandler(); // Interrupt on character match
+		UartCmd.IrqHandler(); // Interrupt on character match
 	}
 }
 // CHECK!! In startup file interrupt vector marked as reserved
 extern"C"{
 	void DMA1_Channel2_3_IRQHandler(){
-		UartCmdDma.DmaIrqHandler(); // Interrupt on DMA transfer complete
+		UartCmdDmaTx.IrqHandler(); // Interrupt on DMA transfer complete
 	}
 }
 
@@ -52,13 +54,14 @@ int main() {
 	UartCmd.EnableDmaRequest();
 	UartCmd.Enable();
 
-	UartCmdDma.Init(UART_DMA_PARAMS);
-	UartCmdDma.StartDmaTx();
-	UartCmdDma.StartDmaRx();
+	UartCmdDmaTx.Init(UART_DMA_TX);
+	UartCmdDmaTx.Start();
+	UartCmdDmaRx.Init(UART_DMA_RX);
+	UartCmdDmaRx.Start();
 
 	while(1){
-		while(UartCmdDma.GetNumberOfBytesInRxBuffer())
-			UartCmdDma.WriteToBuffer(UartCmdDma.ReadFromBuffer());
+		while(UartCmdDmaRx.GetNumberOfBytesInBuffer())
+			UartCmdDmaTx.WriteToBuffer(UartCmdDmaRx.ReadFromBuffer());
 		gpio::TogglePin(LED_B);
 		DelayMs(250);
 	}
