@@ -21,12 +21,12 @@ void gpio::SetupPin(GPIO_TypeDef* Gpio, uint8_t Pin, PinPupd_t Pupd, PinMode_t M
 	Gpio -> PUPDR |= Pupd << (Pin*2);
 	// Setup pin alternate function
 	if(Pin < 8) {
-		Gpio -> AFR[0] &= ~(0b0000UL << (4*Pin));
+		Gpio -> AFR[0] &= ~(0b1111UL << (4*Pin));
 		Gpio -> AFR[0] |= Af << (4*Pin);
 	}
 	else{
-		Gpio -> AFR[1] &= ~(0b0000UL << (4*Pin));
-		Gpio -> AFR[1] |= Af << (4*Pin);
+		Gpio -> AFR[1] &= ~(0b1111UL << (4*(Pin - 8)));
+		Gpio -> AFR[1] |= Af << (4*(Pin - 8));
 	}
 }
 
@@ -44,12 +44,12 @@ void gpio::SetPinPupd(GPIO_TypeDef* Gpio, uint32_t Pin ,uint32_t Pupd) {
 
 void gpio::SetPinAltFunction(GPIO_TypeDef* Gpio, uint32_t Pin, uint32_t Af) {
 	if(Pin < 8) {
-		Gpio -> AFR[0] &= ~(0b0000UL << (4*Pin));
+		Gpio -> AFR[0] &= ~(0b1111UL << (4*Pin));
 		Gpio -> AFR[0] |= Af << (4*Pin);
 	}
 	else{
-		Gpio -> AFR[1] &= ~(0b0000UL << (4*Pin));
-		Gpio -> AFR[1] |= Af << (4*Pin);
+		Gpio -> AFR[1] &= ~(0b1111UL << (4*(Pin - 8)));
+		Gpio -> AFR[1] |= Af << (4*(Pin - 8));
 	}
 } //GPIO_ezh::SetAltFuncPIN
 

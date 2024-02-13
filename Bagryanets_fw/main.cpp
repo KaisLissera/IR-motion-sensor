@@ -5,6 +5,10 @@
  *      Author: Kais Lissera
  */
 
+// rewrite DMA Init
+// try to disable CIRC in DMA
+// refactor Uart Shell
+
 #include <stm32f0xx.h>
 //
 #include <stdint.h>
@@ -55,13 +59,14 @@ int main() {
 	UartCmd.Enable();
 
 	UartCmdDmaTx.Init(UART_DMA_TX);
-	UartCmdDmaTx.Start();
 	UartCmdDmaRx.Init(UART_DMA_RX);
 	UartCmdDmaRx.Start();
 
 	while(1){
-		while(UartCmdDmaRx.GetNumberOfBytesInBuffer())
+		while(UartCmdDmaRx.GetNumberOfBytesInBuffer()){
 			UartCmdDmaTx.WriteToBuffer(UartCmdDmaRx.ReadFromBuffer());
+			UartCmdDmaTx.Start();
+		}
 		gpio::TogglePin(LED_B);
 		DelayMs(250);
 	}

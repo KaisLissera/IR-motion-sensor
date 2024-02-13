@@ -95,89 +95,17 @@ namespace rcc {
 	//Functions to enable peripheral clocks
 /////////////////////////////////////////////////////////////////////
 	//AHB
-	inline void EnableClkTSC(void) {RCC->AHBENR |= RCC_AHBENR_TSCEN;}
-	inline void EnableClkGPIO(GPIO_TypeDef* Gpio) {
-		if(Gpio == GPIOA)
-			RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-		else if(Gpio == GPIOB)
-			RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-		else if(Gpio == GPIOC)
-			RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
-		else if(Gpio == GPIOD)
-			RCC->AHBENR |= RCC_AHBENR_GPIODEN;
-		else if(Gpio == GPIOE)
-			RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
-		else if(Gpio == GPIOF)
-			RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
-		else
-			ASSERT_SIMPLE(0); // Bad GPIO name
-	}
-	inline void EnableClkCRC(void) {RCC->AHBENR |= RCC_AHBENR_CRCEN;}
-	inline void EnableClkFLITF(void) {RCC->AHBENR |= RCC_AHBENR_FLITFEN;}
-	inline void EnableClkSRAM(void) {RCC->AHBENR |= RCC_AHBENR_SRAMEN;}
-	inline void EnableClkDMA(DMA_TypeDef* Dma) {
-		if(Dma == DMA1)
-			RCC->AHBENR |= RCC_AHBENR_DMA1EN;
-#ifdef DMA2
-		else if(Dma == DMA2)
-			RCC->AHBENR |= RCC_AHBENR_DMA2EN;
-#endif
-		else
-			ASSERT_SIMPLE(0); // Bad DMA name
-	}
+	inline void EnableClkTSC() {RCC->AHBENR |= RCC_AHBENR_TSCEN;}
+	void EnableClkGPIO(GPIO_TypeDef* Gpio);
+	inline void EnableClkCRC() {RCC->AHBENR |= RCC_AHBENR_CRCEN;}
+	inline void EnableClkFLITF() {RCC->AHBENR |= RCC_AHBENR_FLITFEN;}
+	inline void EnableClkSRAM() {RCC->AHBENR |= RCC_AHBENR_SRAMEN;}
+	inline void EnableClkDMA() { RCC->AHBENR |= RCC_AHBENR_DMA1EN;}
 
 	//APB
 	inline void EnableClkDBGMCU(void) {RCC->APB2ENR |= RCC_APB2ENR_DBGMCUEN;}
-	inline void EnableClkTIM(TIM_TypeDef* Tim) {
-		if(Tim == TIM1)
-			RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
-		else if(Tim == TIM2)
-			RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-		else if(Tim == TIM3)
-			RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-		else if(Tim == TIM6)
-			RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-		else if(Tim == TIM7)
-			RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
-		else if(Tim == TIM14)
-			RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
-		else if(Tim == TIM15)
-			RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
-		else if(Tim == TIM16)
-			RCC->APB2ENR |= RCC_APB2ENR_TIM16EN;
-		else if(Tim == TIM17)
-			RCC->APB2ENR |= RCC_APB2ENR_TIM17EN;
-		else
-			ASSERT_SIMPLE(0); // Bad timer name
-	}
-	inline void EnableClkUSART(USART_TypeDef* Uart) {
-		if(Uart == USART1)
-			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
-		else if(Uart == USART2)
-			RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
-		else if(Uart == USART3)
-			RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
-		else if(Uart == USART4)
-			RCC->APB1ENR |= RCC_APB1ENR_USART4EN;
-#ifdef USART6
-		else if(Uart == USART5)
-			RCC->APB1ENR |= RCC_APB1ENR_USART5EN;
-#endif
-#ifdef USART6
-		else if(Uart == USART6)
-			RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
-#endif
-#ifdef USART7
-		else if(Uart == USART7)
-			RCC->APB2ENR |= RCC_APB2ENR_USART7EN;
-#endif
-#ifdef USART8
-		else if(Uart == USART8)
-			RCC->APB2ENR |= RCC_APB2ENR_USART8EN;
-#endif
-		else
-			ASSERT_SIMPLE(0); // Bad UART name
-	}
+	void EnableClkTIM(TIM_TypeDef* Tim);
+	void EnableClkUSART(USART_TypeDef* Uart);
 		inline void EnableClkSPI(SPI_TypeDef* Spi) {
 		if(Spi == SPI1)
 			RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
@@ -208,22 +136,7 @@ namespace rcc {
 /////////////////////////////////////////////////////////////////////
 	//AHB
 	inline void DisableClkTSC(void) {RCC->AHBENR &= ~RCC_AHBENR_TSCEN;}
-	inline void DisableClkGPIO(GPIO_TypeDef* Gpio) {
-		if(Gpio == GPIOA)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIOAEN;
-		else if(Gpio == GPIOB)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIOBEN;
-		else if(Gpio == GPIOC)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIOCEN;
-		else if(Gpio == GPIOD)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIODEN;
-		else if(Gpio == GPIOE)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIOEEN;
-		else if(Gpio == GPIOF)
-			RCC->AHBENR &= ~RCC_AHBENR_GPIOFEN;
-		else
-			ASSERT_SIMPLE(0); // Bad GPIO name
-	}
+	inline void DisableClkGPIO(GPIO_TypeDef* Gpio);
 	inline void DisableClkCRC(void) {RCC->AHBENR &= ~RCC_AHBENR_CRCEN;}
 	inline void DisableClkFLITF(void) {RCC->AHBENR &= ~RCC_AHBENR_FLITFEN;}
 	inline void DisableClkSRAM(void) {RCC->AHBENR &= ~RCC_AHBENR_SRAMEN;}
@@ -240,57 +153,9 @@ namespace rcc {
 
 	//APB
 	inline void DisableClkDBGMCU(void) {RCC->APB2ENR &= ~RCC_APB2ENR_DBGMCUEN;}
-	inline void DisableClkTIM(TIM_TypeDef* Tim) {
-		if(Tim == TIM1)
-			RCC->APB2ENR &= ~RCC_APB2ENR_TIM1EN;
-		else if(Tim == TIM2)
-			RCC->APB1ENR &= ~RCC_APB1ENR_TIM2EN;
-		else if(Tim == TIM3)
-			RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-		else if(Tim == TIM6)
-			RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-		else if(Tim == TIM7)
-			RCC->APB1ENR &= ~RCC_APB1ENR_TIM7EN;
-		else if(Tim == TIM14)
-			RCC->APB1ENR &= ~RCC_APB1ENR_TIM14EN;
-		else if(Tim == TIM15)
-			RCC->APB2ENR &= ~RCC_APB2ENR_TIM15EN;
-		else if(Tim == TIM16)
-			RCC->APB2ENR &= ~RCC_APB2ENR_TIM16EN;
-		else if(Tim == TIM17)
-			RCC->APB2ENR &= ~RCC_APB2ENR_TIM17EN;
-		else
-			ASSERT_SIMPLE(0); // Bad timer name
-	}
-	inline void DisableClkUART(USART_TypeDef* Uart) {
-		if(Uart == USART1)
-			RCC->APB2ENR &= ~RCC_APB2ENR_USART1EN;
-		else if(Uart == USART2)
-			RCC->APB1ENR &= ~RCC_APB1ENR_USART2EN;
-		else if(Uart == USART3)
-			RCC->APB1ENR &= ~RCC_APB1ENR_USART3EN;
-		else if(Uart == USART4)
-			RCC->APB1ENR &= ~RCC_APB1ENR_USART4EN;
-#ifdef USART6
-		else if(Uart == USART5)
-			RCC->APB1ENR &= ~RCC_APB1ENR_USART5EN;
-#endif
-#ifdef USART6
-		else if(Uart == USART6)
-			RCC->APB2ENR &= ~RCC_APB2ENR_USART6EN;
-#endif
-#ifdef USART7
-		else if(Uart == USART7)
-			RCC->APB2ENR &= ~RCC_APB2ENR_USART7EN;
-#endif
-#ifdef USART8
-		else if(Uart == USART8)
-			RCC->APB2ENR &= ~RCC_APB2ENR_USART8EN;
-#endif
-		else
-			ASSERT_SIMPLE(0); // Bad UART name
-	}
-		inline void DisableClkSPI(SPI_TypeDef* Spi) {
+	void DisableClkTIM(TIM_TypeDef* Tim);
+	void DisableClkUART(USART_TypeDef* Uart);
+	inline void DisableClkSPI(SPI_TypeDef* Spi) {
 		if(Spi == SPI1)
 			RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
 		else if(Spi == SPI2)

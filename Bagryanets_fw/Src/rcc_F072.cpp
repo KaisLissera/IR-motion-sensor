@@ -25,7 +25,7 @@ void DelayMs(uint32_t ms) {
 	SysTick->VAL = 0x0u;
 	// In stm32f0x7x SysTick frequency equals core frequency HCLK divided by 8
 	uint32_t Clk = rcc::GetCurrentSystemClock();
-	SysTick->LOAD = (uint32_t)(Clk >> 13); // SYS_CLK/8/1000 + 1 - precise value
+	SysTick->LOAD = (uint32_t)(Clk/1000 + 1); // SYS_CLK/1000 + 1 - precise value
 	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk; //Clock, interrupt, systick enable
 	while(systickCount);
 }
@@ -209,6 +209,144 @@ uint32_t rcc::GetCurrentAPBClock() {
 		default:
 			return retvFail;
 	}
+}
+
+void rcc::EnableClkGPIO(GPIO_TypeDef* Gpio) {
+	if(Gpio == GPIOA)
+		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
+	else if(Gpio == GPIOB)
+		RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
+	else if(Gpio == GPIOC)
+		RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
+	else if(Gpio == GPIOD)
+		RCC->AHBENR |= RCC_AHBENR_GPIODEN;
+	else if(Gpio == GPIOE)
+		RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
+	else if(Gpio == GPIOF)
+		RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
+	else
+		ASSERT_SIMPLE(0); // Bad GPIO name
+}
+
+void rcc::EnableClkTIM(TIM_TypeDef* Tim) {
+	if(Tim == TIM1)
+		RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+	else if(Tim == TIM2)
+		RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	else if(Tim == TIM3)
+		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
+	else if(Tim == TIM6)
+		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+	else if(Tim == TIM7)
+		RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
+	else if(Tim == TIM14)
+		RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
+	else if(Tim == TIM15)
+		RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
+	else if(Tim == TIM16)
+		RCC->APB2ENR |= RCC_APB2ENR_TIM16EN;
+	else if(Tim == TIM17)
+		RCC->APB2ENR |= RCC_APB2ENR_TIM17EN;
+	else
+		ASSERT_SIMPLE(0); // Bad timer name
+}
+
+void rcc::EnableClkUSART(USART_TypeDef* Usart) {
+	if(Usart == USART1)
+		RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+	else if(Usart == USART2)
+		RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+	else if(Usart == USART3)
+		RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+	else if(Usart == USART4)
+		RCC->APB1ENR |= RCC_APB1ENR_USART4EN;
+#ifdef USART6
+	else if(Usart == USART5)
+		RCC->APB1ENR |= RCC_APB1ENR_USART5EN;
+#endif
+#ifdef USART6
+	else if(Usart == USART6)
+		RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
+#endif
+#ifdef USART7
+	else if(Usart == USART7)
+		RCC->APB2ENR |= RCC_APB2ENR_USART7EN;
+#endif
+#ifdef USART8
+	else if(Usart == USART8)
+		RCC->APB2ENR |= RCC_APB2ENR_USART8EN;
+#endif
+	else
+		ASSERT_SIMPLE(0); // Bad UART name
+}
+
+void rcc::DisableClkGPIO(GPIO_TypeDef* Gpio) {
+	if (Gpio == GPIOA)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIOAEN;
+	else if(Gpio == GPIOB)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIOBEN;
+	else if(Gpio == GPIOC)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIOCEN;
+	else if(Gpio == GPIOD)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIODEN;
+	else if(Gpio == GPIOE)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIOEEN;
+	else if(Gpio == GPIOF)
+		RCC->AHBENR &= ~RCC_AHBENR_GPIOFEN;
+	else
+		ASSERT_SIMPLE(0); // Bad GPIO name
+}
+
+void rcc::DisableClkTIM(TIM_TypeDef* Tim) {
+	if(Tim == TIM1)
+		RCC->APB2ENR &= ~RCC_APB2ENR_TIM1EN;
+	else if(Tim == TIM2)
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM2EN;
+	else if(Tim == TIM3)
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
+	else if(Tim == TIM6)
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
+	else if(Tim == TIM7)
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM7EN;
+	else if(Tim == TIM14)
+		RCC->APB1ENR &= ~RCC_APB1ENR_TIM14EN;
+	else if(Tim == TIM15)
+		RCC->APB2ENR &= ~RCC_APB2ENR_TIM15EN;
+	else if(Tim == TIM16)
+		RCC->APB2ENR &= ~RCC_APB2ENR_TIM16EN;
+	else if(Tim == TIM17)
+		RCC->APB2ENR &= ~RCC_APB2ENR_TIM17EN;
+	else
+		ASSERT_SIMPLE(0); // Bad timer name
+}
+
+void rcc::DisableClkUART(USART_TypeDef* Uart) {
+	if(Uart == USART1)
+		RCC->APB2ENR &= ~RCC_APB2ENR_USART1EN;
+	else if(Uart == USART2)
+		RCC->APB1ENR &= ~RCC_APB1ENR_USART2EN;
+	else if(Uart == USART3)
+		RCC->APB1ENR &= ~RCC_APB1ENR_USART3EN;
+	else if(Uart == USART4)
+		RCC->APB1ENR &= ~RCC_APB1ENR_USART4EN;
+#ifdef USART6
+	else if(Uart == USART5)
+		RCC->APB1ENR &= ~RCC_APB1ENR_USART5EN;
+#endif
+#ifdef USART6
+	else if(Uart == USART6)
+		RCC->APB2ENR &= ~RCC_APB2ENR_USART6EN;
+#endif
+#ifdef USART7
+	else if(Uart == USART7)
+		RCC->APB2ENR &= ~RCC_APB2ENR_USART7EN;
+#endif
+#ifdef USART8
+	else if(Uart == USART8)
+		RCC->APB2ENR &= ~RCC_APB2ENR_USART8EN;
+#endif
+	else
+		ASSERT_SIMPLE(0); // Bad UART name
 }
 
 //flash

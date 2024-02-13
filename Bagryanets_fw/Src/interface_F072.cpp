@@ -71,16 +71,27 @@ void Uart_t::EnableDmaRequest() {
 
 //DmaTx_t
 /////////////////////////////////////////////////////////////////////
+
 // Initialize memory to peripheral DMA TX channel
-void DmaTx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio){
+void DmaTx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint8_t DataSize,
+		uint8_t DmaIrqPrio , DmaChPrio_t ChPrio) {
 	// Setup class parameters
 	Channel = _Channel;
 	BufferStartPtr = 0;
 	BufferEndPtr = 0;
 
-	rcc::EnableClkDMA(DMA1);
-	Channel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_DIR;
-	nvic::SetupIrq(ReturnIrqVectorDma(Channel), prio);
+	rcc::EnableClkDMA();
+	Channel -> CCR =  DMA_CCR_MINC | DMA_CCR_CIRC; // Memory increment, circular mode
+	Channel -> CCR |= ChPrio << DMA_CCR_PL_Pos; // DMA channel priority
+	Channel -> CCR |= DMA_CCR_DIR_Msk; // 1 - Read from memory
+	// Memory and peripheral sizes
+	if(DataSize == 8)
+		Channel -> CCR |= (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos); // 8 bit
+	else if(DataSize == 8)
+		Channel -> CCR |= (0b01 << DMA_CCR_MSIZE_Pos) | (0b01 << DMA_CCR_PSIZE_Pos); // 16 bit
+	else
+		ASSERT_SIMPLE(0); // error
+	nvic::SetupIrq(ReturnIrqVectorDma(Channel), DmaIrqPrio);
 	Channel -> CCR |= DMA_CCR_TCIE;
 	Channel -> CPAR = PeriphRegAdr; //Peripheral register
 }
@@ -128,8 +139,8 @@ uint8_t DmaTx_t::WriteToBuffer(uint8_t data) {
 
 uint8_t DmaTx_t::IrqHandler() {
 	uint8_t ChNum = ReturnChannelNumberDma(Channel);
-	if(DMA1->ISR & DMA_ISR_TCIF1 << (ChNum - 1)){
-		DMA1->IFCR = DMA_IFCR_CTCIF1 << (ChNum - 1);
+	if(DMA1->ISR & DMA_ISR_TCIF1 << 4*(ChNum - 1)){
+		DMA1->IFCR = DMA_IFCR_CTCIF1 << 4*(ChNum - 1);
 		Channel -> CCR &= ~DMA_CCR_EN;
 		if(BufferStartPtr != BufferEndPtr) {
 			Start();
@@ -141,16 +152,25 @@ uint8_t DmaTx_t::IrqHandler() {
 
 //DmaRx_t
 /////////////////////////////////////////////////////////////////////
+
 // Initialize peripheral to memory DMA RX channel
-void DmaRx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint32_t prio){
+void DmaRx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint8_t DataSize,
+		uint8_t DmaIrqPrio, DmaChPrio_t ChPrio){
 	// Setup class parameters
 	Channel = _Channel;
 	BufferStartPtr = 0;
 
-	rcc::EnableClkDMA(DMA1);
+	rcc::EnableClkDMA();
 	// Initialize DMA RX
-	//
-	Channel -> CCR = (0b11 << DMA_CCR_PL_Pos) | (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos) | DMA_CCR_MINC | DMA_CCR_CIRC;
+	Channel -> CCR =  DMA_CCR_MINC | DMA_CCR_CIRC; // Memory increment, circular mode
+	Channel -> CCR |= ChPrio << DMA_CCR_PL_Pos; // DMA channel priority
+	// Memory and peripheral sizes
+	if(DataSize == 8)
+		Channel -> CCR |= (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos); // 8 bit
+	else if(DataSize == 8)
+		Channel -> CCR |= (0b01 << DMA_CCR_MSIZE_Pos) | (0b01 << DMA_CCR_PSIZE_Pos); // 16 bit
+	else
+		Channel -> CCR |= (0b10 << DMA_CCR_MSIZE_Pos) | (0b10 << DMA_CCR_PSIZE_Pos); // 16 bit
 	Channel -> CPAR = PeriphRegAdr; //Peripheral register
 }
 
