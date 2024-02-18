@@ -7,8 +7,8 @@ Shape Version=11.00
 Screen=1920,1080
 MCAPVersion=12.2.0.5
 Key ID=Demo
-NLCnt=50
-TXCnt=10
+NLCnt=40
+TXCnt=8
 
 [shapedef]
 Name=Battery
@@ -17,14 +17,6 @@ Line=22,-3,22,3
 Line=26,-7,26,7
 Line=26,0,48,0
 Current=32,8,16,8
-
-[shapedef]
-Name=Capacitor
-Line=0,0,22,0
-Line=22,-8,22,8
-Line=26,-8,26,8
-Line=26,0,48,0
-Current=32,12,16,12
 
 [shapedef]
 Name=Diode.root
@@ -132,8 +124,8 @@ Current=32,16,16,16
 Name=Battery
 Definition=Battery
 Shape=Battery
-Mask=6913
-Used=64
+Mask=7937
+Used=52
 memo=Battery
 Label Offset=19,7,10,13
 PinCnt=2
@@ -144,24 +136,12 @@ Pin="Minus",0,0,-10,-5
 Name=Ground
 Definition=Ground
 Shape=Ground
-Mask=769
-Used=318
+Mask=1793
+Used=275
 memo=Ground
 Label Offset=0,0,0,0
 PinCnt=1
 Pin="PinA",0,0,-3,-7
-
-[compdef]
-Name=Resistor
-Definition=Resistor
-Shape=Resistor
-Mask=6401
-Used=242
-memo=Resistor
-Label Offset=18,6,8,11
-PinCnt=2
-Pin="Plus",6,0,-10,-4
-Pin="Minus",0,0,-14,-4
 
 [compdef]
 Name=LMV721_NS
@@ -178,23 +158,11 @@ Pin="5",a,4,7,6,0
 Pin="6",a,9,3,-3,-3
 
 [compdef]
-Name=Capacitor
-Definition=Capacitor
-Shape=Capacitor
-Mask=6401
-Used=31
-memo=Capacitor
-Label Offset=16,12,12,12
-PinCnt=2
-Pin="Plus",6,0,-3,-5
-Pin="Minus",0,0,-14,-5
-
-[compdef]
 Name=Pulse Source
 Definition=Pulse source
 Shape=Pulse_Source
 Mask=4864
-Used=12
+Used=7
 memo=Pulse Source
 Label Offset=18,13,15,9
 PinCnt=2
@@ -216,6 +184,18 @@ Pin="CATH",a,0,6,-16,19
 Pin="ANO",a,6,6,-7,19
 Power=0.15
 
+[compdef]
+Name=Resistor
+Definition=Resistor
+Shape=Resistor
+Mask=6913
+Used=165
+memo=Resistor
+Label Offset=18,6,8,11
+PinCnt=2
+Pin="Plus",6,0,-10,-4
+Pin="Minus",0,0,-14,-4
+
 [Circuit]
 Window Placement=2,3, -1,-1, -8,-31, 0,0,1203,474
 Default Object=Color=#000080
@@ -229,7 +209,7 @@ PowerFormat=3
 PathDelayFormat=3
 WarningFormat=3
 GridTextFormulaFormat=3
-Window Placement in Transient Analysis=0,1, -1,-1, -8,-31, 0,0,953,832
+Window Placement in Transient Analysis=0,1, -1,-1, -8,-31, 0,0,953,828
 SpiceType=AMBIGUOUS
 Title_Block_Border=None
 Title_Block=False
@@ -289,43 +269,8 @@ Rot=7
 Page=3
 
 [Comp]
-Name=Resistor
-Px=528,328
-Rot=3
-
-[Attr]
-ON=9,-37,PART
-V=R2
-Style=8192
-
-[Attr]
-ON=11,-24,RESISTANCE
-V=10k
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Wire]
-Pxs=472,264,480,264
-
-[Comp]
-Name=Ground
-Px=176,288
-Rot=2
-
-[Wire]
-Pxs=544,264,584,264
-
-[Comp]
-Name=Ground
-Px=392,136
-Rot=3
-
-[Comp]
 Name=LMV721_NS
-Px=400,240
+Px=496,256
 
 [Attr]
 ON=47,-10,PART
@@ -342,115 +287,9 @@ ON=51,76,PACKAGE
 V=SOT-23_5
 
 [Comp]
-Name=Ground
-Px=528,344
-Rot=1
-
-[Wire]
-Pxs=528,328,528,344
-
-[Comp]
-Name=Resistor
-Px=392,200
-Rot=3
-
-[Attr]
-ON=9,-37,PART
-V=R3
-Style=8192
-
-[Attr]
-ON=11,-24,RESISTANCE
-V=100k
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Comp]
-Name=Resistor
-Px=456,328
-Rot=2
-
-[Attr]
-ON=-28,7,PART
-V=R4
-Style=8192
-
-[Attr]
-ON=-31,20,RESISTANCE
-V=100k
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Comp]
-Name=Capacitor
-Px=352,152
-Rot=1
-
-[Attr]
-ON=12,12,PART
-V=C1
-Style=8192
-
-[Attr]
-ON=2,26,CAPACITANCE
-V=100n
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
-
-[Wire]
-Pxs=352,152,392,152
-
-[Wire]
-Pxs=352,200,392,200
-
-[Wire]
-Pxs=392,200,392,240
-
-[Wire]
-Pxs=392,240,400,240
-
-[Wire]
-Pxs=392,136,392,152
-
-[Wire]
-Pxs=392,288,392,328
-
-[Wire]
-Pxs=392,328,408,328
-
-[Wire]
-Pxs=392,288,400,288
-
-[Wire]
-Pxs=456,328,480,328
-
-[Wire]
-Pxs=480,264,480,328
-
-[Wire]
-Pxs=480,264,528,264
-
-[Wire]
-Pxs=528,264,528,280
-
-[Wire]
-Pxs=528,264,544,264
-
-[Wire]
-Pxs=176,288,192,288
-
-[Comp]
 Name=Pulse Source
-Px=192,224
+Px=400,240
+Rot=3
 
 [Attr]
 ON=18,-28,PART
@@ -467,16 +306,16 @@ V
 
 [Comp]
 Name=SFH213
-Px=240,240
-Rot=6
+Px=416,192
+Rot=7
 
 [Attr]
-ON=-31,58,PART
+ON=63,5,PART
 V=X6
 Style=8192
 
 [Attr]
-ON=-42,72,NAME
+ON=64,20,NAME
 V=SFH213
 Style=8192
 
@@ -489,84 +328,131 @@ ON=0,0,PACKAGE
 V
 
 [Wire]
-Pxs=240,224,240,240
+Pxs=400,192,416,192
 
 [Wire]
-Pxs=192,224,192,240
+Pxs=400,240,416,240
 
 [Comp]
 Name=Ground
-Px=176,224
-Rot=2
-
-[Wire]
-Pxs=176,224,192,224
-
-[Wire]
-Pxs=376,288,392,288
+Px=400,256
+Rot=1
 
 [Comp]
 Name=Resistor
-Px=328,288
+Px=464,320
+Rot=3
 
 [Attr]
-ON=8,11,PART
+ON=-30,-39,PART
 V=Rin
 Style=8192
 
 [Attr]
-ON=8,25,RESISTANCE
-V=1m
+ON=-30,-25,RESISTANCE
+V=10
 Style=8192
 
 [Attr]
 ON=0,0,PACKAGE
 V
-
-[Wire]
-Pxs=240,288,328,288
 
 [Comp]
-Name=Capacitor
-Px=408,384
+Name=Ground
+Px=464,336
+Rot=1
+
+[Wire]
+Pxs=400,240,400,256
+
+[Comp]
+Name=Battery
+Px=352,240
+Rot=3
 
 [Attr]
-ON=16,12,PART
-V=C2
+ON=-26,-41,PART
+V=V4
 Style=8192
 
 [Attr]
-ON=16,26,CAPACITANCE
-V=1p
+ON=-26,-27,VALUE
+V=3.3
 Style=8192
 
-[Attr]
-ON=0,0,PACKAGE
-V
+[Wire]
+Pxs=464,176,464,192
 
 [Wire]
-Pxs=392,328,392,384
+Pxs=352,176,464,176
 
 [Wire]
-Pxs=392,384,408,384
+Pxs=352,176,352,192
 
 [Wire]
-Pxs=456,384,480,384
+Pxs=464,320,464,328
 
 [Wire]
-Pxs=480,328,480,384
+Pxs=464,240,464,256
+
+[Wire]
+Pxs=464,256,496,256
+
+[Wire]
+Pxs=464,256,464,272
+
+[Wire]
+Pxs=352,240,352,328
+
+[Wire]
+Pxs=352,328,464,328
+
+[Wire]
+Pxs=464,328,464,336
+
+[Wire]
+Pxs=528,176,528,248
+
+[Wire]
+Pxs=464,176,528,176
+
+[Wire]
+Pxs=528,312,528,328
+
+[Wire]
+Pxs=464,328,528,328
 
 [Comp]
 Name=Resistor
-Px=584,264
+Px=584,344
+Rot=3
 
 [Attr]
-ON=8,11,PART
-V=R5
+ON=-30,-39,PART
+V=R6
 Style=8192
 
 [Attr]
-ON=8,25,RESISTANCE
+ON=-41,-25,RESISTANCE
+V=7k
+Style=8192
+
+[Attr]
+ON=0,0,PACKAGE
+V
+
+[Comp]
+Name=Resistor
+Px=584,408
+Rot=3
+
+[Attr]
+ON=-30,-39,PART
+V=R7
+Style=8192
+
+[Attr]
+ON=-30,-25,RESISTANCE
 V=1k
 Style=8192
 
@@ -574,45 +460,41 @@ Style=8192
 ON=0,0,PACKAGE
 V
 
-[Comp]
-Name=Capacitor
-Px=648,280
-Rot=1
+[Wire]
+Pxs=568,280,584,280
 
-[Attr]
-ON=12,12,PART
-V=C3
-Style=8192
-
-[Attr]
-ON=2,25,CAPACITANCE
-V=600p
-Style=8192
-
-[Attr]
-ON=0,0,PACKAGE
-V
+[Wire]
+Pxs=584,280,632,280
 
 [Comp]
 Name=Ground
-Px=648,344
+Px=584,424
 Rot=1
 
 [Wire]
-Pxs=632,264,648,264
+Pxs=584,280,584,296
 
 [Wire]
-Pxs=648,264,648,280
+Pxs=584,344,584,352
 
 [Wire]
-Pxs=648,328,648,344
+Pxs=584,408,584,424
 
 [Wire]
-Pxs=648,264,672,264
+Pxs=488,304,496,304
+
+[Wire]
+Pxs=488,304,488,352
+
+[Wire]
+Pxs=488,352,584,352
+
+[Wire]
+Pxs=584,352,584,360
 
 [Grid Text]
-Text=".DEFINE L 200u"
-Px=456,168
+Text=".DEFINE L 300m"
+Px=624,176
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -620,7 +502,7 @@ CBorder=None
 
 [Grid Text]
 Text="OUT"
-Px=544,264
+Px=464,256
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -636,14 +518,6 @@ Page=3
 CBorder=None
 
 [Grid Text]
-Text="VC"
-Px=432,232
-GridSnap=True
-JustifyH=Left
-JustifyV=Bottom
-CBorder=None
-
-[Grid Text]
 Text="VE"
 Px=112,32
 GridSnap=True
@@ -653,24 +527,17 @@ Page=3
 CBorder=None
 
 [Grid Text]
-Text="VE"
-Px=432,296
+Text="IMPULSE"
+Px=384,240
+Angle=90
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
 CBorder=None
 
 [Grid Text]
-Text="imp"
-Px=240,224
-GridSnap=True
-JustifyH=Left
-JustifyV=Bottom
-CBorder=None
-
-[Grid Text]
-Text=".DEFINE Noise 30u"
-Px=456,184
+Text=".DEFINE Noise 200m"
+Px=624,192
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -678,7 +545,7 @@ CBorder=None
 
 [Grid Text]
 Text="ADC"
-Px=648,264
+Px=632,280
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -686,7 +553,7 @@ CBorder=None
 
 [Grid Text]
 Text=".DEFINE DutyCycle 0.5"
-Px=456,200
+Px=624,208
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -867,7 +734,7 @@ ALIGNBOTTOM=Yes
 
 [Section]
 Index=0
-Name="Photodiod_amp_AA"
+Name="Photodiod_Amplifier"
 Type=Main
 Enable=True
 CurrentPage 0=0
@@ -889,9 +756,9 @@ PrinterScale=1
 Scale 0=1
 Scale 1=1
 Scale 2=1
-SB 3=126,28
+SB 3=222,28
 Scale 3=0.66666666666666663
-Px=598,141
+Px=528,99
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
@@ -955,7 +822,7 @@ Type=Text
 Print=False
 Enable=True
 Name=Models
-SB 0=39,25
+SB 0=0,25
 Font=Height=-15,FStyle=0,Color=#000000,Name=Courier New
 Comment Color=#008000
 WinBackGround Color=#FFFFFF
@@ -975,7 +842,7 @@ Scale 0=1
 Scale 1=1
 Scale 2=1
 Scale 3=1
-Px=96,62
+Px=234,102
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
@@ -1084,7 +951,7 @@ SimulationLog=True
 
 [Transient]
 WinID=1
-Window Placement=0,1, -1,-1, -8,-31, 953,0,1906,832
+Window Placement=0,1, -1,-1, -8,-31, 953,0,1906,824
 Font=Height=-19,FStyle=0,Color=#0000FF,Name=Arial
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
@@ -1336,11 +1203,11 @@ Analysis=Transient
 Plt=1
 AliasID=1
 XExp=T
-YExp=v(Rin)*1k
+YExp=v(x6.d1)+3.3
 XRng=AutoAlways
 YRng=AutoAlways
 Options=LINEARX,LINEARY
-Enable=DontRun
+Enable=Enable
 Line Color=#0000FF
 Text Color=#0000FF
 Rainbow=False
@@ -1360,7 +1227,7 @@ Analysis=Transient
 Plt=2
 AliasID=2
 XExp=T
-YExp=v(imp)
+YExp=v(V3)
 XRng=AutoAlways
 YRng=AutoAlways
 Options=LINEARX,LINEARY

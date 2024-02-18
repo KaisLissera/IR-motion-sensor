@@ -37,6 +37,7 @@
 *.hex
 
 # Debug files
+Debug/
 *.dSYM/
 *.su
 *.idb
@@ -69,7 +70,11 @@ Temp/
 *.xml
 Datasheets/
 *.pdf
+*.inx
+*.bak_cir
+*.TNO
 
 # Pictures
 *.jpg
 *.png
+
