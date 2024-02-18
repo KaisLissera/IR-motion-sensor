@@ -88,14 +88,15 @@ public:
 	void Init(USART_TypeDef* _Usart, GPIO_TypeDef* GpioTx, uint8_t PinTx,
 			GPIO_TypeDef* GpioRx, uint8_t PinRx,
 			AltFunction_t Af, uint32_t Bod);
-	void Enable() { Usart->CR1 |= USART_CR1_UE; }
-	void Disable() { Usart->CR1 &= ~USART_CR1_UE; }
+	void UpdateBaudrate(uint32_t Bod);
+	inline void Enable() { Usart->CR1 |= USART_CR1_UE; }
+	inline void Disable() { Usart->CR1 &= ~USART_CR1_UE; }
 	void EnableCharMatch(char CharForMatch, uint32_t prio = 0);
-	void DisableCharMatch(void) { Usart->CR1 &= USART_CR1_CMIE; }
+	inline void DisableCharMatch(void) { Usart->CR1 &= USART_CR1_CMIE; }
 	void EnableDmaRequest();
 	void TxByte(uint8_t data);
 	uint8_t RxByte(uint8_t* fl = NULL, uint32_t timeout = 0xFFFF);
-	uint8_t IrqHandler();
+	uint8_t IrqHandler(); // Use if character match enabled
 }; //Uart_t end
 
 //UartDma_t - enables capability to transmit and receive data through DMA
@@ -133,8 +134,8 @@ protected:
 	uint32_t BufferEndPtr;
 	DMA_Channel_TypeDef* Channel;
 public:
-	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint8_t DataSize = 8,
-			uint8_t DmaIrqPrio = 15, DmaChPrio_t ChPrio = lowChPrio);
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
+			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = lowChPrio);
 	uint8_t Start();
 	uint32_t GetNumberOfBytesInBuffer();
 	uint32_t CheckStatus(); //0 - disable
@@ -150,10 +151,10 @@ protected:
 	uint32_t GetBufferEndPtr();
 	DMA_Channel_TypeDef* Channel;
 public:
-	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, uint8_t DataSize = 8,
-			uint8_t DmaIrqPrio = 15, DmaChPrio_t ChPrio = lowChPrio);
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
+			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = lowChPrio);
 	void Start();
-	void Stop();
+	inline void Stop();
 	uint32_t GetNumberOfBytesInBuffer();
 	uint32_t CheckStatus(); //0 - disable
 	uint8_t ReadFromBuffer();
@@ -253,6 +254,8 @@ class Cli_t {
 protected:
 	DmaTx_t* TxChannel;
 	DmaRx_t* RxChannel;
+	void PutBinary(uint32_t binary);
+	void PutString(const char* text);
 public:
 	Cli_t(DmaTx_t* _TxChannel, DmaRx_t* _RxChannel) {
 		TxChannel = _TxChannel;
@@ -264,8 +267,6 @@ public:
 	//Methods
 	void Clear() { CommandBuffer[0] = '\0'; ArgBuffer[0] = '\0';}
 	void Echo();
-	void PrintBinaryString(uint32_t binary);
-	void SimplePrint(const char* text);
 	void Printf(const char* text, ...);
 	char* Read();
 	char* ReadLine();

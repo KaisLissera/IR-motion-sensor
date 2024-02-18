@@ -12,13 +12,6 @@
 //
 #include <lib_F072.h>
 
-//Convert milliseconds to FreeRTOS ticks
-#ifdef FREE_RTOS_TICK
-constexpr uint32_t MsToFreeRtosTick(uint32_t ms) {
-	return ms*FREE_RTOS_TICK/1000;
-}
-#endif
-
 //Simple delays
 /////////////////////////////////////////////////////////////////////
 
