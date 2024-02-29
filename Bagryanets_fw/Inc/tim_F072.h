@@ -15,36 +15,42 @@
 #include <gpio_F072.h>
 #include <rcc_F072.h>
 
-typedef enum {
+typedef enum{
 	DownCounter 	= 0,
 	UpCounter 		= 1
 } CounterDirection_t;
 
-typedef enum { // Not full
-	Frozen = 0b0000,
-	ActiveOnMatch = 0b0001,
+typedef enum{ // Not full
+	Frozen 			= 0b0000,
+	ActiveOnMatch 	= 0b0001,
 	InactiveOnMatch = 0b0010,
-	Toggle = 0b0011,
-	ForceInactive = 0b0101,
-	ForceActive = 0b0110,
-	PWM1 = 0b0110,
-	PWM2 = 0b0111
+	Toggle 			= 0b0011,
+	ForceInactive 	= 0b0101,
+	ForceActive 	= 0b0110,
+	PWM1 			= 0b0110,
+	PWM2 			= 0b0111
 } OutputCompare_t;
+
+typedef enum{
+	TriggerOnReset,
+	TriggerOnEnable,
+	TriggerOnUpdate,
+	TriggerOnComparePulse,
+	TriggerOnCompareOc1ref,
+	TriggerOnCompareOc2ref
+} MasterMode_t;
 
 class Timer_t {
 private:
 	TIM_TypeDef*  Timer;
 public:
-	Timer_t (TIM_TypeDef*  _Timer) {
+	// Frequency in Hz
+	void Init(TIM_TypeDef*  _Timer, uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
 		Timer = _Timer;
-	}
-
-	//Minimum Frequency = SYS_CLK/65536, 1.2 kHz if core clock 80 MHz
-	void Init(uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
 		rcc::EnableClkTIM(Timer);
 		//Frequency
-		uint32_t Clk = rcc::GetCurrentSystemClock();
-		Timer -> PSC = (uint32_t)(Clk/Frequency) + 1;
+		uint32_t Clk = rcc::GetCurrentTimersClock();
+		Timer -> PSC = (uint32_t)(Clk/Frequency) - 1;
 		if(Dir)
 			Timer -> CR1 |= TIM_CR1_DIR; // 1 - Up counter
 		else
@@ -114,6 +120,10 @@ public:
 		default:
 			ASSERT_SIMPLE(0); //Bad timer channel number
 		} //switch end
+	}
+
+	void SetMasterMode(MasterMode_t MasterMode){
+		Timer->CR2 |= MasterMode << TIM_CR2_MMS_Pos;
 	}
 
 	void StartCount() {

@@ -29,42 +29,43 @@ typedef enum{
 }AdcSampleTime_t;
 
 typedef enum{
-	adcRes12 	= 0b00,
-	adcRes10 	= 0b01,
-	adcRes8 	= 0b10,
-	adcRes6 	= 0b11
+	adc12bit 	= 0b00,
+	adc10bit 	= 0b01,
+	adc8bit 	= 0b10,
+	adc6bit 	= 0b11
 }AdcRes_t;
 
 typedef enum{
-	tim1Trgo 	= 0b000,
-	tim1Cc4 	= 0b001,
-	tim2Trgo 	= 0b010,
-	tim3Trgo 	= 0b011,
-	tim15Trgo 	= 0b100,
+	adcTim1Trgo 	= 0b000,
+	adcTim1Cc4 		= 0b001,
+	adcTim2Trgo 	= 0b010,
+	adcTim3Trgo 	= 0b011,
+	adcTim15Trgo 	= 0b100,
 }AdcTrigger_t;
 
 namespace adc{
-	void Init(AdcClk_t ClkSource, AdcTrigger_t TriggerSource,
+	void Init(AdcClk_t ClkSource, AdcRes_t AdcResBit ,AdcTrigger_t TriggerSource,
 			AdcSampleTime_t AdcSampling = adcSample1_5Clk){
 		rcc::EnableClkADC();
 		ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE_Msk;
 		ADC1->CFGR2 |= ClkSource << ADC_CFGR2_CKMODE_Pos; // Select ADC clock
 		ADC1->CFGR1 |= ADC_CFGR1_OVRMOD; // Disable overrun
 		ADC1->SMPR = AdcSampling;
-//		ADC1->CFGR1 &= ~ADC_CFGR1_CONT; // Single conversion mode
-		ADC1->CFGR1 |= ADC_CFGR1_CONT; // Continuous conversion mode
+		ADC1->CFGR1 &= ~ADC_CFGR1_CONT; // Single conversion mode
+//		ADC1->CFGR1 |= ADC_CFGR1_CONT; // Continuous conversion mode
 		// ADC resolution setup
 		ADC1->CFGR1 &= ~ADC_CFGR1_RES_Msk;
-		ADC1->CFGR1 |= adcRes12 << ADC_CFGR1_RES_Pos;
+		ADC1->CFGR1 |= AdcResBit << ADC_CFGR1_RES_Pos;
 		//External trigger
-//		ADC1->CFGR1 |= 0b01 << ADC_CFGR1_EXTEN_Pos; // Conversion on rising edge
-//		ADC1->CFGR1 |= TriggerSource << ADC_CFGR1_EXTSEL_Pos;
+		ADC1->CFGR1 |= 0b01 << ADC_CFGR1_EXTEN_Pos; // Conversion on rising edge
+		ADC1->CFGR1 |= TriggerSource << ADC_CFGR1_EXTSEL_Pos;
 	}
 
 	uint8_t EnableDmaRequest(){
 		if (ADC1->CR & ADC_CR_ADSTART)
 			return retvFail; // ADC is not stopped
-		ADC1->CFGR1 |= ADC_CFGR1_DMACFG;
+		ADC1->CFGR1 |= ADC_CFGR1_DMACFG; // DMA circular mode
+		ADC1->CFGR1 |= ADC_CFGR1_DMAEN;
 		return retvOk;
 	}
 

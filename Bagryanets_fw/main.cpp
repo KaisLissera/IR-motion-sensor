@@ -45,6 +45,9 @@ DmaTx_t UartCmdDmaTx;
 DmaRx_t UartCmdDmaRx;
 Cli_t UartCmdCli(&UartCmdDmaTx, &UartCmdDmaRx);
 
+Timer_t AdcTrigger;
+DmaRx_t AdcDmaRx;
+
 //IRQ Handlers
 /////////////////////////////////////////////////////////////////////
 extern "C"{
@@ -65,67 +68,90 @@ extern"C"{
 void BlinkBlueTask(void *pvParameters){
 	while(1){
 //		UartCmdCli.Printf("%d [SYS] Blink blue task\n\r", uptime);
-		gpio::TogglePin(LED_B);
+//		gpio::TogglePin(LED_IR);
 		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 }
 
+#define POROG_BUF_SIZE 128
+uint8_t PorogBuf[POROG_BUF_SIZE]; //Буфер динамического порога
+uint32_t PorogBufPtr = 0; //Указатель последнего элемента буфера динамического порога
+uint32_t PorogAkkum = 0; //Акуумулятор порога
+
 void CliTask(void *pvParameters){
+	AdcTrigger.StartCount();
 	while(1){
-		UartCmdCli.Printf("%d\n\r", ADC1->DR);
-		vTaskDelay(pdMS_TO_TICKS(100));
+		uint32_t Threshold = 0;
+//		UartCmdCli.Printf("%d\n\r", AdcDmaRx.GetNumberOfBytesInBuffer());
+		while(AdcDmaRx.GetNumberOfBytesInBuffer()){
+			PorogBuf[PorogBufPtr % POROG_BUF_SIZE] = AdcDmaRx.ReadFromBuffer();
+			PorogAkkum += PorogBuf[PorogBufPtr % POROG_BUF_SIZE];
+
+			if (PorogBufPtr > POROG_BUF_SIZE){
+				PorogAkkum -= PorogBuf[(PorogBufPtr + 1) % POROG_BUF_SIZE];
+				Threshold = PorogAkkum/POROG_BUF_SIZE;
+			}
+			else
+				Threshold = PorogAkkum/PorogBufPtr;
+
+			if (PorogBuf[PorogBufPtr % POROG_BUF_SIZE] > Threshold)
+				gpio::ActivatePin(LED_R);
+			else
+				gpio::DeactivatePin(LED_R);
+
+		}
+		vTaskDelay(pdMS_TO_TICKS(10));
 	}
 }
 
 int main() {
-	flash::SetFlashLatency(12);
+	flash::SetFlashLatency(1);
 	rcc::EnableHSE();
-	rcc::SwitchSysClk(sysClkHse);
+	rcc::SetupPLL(pllSrcHsePrediv, 16, 4);
+	rcc::EnablePLL();
+	rcc::SwitchSysClk(sysClkPll);
 
 	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
+	gpio::SetupPin(LED_G, PullAir, GeneralOutput);
 	gpio::SetupPin(LED_R, PullAir, GeneralOutput);
+	gpio::SetupPin(LED_IR, PullAir, GeneralOutput);
+
+	gpio::ActivatePin(LED_IR);
 
 	UartCmd.Init(UART_PARAMS);
 	UartCmd.EnableCharMatch('\r', UART_IRQ_PRIORITY);
-	UartCmd.EnableDmaRequest();
+	UartCmd.EnableDmaRequest(); // USART1 on DMA channels 2 and 3
 	UartCmd.Enable();
 
 	UartCmdDmaTx.Init(UART_DMA_TX, DMA_IRQ_PRIORITY);
 	UartCmdDmaRx.Init(UART_DMA_RX);
 	UartCmdDmaRx.Start();
 
+	// Timer for ADC
+	// 1 MHz timer frequency, 200 kHz trigger frequency
+	AdcTrigger.Init(TIM15, 3000000, 14*4, UpCounter);
+	AdcTrigger.SetMasterMode(TriggerOnUpdate);
 
-	uint8_t retv = rcc::EnableHSI14();
-	if (retv == retvOk)
-		UartCmdCli.Printf("HSI14 success\n\r");
-	else
-		UartCmdCli.Printf("HSI14 fail\n\r");
-	adc::Init(hsi14, tim15Trgo, adcSample7_5Clk);
-	retv = adc::Calibrate();
-	if (retv == retvOk)
-		UartCmdCli.Printf("ADC calibration success\n\r");
-	else
-		UartCmdCli.Printf("ADC calibration fail\n\r");
-	gpio::SetupPin(PA1, PullAir, Analog); // ADC1 pin
-	adc::SelectChannel(1);
+	// ADC setup
+	rcc::EnableHSI14();
+	adc::Init(hsi14, adc8bit, adcTim15Trgo, adcSample7_5Clk);
+	adc::Calibrate();
+	gpio::SetupPin(ADC_IR_1, PullAir, Analog); // ADC1 pin
+//	gpio::SetupPin(ADC_IR_2, PullAir, Analog); // ADC2 pin - not used
+	adc::SelectChannel(1); // Using only IR channel 1
 	adc::Enable();
-	if (retv == retvOk)
-		UartCmdCli.Printf("ADC enable success\n\r");
-	else
-		UartCmdCli.Printf("ADC enable fail\n\r");
-//	adc::EnableDmaRequest();
-
+	adc::EnableDmaRequest(); // ADC on DMA channel 1
 	adc::Start();
-	if (retv == retvOk)
-		UartCmdCli.Printf("ADC start success\n\r");
-	else
-		UartCmdCli.Printf("ADC start fail\n\r");
+
+	// ADC DMA setup
+	AdcDmaRx.Init(DMA1_Channel1, (uint32_t)&ADC1->DR);
+	AdcDmaRx.Start();
 
 	xTaskCreate(&BlinkBlueTask, "BLKB", 256, NULL,
 			BLINK_TASK_PRIORITY, &BlinkBlueTaskHandle);
 	xTaskCreate(&CliTask, "CLI", 256, NULL,
 			CLI_TASK_PRIORITY, &CliTaskHandle);
-//	vTaskStartScheduler();
+	vTaskStartScheduler();
 
 	while(1);
 }

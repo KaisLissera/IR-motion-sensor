@@ -84,6 +84,7 @@ namespace rcc {
 	uint32_t GetCurrentSystemClock();
 	uint32_t GetCurrentAHBClock();
 	uint32_t GetCurrentAPBClock();
+	uint32_t GetCurrentTimersClock();
 
 	//Functions to enable peripheral clocks
 /////////////////////////////////////////////////////////////////////

@@ -123,8 +123,8 @@ typedef enum {
 } DmaChPrio_t;
 
 //DMA buffers sizes
-#define TX_BUFFER_SIZE 		(256UL)
-#define RX_BUFFER_SIZE 		(256UL)
+#define TX_BUFFER_SIZE 		(1024UL)
+#define RX_BUFFER_SIZE 		(1024UL)
 
 // Memory to peripheral DMA TX channel
 class DmaTx_t{

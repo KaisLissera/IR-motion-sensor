@@ -48,7 +48,7 @@
 #define configUSE_PREEMPTION			0 // Co-operative sheduler
 #define configUSE_IDLE_HOOK				0
 #define configUSE_TICK_HOOK				1
-#define configCPU_CLOCK_HZ				(12000000)
+#define configCPU_CLOCK_HZ				(48000000)
 #define configTICK_RATE_HZ				((TickType_t)1000)
 #define configMINIMAL_STACK_SIZE		((unsigned short)64)
 #define configTOTAL_HEAP_SIZE			((size_t)(3*1024))

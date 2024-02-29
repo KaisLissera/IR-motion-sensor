@@ -211,6 +211,20 @@ uint32_t rcc::GetCurrentAPBClock() {
 	}
 }
 
+uint32_t rcc::GetCurrentTimersClock() {
+	uint32_t Temp = ((RCC->CFGR & RCC_CFGR_PPRE_Msk) >> RCC_CFGR_PPRE_Pos);
+	uint32_t AhbClk = GetCurrentAHBClock();
+	switch(Temp) { // if APB prescaler = 1 -> APB clock x1, else x2
+		case apbDiv1: return AhbClk;
+		case apbDiv2: return AhbClk;
+		case apbDiv4: return AhbClk >> 1;
+		case apbDiv8: return AhbClk >> 2;
+		case apbDiv16: return AhbClk >> 3;
+		default:
+			return retvFail;
+	}
+}
+
 void rcc::EnableClkGPIO(GPIO_TypeDef* Gpio) {
 	if(Gpio == GPIOA)
 		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
@@ -351,17 +365,12 @@ void rcc::DisableClkUART(USART_TypeDef* Uart) {
 
 //flash
 /////////////////////////////////////////////////////////////////////
-
-// Setup Flash latency depending on CPU frequency
-void flash::SetFlashLatency(uint8_t AhbClkMHz) {
+// 0 or 1 if AHB clk > 24 MHz
+void flash::SetFlashLatency(uint8_t Latency) {
     uint32_t Temp = FLASH->ACR;
     Temp &= ~FLASH_ACR_LATENCY_Msk;
     Temp |= FLASH_ACR_PRFTBE; // Enable prefetch
-    if (AhbClkMHz <= 24)
-    	Temp |= 0b000 << FLASH_ACR_LATENCY_Pos;
-    else
-    	Temp |= 0b001 << FLASH_ACR_LATENCY_Pos;
-
+    Temp |= Latency << FLASH_ACR_LATENCY_Pos;
     FLASH->ACR = Temp;
 //    while(FLASH->ACR != tmp);
 }
