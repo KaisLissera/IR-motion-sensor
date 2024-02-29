@@ -2422,7 +2422,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15) bold))
       (tstamp b284f1a9-86c7-44e5-8fac-f3fde4ceae60)
     )
-    (fp_text value "1p*" (at 0 1.15 90) (layer "F.SilkS") hide
+    (fp_text value "8p" (at 0 1.15 90) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 11e85faf-a839-44de-86c4-d184b6d8c74c)
     )
@@ -3209,7 +3209,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 6ef98bc2-7980-4906-b9b7-51dd859ffe77)
     )
-    (fp_text value "MCP1700-3302E_SOT23" (at 0.25 -2.39942) (layer "F.SilkS") hide
+    (fp_text value "MCP1700-3302" (at 0.25 -2.39942) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15) bold))
       (tstamp 29f1580e-b74e-4303-b9f2-c067b430680c)
     )
@@ -3470,7 +3470,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 8d9d0a8f-ddca-4823-ba88-4e37190ff8e7)
     )
-    (fp_text value "BL-L515" (at 1.27 3.96) (layer "F.Fab")
+    (fp_text value "SFH213FA" (at 1.27 3.96) (layer "F.Fab")
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp ef398ebd-57a1-4042-aa56-fc0032bca27a)
     )
@@ -3866,7 +3866,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15) bold))
       (tstamp 9288b70d-24fa-4b87-8e2d-fb1c96f8a9a4)
     )
-    (fp_text value "1p*" (at 0 1.15 90) (layer "F.SilkS") hide
+    (fp_text value "8p" (at 0 1.15 90) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 2f1bd7b0-500b-4199-87d6-780301217aca)
     )
@@ -3996,7 +3996,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 5355c525-bbb4-4785-998f-7dfdf13366c8)
     )
-    (fp_text value "USBLC6_2SC6" (at -0.127 2.413 90) (layer "F.SilkS") hide
+    (fp_text value "USBLC6-2SC6" (at -0.127 2.413 90) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp d983068c-f1b3-470b-9e4f-0d5232e5a6b5)
     )
@@ -4078,7 +4078,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 005656ac-415f-4f3b-9094-c2dc5134313f)
     )
-    (fp_text value "LMV721M5" (at -0.127 2.413) (layer "F.SilkS") hide
+    (fp_text value "MCP6001UT-I/OT" (at -0.127 2.413) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15) bold))
       (tstamp 0b250e6e-0b9b-4820-9ccf-1cdb3470848c)
     )
@@ -4388,7 +4388,7 @@
         (effects (font (size 0.6 0.6) (thickness 0.15)))
       (tstamp 602ea2bd-486d-4c92-a799-c0a0bac59a61)
     )
-    (fp_text value "LMV721M5" (at -2.327 2.013) (layer "F.SilkS") hide
+    (fp_text value "MCP6001UT-I/OT" (at -2.327 2.013) (layer "F.SilkS") hide
         (effects (font (size 0.6 0.6) (thickness 0.15) bold))
       (tstamp 8490a728-0dca-466f-956e-34cd46fdf226)
     )
@@ -4589,7 +4589,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 378a2ece-22b2-44dd-ac3f-7390e0a32b86)
     )
-    (fp_text value "BL-L515" (at 1.27 3.96) (layer "F.Fab")
+    (fp_text value "SFH213FA" (at 1.27 3.96) (layer "F.Fab")
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 514da355-c647-4179-b0bf-56f3ba9ac2f7)
     )

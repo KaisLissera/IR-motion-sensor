@@ -74,6 +74,7 @@ Datasheets/
 *.bak_cir
 *.TNO
 *.launch
+*.lck
 
 
 # Pictures
