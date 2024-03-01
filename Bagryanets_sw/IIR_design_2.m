@@ -29,6 +29,23 @@ bw = 10*ModFreq/(fd/2);     %Полоса
 [b,a] = iirpeak(f0,bw);     %Расчёт коэффициентов цифрового резонатора
 %Построение АЧХ и ФЧХ фильтра
 figure;
+a(1) = 1;
+disp(2*exp(-pi*2*ModFreq/fd)*cos(2*pi*CarrierFreq/fd));
+disp(-exp(-2*pi*2*ModFreq/fd));
+disp(1-exp(-2*pi*2*ModFreq/fd));
+
+disp(2*exp(-pi*2*0.005)*cos(2*pi*0.18)*256);
+disp(-exp(-2*pi*2*0.005)*256);
+disp((1-exp(-2*pi*2*0.005))*256);
+
+a(2) = -(2*exp(-pi*2*ModFreq/fd)*cos(2*pi*CarrierFreq/fd));
+a(3) = exp(-2*pi*2*ModFreq/fd);
+b(1) = (1-exp(-2*pi*2*ModFreq/fd))*0.6;
+a(2) = -215/256;
+a(3) = 248/256;
+b(1) = 5/256;
+b(2) = 0;
+b(3) = 0;
 freqz(b,a);     
 %Вывод рассчитанных коэффициентов фильтра
 disp(['a = ',num2str(a)]);
