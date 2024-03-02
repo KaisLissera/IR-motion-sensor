@@ -50,7 +50,8 @@ Timer_t AdcTrigger;
 DmaRx_t AdcDmaRx;
 
 Timer_t LedTimer;
-Timer_t IrLedTimer;
+Timer_t IrCarrierTimer;
+Timer_t IrEncoderTimer;
 
 //IRQ Handlers
 /////////////////////////////////////////////////////////////////////
@@ -70,15 +71,18 @@ extern"C"{
 /////////////////////////////////////////////////////////////////////
 
 void BlinkBlueTask(void *pvParameters){
+//	uint32_t brigthness = 0;
 	while(1){
 //		UartCmdCli.Printf("%d [SYS] Blink blue task\n\r", uptime);
 //		gpio::TogglePin(LED_IR);
-		vTaskDelay(pdMS_TO_TICKS(100));
+//		LedTimer.LoadCompareValue(3, brigthness & 255);
+//		brigthness += 5;
+		vTaskDelay(pdMS_TO_TICKS(50));
 	}
 }
 
-#define MAXIMUM_LENGTH 2048 // Must be degree of 2
-#define DECIMATOR_SIZE 128 // Must be degree of 2
+#define MAXIMUM_LENGTH 1024 // Must be degree of 2
+#define DECIMATOR_SIZE 64 // Must be degree of 2
 
 // Peak filter
 class IirPeak_t{
@@ -86,7 +90,7 @@ public:
 	int32_t a0;
 	int32_t b1;
 	int32_t b2;
-	int32_t Output[2]; // Previous outputs
+	int32_t Output[2] = {0, 0}; // Previous outputs
 	IirPeak_t(int32_t _a0, int32_t _b1, int32_t _b2){
 		a0 = _a0; b1 = _b1; b2 = _b2;
 	}
@@ -114,7 +118,7 @@ public:
 void CliTask(void *pvParameters){
 	IirPeak_t CarrierFilter(211, -240, 15);
 //	CarrierFilter.CalculateCoefficients(36000, 200000, 1000);
-	UartCmdCli.Printf("[SYS] Calculated filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
+	UartCmdCli.Printf("[SYS] Filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
 			CarrierFilter.a0, CarrierFilter.b1, CarrierFilter.b2);
 
 	uint32_t DecimatorAkkum = 0;
@@ -152,24 +156,23 @@ void CliTask(void *pvParameters){
 				max1counter++;
 				max2counter++;
 				if (max1counter == MAXIMUM_LENGTH){
-					max1 = 0;
-					min1 = max2;
+					max1 = temp;
+					min1 = temp;
 					max1counter = 0;
 				}
 				if (max2counter == MAXIMUM_LENGTH){
-					max2 = 0;
-					min2 = max1;
+					max2 = temp;
+					min2 = temp;
 					max2counter = 0;
 				}
 
-				UartCmdCli.Printf("%d    %d\n\r", temp, max1);
+				UartCmdCli.Printf("%d\n\r", temp);
 				if ((max1 > 15) or (max2 > 15))
 					gpio::ActivatePin(LED_R);
 				else
 					gpio::DeactivatePin(LED_R);
 			}
 		}
-//		PorogBuf[PorogBufPtr & (POROG_BUF_SIZE - 1)] = AdcDmaRx.ReadFromBuffer();
 		vTaskDelay(pdMS_TO_TICKS(1));
 	}
 }
@@ -181,12 +184,17 @@ int main() {
 	rcc::EnablePLL();
 	rcc::SwitchSysClk(sysClkPll);
 
-//	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
-	LedTimer.Init(TIM3, 10000, 10000, UpCounter);
-	LedTimer.ConfigureChannel(PC8, AF0, 3, PWM1);
-	LedTimer.LoadCompareValue(3, 5000);
-	LedTimer.SetChannelAbility(3, Enable);
-	LedTimer.StopCount(5001);
+	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
+//	LedTimer.Init(TIM3, 100000, 255, UpCounter);
+//	LedTimer.ConfigureChannel(LED_G, AF0, 1, outputComparePWM1);
+//	LedTimer.ConfigureChannel(LED_R, AF0, 2, outputComparePWM1);
+//	LedTimer.ConfigureChannel(LED_B, AF0, 3, outputComparePWM1);
+//	LedTimer.LoadCompareValue(1, uint32_t(255*0.35));
+//	LedTimer.LoadCompareValue(2, uint32_t(255));
+//	LedTimer.LoadCompareValue(3, uint32_t(255*0.65));
+//	LedTimer.SetChannelAbility(3, Enable);
+//	LedTimer.SetChannelAbility(2, Enable);
+//	LedTimer.SetChannelAbility(1, Enable);
 //	LedTimer.StartCount();
 
 	gpio::SetupPin(LED_G, PullAir, GeneralOutput);
@@ -203,12 +211,12 @@ int main() {
 
 	// Timer for ADC
 	// 1 MHz timer frequency, 200 kHz trigger frequency
-	AdcTrigger.Init(TIM15, 3000000, 14, UpCounter);
-	AdcTrigger.SetMasterMode(TriggerOnUpdate);
+	AdcTrigger.Init(TIM15, 3000000, 15-1, UpCounter);
+	AdcTrigger.SetMasterMode(triggerOnUpdate);
 
 	// ADC setup
 	rcc::EnableHSI14();
-	adc::Init(hsi14, adc8bit, adcTim15Trgo, adcSample7_5Clk);
+	adc::Init(adcClkHsi14, adcResolution8bit, adcTriggerTim15Trgo, adcSample7_5Clk);
 	adc::Calibrate();
 	gpio::SetupPin(ADC_IR_1, PullAir, Analog); // ADC1 pin
 //	gpio::SetupPin(ADC_IR_2, PullAir, Analog); // ADC2 pin - not used
@@ -222,14 +230,17 @@ int main() {
 	AdcDmaRx.Start();
 
 	//IR LED setup
-//	gpio::SetupPin(LED_IR, PullAir, GeneralOutput);
-//	gpio::ActivatePin(PA8);
-	IrLedTimer.Init(TIM1, 360000, 10, UpCounter);
-	TIM1->BDTR |= TIM_BDTR_MOE;
-	IrLedTimer.ConfigureChannel(LED_IR, AF2, 1, PWM1);
-	IrLedTimer.LoadCompareValue(1, 5);
-	IrLedTimer.SetChannelAbility(1, Enable);
-	IrLedTimer.StartCount();
+	IrCarrierTimer.Init(TIM1, 360000, 10-1, UpCounter);
+	IrCarrierTimer.ConfigureChannel(LED_IR, AF2, 1, outputComparePWM1);
+	IrCarrierTimer.LoadCompareValue(1, 5);
+	IrCarrierTimer.SetChannelAbility(1, Enable);
+	IrCarrierTimer.SetSlaveMode(slaveModeTrigger, Itr1);
+	IrCarrierTimer.SetOnePulseMode(32);
+	IrCarrierTimer.StartCount();
+
+	IrEncoderTimer.Init(TIM2, 360000, 10*64-1, UpCounter);
+	IrEncoderTimer.SetMasterMode(triggerOnUpdate);
+	IrEncoderTimer.StartCount();
 
 	xTaskCreate(&BlinkBlueTask, "BLKB", 256, NULL,
 			BLINK_TASK_PRIORITY, &BlinkBlueTaskHandle);

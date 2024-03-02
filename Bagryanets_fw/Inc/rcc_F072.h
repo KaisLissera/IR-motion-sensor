@@ -53,11 +53,17 @@ typedef enum {
 } AhbDiv_t; // HCLK prescaler - RCC_CFGR_HPRE
 
 typedef enum {
-	sysClkHsi = 0b00, sysClkHse = 0b01, sysClkPll = 0b10, sysClkHsi48 = 0b11
+	sysClkHsi = 0b00,
+	sysClkHse = 0b01,
+	sysClkPll = 0b10,
+	sysClkHsi48 = 0b11
 } SysClkSource_t; // System clock switch status
 
 typedef enum {
-	pllSrcHsiDiv2 = 0b00, pllSrcHsiPrediv = 0b01, pllSrcHsePrediv = 0b10, pllSrcHsi48Prediv = 0b11
+	pllSrcHsiDiv2 = 0b00,
+	pllSrcHsiPrediv = 0b01,
+	pllSrcHsePrediv = 0b10,
+	pllSrcHsi48Prediv = 0b11
 } PllSource_t; // PLL input clock source
 
 namespace rcc {

@@ -26,6 +26,13 @@
 
 /////////////////////////////////////////////////////////////////////
 
+typedef enum {
+	dmaLowChPrio 		= 0b00,
+	dmaMediumChPrio 	= 0b01,
+	dmaHighChPrio 		= 0b10,
+	dmaVeryHighChPrio 	= 0b11
+} DmaChPrio_t;
+
 constexpr uint32_t ReturnChannelNumberDma(DMA_Channel_TypeDef* ch){
 	if(ch == DMA1_Channel1)
 		return 1;
@@ -115,13 +122,6 @@ void DMAx_Channelx_IRQHandler(){ -
 } }
 */
 
-typedef enum {
-	lowChPrio 		= 0b00,
-	mediumChPrio 	= 0b01,
-	highChPrio 		= 0b10,
-	veryhighChPrio 	= 0b11
-} DmaChPrio_t;
-
 //DMA buffers sizes
 #define TX_BUFFER_SIZE 		(1024UL)
 #define RX_BUFFER_SIZE 		(1024UL)
@@ -135,7 +135,7 @@ protected:
 	DMA_Channel_TypeDef* Channel;
 public:
 	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
-			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = lowChPrio);
+			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = dmaLowChPrio);
 	uint8_t Start();
 	uint32_t GetNumberOfBytesInBuffer();
 	uint32_t CheckStatus(); //0 - disable
@@ -152,7 +152,7 @@ protected:
 	DMA_Channel_TypeDef* Channel;
 public:
 	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
-			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = lowChPrio);
+			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = dmaLowChPrio);
 	void Start();
 	inline void Stop();
 	uint32_t GetNumberOfBytesInBuffer();

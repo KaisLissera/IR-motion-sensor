@@ -12,9 +12,9 @@
 #include <rcc_F072.h>
 
 typedef enum{
-	hsi14 		= 0b00,
-	pclkDiv2 	= 0b01,
-	pclkDiv4 	= 0b10
+	adcClkHsi14 	= 0b00,
+	adcClkPclkDiv2 	= 0b01,
+	adcClkPclkDiv4 	= 0b10
 }AdcClk_t;
 
 typedef enum{
@@ -29,18 +29,18 @@ typedef enum{
 }AdcSampleTime_t;
 
 typedef enum{
-	adc12bit 	= 0b00,
-	adc10bit 	= 0b01,
-	adc8bit 	= 0b10,
-	adc6bit 	= 0b11
+	adcResolution12bit 	= 0b00,
+	adcResolution10bit 	= 0b01,
+	adcResolution8bit 	= 0b10,
+	adcResolution6bit 	= 0b11
 }AdcRes_t;
 
 typedef enum{
-	adcTim1Trgo 	= 0b000,
-	adcTim1Cc4 		= 0b001,
-	adcTim2Trgo 	= 0b010,
-	adcTim3Trgo 	= 0b011,
-	adcTim15Trgo 	= 0b100,
+	adcTriggerTim1Trgo 	= 0b000,
+	adcTriggerTim1Cc4 	= 0b001,
+	adcTriggerTim2Trgo 	= 0b010,
+	adcTriggerTim3Trgo 	= 0b011,
+	adcTriggerTim15Trgo = 0b100,
 }AdcTrigger_t;
 
 namespace adc{
