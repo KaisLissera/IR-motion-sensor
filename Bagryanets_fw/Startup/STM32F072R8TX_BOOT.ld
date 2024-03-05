@@ -42,11 +42,12 @@ _Min_Heap_Size = 0x200; /* required amount of heap */
 _Min_Stack_Size = 0x400; /* required amount of stack */
 
 /* Memories definition */
+/* Bootloader size 8K, interrupt vector in RAM size = 48*4 = 192 */
 MEMORY
 {
-  /*RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 16K*/
-  RAM    		(xrw)   : ORIGIN = 0x200000C0,   	LENGTH = 0x10000 - 0xC0
-  FLASH    (rx)    : ORIGIN = 0x8000000,   LENGTH = 64K
+  RAM    		(xrw)   : ORIGIN = 0x20000000,   	LENGTH = 16K
+  BOOTLOADER    (rx)    : ORIGIN = 0x8000000,   	LENGTH = 8K
+  FLASH    		(rx)   	: ORIGIN = 0x8002000,   	LENGTH = 56K
 }
 
 /* Sections */

@@ -8,7 +8,6 @@
 #include <stm32f0xx.h>
 //
 #include <stdint.h>
-#include <cstdio>
 #include <math.h> // abs(x)
 //
 #include <lib_F072.h>
@@ -30,8 +29,6 @@
 
 #define UART_IRQ_PRIORITY configSTM_MAX_SYSCALL_INTERRUPT_PRIORITY
 #define DMA_IRQ_PRIORITY configSTM_MAX_SYSCALL_INTERRUPT_PRIORITY
-
-static uint32_t uptime = 0;
 
 TaskHandle_t BlinkBlueTaskHandle;
 void BlinkBlueTask(void *pvParametrs);
@@ -60,10 +57,14 @@ extern "C"{
 		UartCmd.IrqHandler(); // Interrupt on character match
 	}
 }
-// CHECK!! In startup file interrupt vector marked as reserved
 extern"C"{
 	void DMA1_Channel2_3_IRQHandler(){
 		UartCmdDmaTx.IrqHandler(); // Interrupt on DMA transfer complete
+	}
+}
+
+extern"C"{
+	void HardFault_Handler(){
 	}
 }
 
@@ -73,16 +74,13 @@ extern"C"{
 void BlinkBlueTask(void *pvParameters){
 //	uint32_t brigthness = 0;
 	while(1){
-//		UartCmdCli.Printf("%d [SYS] Blink blue task\n\r", uptime);
-//		gpio::TogglePin(LED_IR);
-//		LedTimer.LoadCompareValue(3, brigthness & 255);
-//		brigthness += 5;
-		vTaskDelay(pdMS_TO_TICKS(50));
+//		UartCmdCli.Printf("[SYS] Blink blue task\n\r");
+		vTaskDelay(pdMS_TO_TICKS(500));
 	}
 }
 
-#define MAXIMUM_LENGTH 1024 // Must be degree of 2
 #define DECIMATOR_SIZE 64 // Must be degree of 2
+#define MAXIMUM_LENGTH 16*1024 // Approximately 5 seconds
 
 // Peak filter
 class IirPeak_t{
@@ -116,75 +114,97 @@ public:
 };
 
 void CliTask(void *pvParameters){
-	IirPeak_t CarrierFilter(211, -240, 15);
+	IirPeak_t CarrierFilter(30, 211, -240);
 //	CarrierFilter.CalculateCoefficients(36000, 200000, 1000);
 	UartCmdCli.Printf("[SYS] Filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
 			CarrierFilter.a0, CarrierFilter.b1, CarrierFilter.b2);
 
-	uint32_t DecimatorAkkum = 0;
+	uint32_t DecimatorAccumulator = 0;
 	uint32_t DecimatorCounter = 0;
 
 	uint32_t max1 = 0;
 	uint32_t max2 = 0;
+	uint32_t max = 0;
 	uint32_t max1counter = 0;
 	uint32_t max2counter = MAXIMUM_LENGTH >> 1;
 
-	uint32_t min1 = 0;
-	uint32_t min2 = 0;
-
+	uint32_t temp = 0;
+	uint32_t gain = 1;
 	AdcTrigger.StartCount();
 	while(1){
 //		UartCmdCli.Printf("%d\n\r", AdcDmaRx.GetNumberOfBytesInBuffer()); // For testing
 		while(AdcDmaRx.GetNumberOfBytesInBuffer()){
-			DecimatorAkkum += CarrierFilter.GetCurrentAbsOutput(AdcDmaRx.ReadFromBuffer());
-//			DecimatorAkkum += AdcDmaRx.ReadFromBuffer();
+			// Auto gain
+			temp = AdcDmaRx.ReadFromBuffer();
+			if (temp > max1)
+				max1 = temp;
+			if (temp > max2)
+				max2 = temp;
+			// Iir peak filter for carrier frequency
+			DecimatorAccumulator += CarrierFilter.GetCurrentAbsOutput(temp*gain);
+//			DecimatorAccumulator += temp*gain; // Filter bypass
 			DecimatorCounter++;
 			if (DecimatorCounter == DECIMATOR_SIZE){
-				uint32_t temp = DecimatorAkkum >> ReturnDegreeOfTwo(DECIMATOR_SIZE);
-				DecimatorAkkum = 0;
+				temp = DecimatorAccumulator >> ReturnDegreeOfTwo(DECIMATOR_SIZE);
+				DecimatorAccumulator = 0;
 				DecimatorCounter = 0;
+				// Auto gain gain update
+				if (max1 > max2)
+					max = max1;
+				else
+					max = max2;
 
-				if (temp > max1)
-					max1 = temp;
-				if (temp > max2)
-					max2 = temp;
-				if (temp < min1)
-					min1 = temp;
-				if (temp < min2)
-					min2 = temp;
+				if (max*gain > 256)
+					gain = gain >> 1;
+				else if ((max*gain < 128) and (gain < 32))
+					gain = gain << 1;
 
 				max1counter++;
 				max2counter++;
 				if (max1counter == MAXIMUM_LENGTH){
-					max1 = temp;
-					min1 = temp;
+					max1 = 0;
 					max1counter = 0;
 				}
 				if (max2counter == MAXIMUM_LENGTH){
-					max2 = temp;
-					min2 = temp;
+					max2 = 0;
 					max2counter = 0;
 				}
 
-				UartCmdCli.Printf("%d\n\r", temp);
-				if ((max1 > 15) or (max2 > 15))
+//				UartCmdCli.Printf("%d  gain=%d\n\r", temp, gain, max);
+				if (temp > 32)
 					gpio::ActivatePin(LED_R);
 				else
 					gpio::DeactivatePin(LED_R);
 			}
 		}
-		vTaskDelay(pdMS_TO_TICKS(1));
+//		vTaskDelay(1);
 	}
 }
 
 int main() {
+#ifdef USE_BOOTLOADER
+	//Move interrupt vector table to RAM
+	__disable_irq();
+//	volatile uint32_t *VTable = (volatile uint32_t*)0x20000000;
+//	for (uint32_t i = 0; i < 48; i++){
+//	VTable[i] = *(volatile uint32_t*)(0x8002000 + i*4);
+//	}
+
+	for (uint32_t i = 0; i < 48; i++){
+		volatile uint32_t* pRamTable = (uint32_t*)(0x20000000 + i*4);
+		*pRamTable = *(volatile uint32_t*)(0x8002000 + i*4);
+	}
+	rcc::EnableClkSYSCFGCOMP();
+	SYSCFG->CFGR1 = 0b11;
+	__enable_irq();
+#endif
+
 	flash::SetFlashLatency(1);
 	rcc::EnableHSE();
 	rcc::SetupPLL(pllSrcHsePrediv, 16, 4);
 	rcc::EnablePLL();
 	rcc::SwitchSysClk(sysClkPll);
 
-	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
 //	LedTimer.Init(TIM3, 100000, 255, UpCounter);
 //	LedTimer.ConfigureChannel(LED_G, AF0, 1, outputComparePWM1);
 //	LedTimer.ConfigureChannel(LED_R, AF0, 2, outputComparePWM1);
@@ -197,6 +217,7 @@ int main() {
 //	LedTimer.SetChannelAbility(1, Enable);
 //	LedTimer.StartCount();
 
+	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
 	gpio::SetupPin(LED_G, PullAir, GeneralOutput);
 	gpio::SetupPin(LED_R, PullAir, GeneralOutput);
 
@@ -242,8 +263,8 @@ int main() {
 	IrEncoderTimer.SetMasterMode(triggerOnUpdate);
 	IrEncoderTimer.StartCount();
 
-	xTaskCreate(&BlinkBlueTask, "BLKB", 256, NULL,
-			BLINK_TASK_PRIORITY, &BlinkBlueTaskHandle);
+//	xTaskCreate(&BlinkBlueTask, "BLKB", 256, NULL,
+//			BLINK_TASK_PRIORITY, &BlinkBlueTaskHandle);
 	xTaskCreate(&CliTask, "CLI", 256, NULL,
 			CLI_TASK_PRIORITY, &CliTaskHandle);
 
@@ -260,5 +281,4 @@ void vApplicationMallocFailedHook(){
 }
 
 void vApplicationTickHook(){
-	uptime += 10;
 }

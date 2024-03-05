@@ -8,27 +8,17 @@
 #ifndef BOARD_H_
 #define BOARD_H_
 
-//#define USE_SYSTICK_DELAY 1
-#define HSE_FREQ_HZ 12000000
+#define USE_SYSTICK_DELAY	1
+#define HSE_FREQ_HZ 		12000000
 
 // Bootloader
-//#define USE_BOOTLOADER
-#define BOOTLOADER_START_ADDR 	0x8000000
-#define FW_START_ADDR 			0x8002000
-
-//ADC channels
-#define ADC_IR_1 	PA1
-#define ADC_IR_2 	PA2
-#define ADC_BAT 	PB0
-
-#define ADC_DMA_RX	DMA1_Channel1, (uint32_t)&ADC1->DR
+#define BOOTLOADER_START_ADDR 		0x8000000
+#define MAIN_PROGRAM_START_ADDR 	0x8008000
 
 // RGB led
 #define LED_G	PC6
 #define LED_R	PC7
 #define LED_B	PC8
-// IR led
-#define LED_IR 	PA8
 
 // UART shell parameters
 #define UART_PARAMS		USART1, PA9, PA10, AF1, 115200

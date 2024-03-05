@@ -154,7 +154,7 @@ g_pfnVectors:
   .word	TSC_IRQHandler                			/* Touch sensing interrupt                               */
   .word	DMA1_Channel1_IRQHandler           		/* DMA1 channel 1 interrupt                              */
   .word	DMA1_Channel2_3_IRQHandler              /* Reserved                                              */
-  .word	DMA1_Channel4_5_6_7_IRQHandler     		/* Reserved                                              */
+  .word	DMA1_Channel4_5_6_7_IRQHandler     		    /* Reserved                                              */
   .word	ADC_COMP_IRQHandler           			/* ADC and comparator interrupts                         */
   .word	TIM1_BRK_UP_TRG_COM_IRQHandler			/* TIM1 break, update, trigger and commutation interrupt */
   .word	TIM1_CC_IRQHandler            			/* TIM1 Capture Compare interrupt                        */

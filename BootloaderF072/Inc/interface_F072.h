@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
+//#include <stdlib.h>
 #include <cstring>
 #include <cctype>
 //
@@ -254,6 +255,7 @@ protected:
 	DmaTx_t* TxChannel;
 	DmaRx_t* RxChannel;
 	void PutBinary(uint32_t binary);
+	void PutHex(uint32_t binary);
 	void PutString(const char* text);
 public:
 	Cli_t(DmaTx_t* _TxChannel, DmaRx_t* _RxChannel) {
