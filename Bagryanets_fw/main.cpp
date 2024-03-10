@@ -46,7 +46,7 @@ Cli_t UartCmdCli(&UartCmdDmaTx, &UartCmdDmaRx);
 Timer_t AdcTrigger;
 DmaRx_t AdcDmaRx;
 
-Timer_t LedTimer;
+//Timer_t LedTimer;
 Timer_t IrCarrierTimer;
 Timer_t IrEncoderTimer;
 
@@ -105,17 +105,13 @@ public:
 		int32_t temp = Output[1];
 		Output[1] = Output[0];
 		Output[0] = CurrentInput*a0 + Output[1]*b1 + temp*b2;
-		if (Output[0] >= 0)
-			Output[0] = Output[0] >> 8;
-		else
-			Output[0] = -((-Output[0]) >> 8);
+		Output[0] = Output[0] >> 8;
 		return abs(Output[0]);
 	}
 };
 
 void CliTask(void *pvParameters){
 	IirPeak_t CarrierFilter(30, 211, -240);
-//	CarrierFilter.CalculateCoefficients(36000, 200000, 1000);
 	UartCmdCli.Printf("[SYS] Filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
 			CarrierFilter.a0, CarrierFilter.b1, CarrierFilter.b2);
 
@@ -132,7 +128,6 @@ void CliTask(void *pvParameters){
 	uint32_t gain = 1;
 	AdcTrigger.StartCount();
 	while(1){
-//		UartCmdCli.Printf("%d\n\r", AdcDmaRx.GetNumberOfBytesInBuffer()); // For testing
 		while(AdcDmaRx.GetNumberOfBytesInBuffer()){
 			// Auto gain
 			temp = AdcDmaRx.ReadFromBuffer();
@@ -142,7 +137,6 @@ void CliTask(void *pvParameters){
 				max2 = temp;
 			// Iir peak filter for carrier frequency
 			DecimatorAccumulator += CarrierFilter.GetCurrentAbsOutput(temp*gain);
-//			DecimatorAccumulator += temp*gain; // Filter bypass
 			DecimatorCounter++;
 			if (DecimatorCounter == DECIMATOR_SIZE){
 				temp = DecimatorAccumulator >> ReturnDegreeOfTwo(DECIMATOR_SIZE);
@@ -170,7 +164,7 @@ void CliTask(void *pvParameters){
 					max2counter = 0;
 				}
 
-//				UartCmdCli.Printf("%d  gain=%d\n\r", temp, gain, max);
+				UartCmdCli.Printf("%d  gain=%d\n\r", temp, gain, max);
 				if (temp > 32)
 					gpio::ActivatePin(LED_R);
 				else
@@ -182,6 +176,8 @@ void CliTask(void *pvParameters){
 }
 
 int main() {
+	rcc::ResetAll();
+	rcc::DisableAllClocks();
 #ifdef USE_BOOTLOADER
 	//Move interrupt vector table to RAM
 	__disable_irq();

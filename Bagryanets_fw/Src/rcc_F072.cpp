@@ -40,6 +40,22 @@ void BlockingDelay(uint32_t ms) {
 //rcc
 /////////////////////////////////////////////////////////////////////
 
+void rcc::ResetAll(){
+	RCC->AHBRSTR = 0x17E0000;
+	RCC->APB1RSTR = 0x7AFE4933;
+	RCC->APB2RSTR = 0x475AE1;
+
+	RCC->AHBRSTR = 0;
+	RCC->APB1RSTR = 0;
+	RCC->APB2RSTR = 0;
+}
+
+void rcc::DisableAllClocks(){
+	RCC->AHBENR = 0x14;
+	RCC->APB1ENR = 0x0;
+	RCC->APB2ENR = 0x0;
+}
+
 uint8_t rcc::EnableLSI(uint32_t Timeout) {
 	RCC->CSR |= RCC_CSR_LSION;
 	while(!(RCC->CSR & RCC_CSR_LSIRDY)) {

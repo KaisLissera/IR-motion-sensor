@@ -67,6 +67,9 @@ typedef enum {
 } PllSource_t; // PLL input clock source
 
 namespace rcc {
+	void ResetAll();
+	void DisableAllClocks();
+
 	uint8_t EnableLSI(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSI8(uint32_t Timeout = 0xFFF);
 	uint8_t EnableHSE(uint32_t Timeout = 0xFFF);

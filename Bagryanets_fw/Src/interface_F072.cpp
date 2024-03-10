@@ -216,13 +216,73 @@ void Cli_t::PutString(const char* text) {
 void Cli_t::PutBinary(uint32_t number) {
 	TxChannel->WriteToBuffer((uint8_t)'0');
 	TxChannel->WriteToBuffer((uint8_t)'b');
+	if(number == 0){
+		TxChannel->WriteToBuffer((uint8_t)'0');
+		return;
+	}
+
 	uint32_t mask = 1UL << 31;
-	for(uint8_t i = 0; i < 32; i++) {
+	while((number & mask) == 0) {
+		mask = mask >> 1;
+	}
+	while(mask > 0) {
 		if((number & mask))
 			TxChannel->WriteToBuffer((uint8_t)'1');
 		else
 			TxChannel->WriteToBuffer((uint8_t)'0');
 		mask = mask >> 1;
+	}
+}
+
+void Cli_t::PutUnsignedInt(uint32_t number) {
+	if(number == 0){
+		TxChannel->WriteToBuffer((uint8_t)'0');
+		return;
+	}
+
+	char IntBuf[10] = "";
+	uint32_t i = 0;
+	while(number > 0){
+		uint32_t temp = number % 10;
+		number = (uint32_t)number/10;
+		IntBuf[i] = '0' + temp;
+		i++;
+	}
+	for(uint32_t k = 0; k < i; k++) {
+		TxChannel->WriteToBuffer((uint8_t)IntBuf[i - k - 1]);
+	}
+}
+
+void Cli_t::PutUnsignedHex(uint32_t number) {
+	TxChannel->WriteToBuffer((uint8_t)'0');
+	TxChannel->WriteToBuffer((uint8_t)'x');
+	if(number == 0){
+		TxChannel->WriteToBuffer((uint8_t)'0');
+		return;
+	}
+
+	char IntBuf[10] = "";
+	uint32_t i = 0;
+	while(number > 0){
+		uint32_t temp = number & 0xF;
+		number = number >> 4;
+		if(temp < 10)
+			IntBuf[i] = '0' + temp;
+		else
+			IntBuf[i] = 'A' + temp - 10;
+		i++;
+	}
+	for(uint32_t k = 0; k < i; k++) {
+		TxChannel->WriteToBuffer((uint8_t)IntBuf[i - k - 1]);
+	}
+}
+
+void Cli_t::PutInt(int32_t number) {
+	if(number >= 0)
+		PutUnsignedInt(number);
+	else{
+		TxChannel->WriteToBuffer('-');
+		PutUnsignedInt(-number);
 	}
 }
 
@@ -234,15 +294,12 @@ void Cli_t::Printf(const char* text, ...) {
 	for(uint32_t i = 0; i < length; i++) {
 		if(text[i] == '%'){ // if argument found
 			i++;
-			char IntArg[10] = "";
 			switch(text[i]) {
 				case 'd': // integer
-					sprintf(IntArg, "%d",va_arg(args,int));
-					PutString(IntArg);
+					PutInt(va_arg(args,int));
 					break;
 				case 'u': // unsigned integer
-					sprintf(IntArg, "%u",va_arg(args,unsigned int));
-					PutString(IntArg);
+					PutUnsignedInt(va_arg(args,uint32_t));
 					break;
 				case 's': // string
 					PutString(va_arg(args,char*));
@@ -252,6 +309,9 @@ void Cli_t::Printf(const char* text, ...) {
 					break;
 				case 'b': // print uint32 as binary
 					PutBinary(va_arg(args,uint32_t));
+					break;
+				case 'x': // print uint32 as hex
+					PutUnsignedHex(va_arg(args,uint32_t));
 					break;
 				default:
 					TxChannel->WriteToBuffer((uint8_t)'%');
@@ -318,7 +378,7 @@ void Cli_t::ReadCommand() {
 	}
 	//Get command from buffer
 	while((temp != '\r') && (temp != '\n') && (temp != ' ') && (RxChannel->GetNumberOfBytesInBuffer() != 0)) {
-		CommandBuffer[CmdBufferPtr] = std::tolower(temp); //Char normalization
+		CommandBuffer[CmdBufferPtr] = temp;
 		CmdBufferPtr++;
 		temp = (char)RxChannel->ReadFromBuffer();
 	}

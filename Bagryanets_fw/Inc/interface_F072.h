@@ -8,11 +8,9 @@
 #ifndef INC_INTERFACE_H_
 #define INC_INTERFACE_H_
 
-#include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <cstring>
-#include <cctype>
 //
 #include <lib_F072.h>
 //
@@ -255,6 +253,9 @@ protected:
 	DmaRx_t* RxChannel;
 	void PutBinary(uint32_t binary);
 	void PutString(const char* text);
+	void PutInt(int32_t number);
+	void PutUnsignedInt(uint32_t number);
+	void PutUnsignedHex(uint32_t number);
 public:
 	Cli_t(DmaTx_t* _TxChannel, DmaRx_t* _RxChannel) {
 		TxChannel = _TxChannel;
