@@ -56,14 +56,11 @@ extern "C"{
 	void USART1_IRQHandler(){
 		UartCmd.IrqHandler(); // Interrupt on character match
 	}
-}
-extern"C"{
+
 	void DMA1_Channel2_3_IRQHandler(){
 		UartCmdDmaTx.IrqHandler(); // Interrupt on DMA transfer complete
 	}
-}
 
-extern"C"{
 	void HardFault_Handler(){
 	}
 }
@@ -139,7 +136,7 @@ void CliTask(void *pvParameters){
 			DecimatorAccumulator += CarrierFilter.GetCurrentAbsOutput(temp*gain);
 			DecimatorCounter++;
 			if (DecimatorCounter == DECIMATOR_SIZE){
-				temp = DecimatorAccumulator >> ReturnDegreeOfTwo(DECIMATOR_SIZE);
+				temp = DecimatorAccumulator / DECIMATOR_SIZE;
 				DecimatorAccumulator = 0;
 				DecimatorCounter = 0;
 				// Auto gain gain update
@@ -218,12 +215,12 @@ int main() {
 	gpio::SetupPin(LED_R, PullAir, GeneralOutput);
 
 	UartCmd.Init(UART_PARAMS);
-	UartCmd.EnableCharMatch('\r', UART_IRQ_PRIORITY);
+	UartCmd.EnableCharMatch('\r', USART1_IRQn ,UART_IRQ_PRIORITY);
 	UartCmd.EnableDmaRequest(); // USART1 on DMA channels 2 and 3
 	UartCmd.Enable();
 
-	UartCmdDmaTx.Init(UART_DMA_TX, DMA_IRQ_PRIORITY);
-	UartCmdDmaRx.Init(UART_DMA_RX);
+	UartCmdDmaTx.Init(UART_DMA_TX, DMA1_Channel2_3_IRQn, DMA_IRQ_PRIORITY);
+	UartCmdDmaRx.Init(UART_DMA_RX, DMA1_Channel2_3_IRQn);
 	UartCmdDmaRx.Start();
 
 	// Timer for ADC
@@ -243,7 +240,7 @@ int main() {
 	adc::Start();
 
 	// ADC DMA setup
-	AdcDmaRx.Init(DMA1_Channel1, (uint32_t)&ADC1->DR);
+	AdcDmaRx.Init(DMA1_Channel1, (uint32_t)&ADC1->DR, DMA1_Channel1_IRQn);
 	AdcDmaRx.Start();
 
 	//IR LED setup
@@ -274,7 +271,4 @@ int main() {
 /////////////////////////////////////////////////////////////////////
 void vApplicationMallocFailedHook(){
 	UartCmdCli.Printf("[ERR] Malloc failed\n\r");
-}
-
-void vApplicationTickHook(){
 }

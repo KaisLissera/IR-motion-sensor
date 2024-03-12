@@ -27,7 +27,6 @@ void Uart_t::Init(USART_TypeDef* _Usart, GPIO_TypeDef* GpioTx, uint8_t PinTx,
 	Usart->CR1 |= USART_CR1_TE | USART_CR1_RE ; //USART TX RX enable
 }
 
-
 void Uart_t::UpdateBaudrate(uint32_t Bod){
 	Disable();
 	uint32_t ApbClock = rcc::GetCurrentAPBClock(); // Get current bus clock
@@ -57,10 +56,10 @@ uint8_t Uart_t::RxByte(uint8_t* fl, uint32_t timeout) {
 }
 
 //USART Must be disabled, this function need IRQ handler
-void Uart_t::EnableCharMatch(char CharForMatch, uint32_t prio) {
+void Uart_t::EnableCharMatch(char CharForMatch, IRQn_Type vector, uint32_t prio) {
 	Usart->CR2 |= (uint8_t)CharForMatch << USART_CR2_ADD_Pos;
 	Usart->CR1 |= USART_CR1_CMIE;
-	nvic::SetupIrq(ReturnIrqVectorUsart(Usart), prio);
+	nvic::SetupIrq(vector, prio);
 }
 
 // If return value = retvOk - character match detected
@@ -81,7 +80,7 @@ void Uart_t::EnableDmaRequest() {
 
 // Initialize memory to peripheral DMA TX channel
 void DmaTx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
-		uint8_t DmaIrqPrio , DmaChPrio_t ChPrio) {
+		IRQn_Type dmaVector, uint8_t DmaIrqPrio , DmaChPrio_t ChPrio) {
 	// Setup class parameters
 	Channel = _Channel;
 	BufferStartPtr = 0;
@@ -93,9 +92,10 @@ void DmaTx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
 	Channel -> CCR |= DMA_CCR_DIR_Msk; // 1 - Read from memory
 	// Memory and peripheral sizes
 	Channel -> CCR |= (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos); // 8 bit
-	nvic::SetupIrq(ReturnIrqVectorDma(Channel), DmaIrqPrio);
+	nvic::SetupIrq(dmaVector, DmaIrqPrio);
 	Channel -> CCR |= DMA_CCR_TCIE;
 	Channel -> CPAR = PeriphRegAdr; //Peripheral register
+	DmaChannelNumber = ReturnChannelNumberDma(Channel);
 }
 
 uint8_t DmaTx_t::Start() {
@@ -141,9 +141,8 @@ uint8_t DmaTx_t::WriteToBuffer(uint8_t data) {
 }
 
 uint8_t DmaTx_t::IrqHandler() {
-	uint8_t ChNum = ReturnChannelNumberDma(Channel);
-	if(DMA1->ISR & DMA_ISR_TCIF1 << 4*(ChNum - 1)){
-		DMA1->IFCR = DMA_IFCR_CTCIF1 << 4*(ChNum - 1);
+	if(DMA1->ISR & DMA_ISR_TCIF1 << 4*(DmaChannelNumber - 1)){
+		DMA1->IFCR = DMA_IFCR_CTCIF1 << 4*(DmaChannelNumber - 1);
 		Channel -> CCR &= ~DMA_CCR_EN;
 		Start();
 		return retvOk;
@@ -156,7 +155,7 @@ uint8_t DmaTx_t::IrqHandler() {
 
 // Initialize peripheral to memory DMA RX channel
 void DmaRx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
-		uint8_t DmaIrqPrio, DmaChPrio_t ChPrio){
+		IRQn_Type dmaVector, uint8_t DmaIrqPrio, DmaChPrio_t ChPrio){
 	// Setup class parameters
 	Channel = _Channel;
 	BufferStartPtr = 0;
@@ -168,6 +167,7 @@ void DmaRx_t::Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
 	// Memory and peripheral sizes)
 	Channel -> CCR |= (0b00 << DMA_CCR_MSIZE_Pos) | (0b00 << DMA_CCR_PSIZE_Pos); // 8 bit
 	Channel -> CPAR = PeriphRegAdr; //Peripheral register
+	DmaChannelNumber = ReturnChannelNumberDma(Channel);
 }
 
 uint32_t DmaRx_t::GetBufferEndPtr() {

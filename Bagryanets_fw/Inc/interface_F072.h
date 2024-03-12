@@ -17,10 +17,6 @@
 #include <gpio_F072.h>
 #include <rcc_F072.h>
 
-//Remade but not today, same for all UARTs
-#define DMA_TX_REQUEST 		0b0010
-#define DMA_RX_REQUEST 		0b0010
-
 /////////////////////////////////////////////////////////////////////
 
 typedef enum {
@@ -49,29 +45,6 @@ constexpr uint32_t ReturnChannelNumberDma(DMA_Channel_TypeDef* ch){
 		ASSERT_SIMPLE(0); //Bad DMA channel name
 } //ReturnChNum_DMA end
 
-constexpr IRQn_Type ReturnIrqVectorDma(DMA_Channel_TypeDef* ch){
-	if (ch == DMA1_Channel1)
-		return DMA1_Channel1_IRQn;
-	else if ((ch == DMA1_Channel2) or (ch == DMA1_Channel3))
-		return DMA1_Channel2_3_IRQn;
-	else if ((ch == DMA1_Channel4) or (ch == DMA1_Channel5) or (ch == DMA1_Channel6) or (ch == DMA1_Channel7))
-		return DMA1_Channel4_5_6_7_IRQn;
-
-	else
-		ASSERT_SIMPLE(0); //Bad DMA channel name
-} //ReturnIRQNum_DMA end
-
-constexpr IRQn_Type ReturnIrqVectorUsart(USART_TypeDef* ch){
-	if (ch == USART1)
-		return USART1_IRQn;
-	else if (ch == USART2)
-		return USART2_IRQn;
-	else if ((ch == USART3) or (ch == USART4))
-		return USART3_4_IRQn;
-	else
-		ASSERT_SIMPLE(0); //Bad USART name
-} //ReturnIRQNum_USART end
-
 //UartBase_t - implementation of base UART functions
 /////////////////////////////////////////////////////////////////////
 /*
@@ -95,7 +68,7 @@ public:
 	void UpdateBaudrate(uint32_t Bod);
 	inline void Enable() { Usart->CR1 |= USART_CR1_UE; }
 	inline void Disable() { Usart->CR1 &= ~USART_CR1_UE; }
-	void EnableCharMatch(char CharForMatch, uint32_t prio = 0);
+	void EnableCharMatch(char CharForMatch, IRQn_Type vector, uint32_t prio = 0);
 	inline void DisableCharMatch(void) { Usart->CR1 &= USART_CR1_CMIE; }
 	void EnableDmaRequest();
 	void TxByte(uint8_t data);
@@ -130,8 +103,9 @@ protected:
 	uint32_t BufferStartPtr;
 	uint32_t BufferEndPtr;
 	DMA_Channel_TypeDef* Channel;
+	uint8_t DmaChannelNumber;
 public:
-	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, IRQn_Type dmaVector,
 			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = dmaLowChPrio);
 	uint8_t Start();
 	uint32_t GetNumberOfBytesInBuffer();
@@ -147,8 +121,9 @@ protected:
 	uint32_t BufferStartPtr;
 	uint32_t GetBufferEndPtr();
 	DMA_Channel_TypeDef* Channel;
+	int8_t DmaChannelNumber;
 public:
-	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr,
+	void Init(DMA_Channel_TypeDef* _Channel, uint32_t PeriphRegAdr, IRQn_Type dmaVector,
 			uint8_t DmaIrqPrio = 0, DmaChPrio_t ChPrio = dmaLowChPrio);
 	void Start();
 	inline void Stop();
