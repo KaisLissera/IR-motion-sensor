@@ -19,6 +19,14 @@ Line=26,0,48,0
 Current=32,8,16,8
 
 [shapedef]
+Name=Capacitor
+Line=0,0,22,0
+Line=22,-8,22,8
+Line=26,-8,26,8
+Line=26,0,48,0
+Current=32,12,16,12
+
+[shapedef]
 Name=Diode.root
 Line=0,0,20,0
 Line=28,0,48,0
@@ -299,9 +307,9 @@ Px=392,136
 Rot=3
 
 [Comp]
-Name=SFH213
-Px=416,192
-Rot=7
+Name=Resistor
+Px=456,328
+Rot=2
 
 [Attr]
 ON=-30,7,PART
@@ -327,46 +335,90 @@ Pxs=392,240,400,240
 Pxs=392,136,392,144
 
 [Wire]
-Pxs=352,176,464,176
+Pxs=392,288,392,328
 
 [Wire]
-Pxs=352,176,352,192
+Pxs=392,328,408,328
 
 [Wire]
-Pxs=464,320,464,328
+Pxs=392,288,400,288
 
 [Wire]
-Pxs=464,240,464,256
+Pxs=456,328,480,328
 
 [Wire]
-Pxs=464,256,496,256
+Pxs=480,264,480,328
 
 [Wire]
 Pxs=480,264,544,264
 
 [Wire]
-Pxs=464,328,464,336
+Pxs=176,288,192,288
+
+[Comp]
+Name=Pulse Source
+Px=192,224
+
+[Attr]
+ON=18,-28,PART
+V=V3
+Style=8192
+
+[Attr]
+ON=-70,-37,MODEL
+V=IMPULSE
+
+[Attr]
+ON=0,0,PACKAGE
+V
+
+[Comp]
+Name=SFH213
+Px=240,240
+Rot=6
+
+[Attr]
+ON=-31,58,PART
+V=X6
+Style=8192
+
+[Attr]
+ON=-42,72,NAME
+V=SFH213
+Style=8192
+
+[Attr]
+ON=-16,86,POWER
+V=0.15
+
+[Attr]
+ON=0,0,PACKAGE
+V
 
 [Wire]
-Pxs=528,176,528,248
+Pxs=240,224,240,240
 
 [Wire]
-Pxs=464,176,528,176
+Pxs=192,224,192,240
+
+[Comp]
+Name=Ground
+Px=176,224
+Rot=2
 
 [Wire]
-Pxs=528,312,528,328
+Pxs=176,224,192,224
 
 [Wire]
 Pxs=240,288,392,288
 
 [Comp]
-Name=Resistor
-Px=584,408
-Rot=3
+Name=Capacitor
+Px=408,384
 
 [Attr]
-ON=-30,-39,PART
-V=R7
+ON=16,12,PART
+V=C2
 Style=8192
 
 [Attr]
@@ -379,10 +431,16 @@ ON=0,0,PACKAGE
 V
 
 [Wire]
-Pxs=568,280,584,280
+Pxs=392,328,392,384
 
 [Wire]
-Pxs=584,280,632,280
+Pxs=392,384,408,384
+
+[Wire]
+Pxs=456,384,480,384
+
+[Wire]
+Pxs=480,328,480,384
 
 [Comp]
 Name=Resistor
@@ -427,13 +485,13 @@ Px=648,344
 Rot=1
 
 [Wire]
-Pxs=488,304,496,304
+Pxs=632,264,648,264
 
 [Wire]
-Pxs=488,304,488,352
+Pxs=648,264,648,280
 
 [Wire]
-Pxs=488,352,584,352
+Pxs=648,328,648,344
 
 [Wire]
 Pxs=648,264,672,264
@@ -522,7 +580,7 @@ CBorder=None
 
 [Grid Text]
 Text="OUT"
-Px=464,256
+Px=544,264
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -538,6 +596,14 @@ Page=3
 CBorder=None
 
 [Grid Text]
+Text="VC"
+Px=432,232
+GridSnap=True
+JustifyH=Left
+JustifyV=Bottom
+CBorder=None
+
+[Grid Text]
 Text="VE"
 Px=112,32
 GridSnap=True
@@ -547,9 +613,8 @@ Page=3
 CBorder=None
 
 [Grid Text]
-Text="IMPULSE"
-Px=384,240
-Angle=90
+Text="VE"
+Px=432,296
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -573,7 +638,7 @@ CBorder=None
 
 [Grid Text]
 Text="ADC"
-Px=632,280
+Px=648,264
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -581,7 +646,7 @@ CBorder=None
 
 [Grid Text]
 Text=".DEFINE DutyCycle 0.5"
-Px=624,208
+Px=456,200
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -763,7 +828,6 @@ ALIGNBOTTOM=Yes
 [Section]
 Index=0
 Name="Photodiod_Amplifier"
-Name="Photodiod_Amplifier"
 Type=Main
 Enable=True
 CurrentPage 0=0
@@ -851,7 +915,6 @@ Type=Text
 Print=False
 Enable=True
 Name=Models
-SB 0=0,25
 SB 0=0,25
 Font=Height=-15,FStyle=0,Color=#000000,Name=Courier New
 Comment Color=#008000
@@ -981,7 +1044,6 @@ SimulationLog=True
 
 [Transient]
 WinID=1
-Window Placement=0,1, -1,-1, -8,-31, 953,0,1906,824
 Window Placement=0,1, -1,-1, -8,-31, 953,0,1906,824
 Font=Height=-19,FStyle=0,Color=#0000FF,Name=Arial
 WinBackGround Color=#FFFFFF
@@ -1238,7 +1300,7 @@ YExp=i(X6.d1)
 XRng=AutoAlways
 YRng=AutoAlways
 Options=LINEARX,LINEARY
-Enable=Enable
+Enable=DontRun
 Line Color=#0000FF
 Text Color=#0000FF
 Rainbow=False
@@ -1258,7 +1320,7 @@ Analysis=Transient
 Plt=2
 AliasID=2
 XExp=T
-YExp=v(V3)
+YExp=v(imp)
 XRng=AutoAlways
 YRng=AutoAlways
 Options=LINEARX,LINEARY

@@ -76,7 +76,8 @@ Datasheets/
 *.TNO
 *.launch
 *.lck
-
+*.swp
+*.orig
 
 # Pictures
 *.jpg
