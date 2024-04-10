@@ -83,3 +83,7 @@ Datasheets/
 *.jpg
 *.png
 
+#Altium
+*.SchDocPreview
+/__Previews
+
