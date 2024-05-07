@@ -225,24 +225,192 @@ DocumentPath=Документация\Ведомость покупных изд
 DItemRevisionGUID=
 
 [GeneratedDocument15]
-DocumentPath=Документация\Перечень элементов.pdf
+DocumentPath=Документация\МГТУ.ХХХХХХ.001.pdf
 DItemRevisionGUID=
 
 [GeneratedDocument16]
-DocumentPath=Документация\Спецификация.pdf
+DocumentPath=Документация\Перечень элементов.pdf
 DItemRevisionGUID=
 
 [GeneratedDocument17]
+DocumentPath=Документация\Спецификация.pdf
+DItemRevisionGUID=
+
+[GeneratedDocument18]
 DocumentPath=Документация\Схема.pdf
 DItemRevisionGUID=
 
 [Parameter1]
+Name=DecimalNumber
+Value=
+
+[Parameter2]
+Name=Графа 04 - Литера
+Value=
+
+[Parameter3]
+Name=Графа 12 - Подпись
+Value=
+
+[Parameter4]
+Name=Графа 14 - Порядковый номер изменения
+Value=
+
+[Parameter5]
+Name=Графа 15 - Указания об изменении листа
+Value=
+
+[Parameter6]
+Name=Графа 16 - Номер извещения
+Value=
+
+[Parameter7]
+Name=Графа 19 - Инвентарный номер подлинника
+Value=
+
+[Parameter8]
+Name=Графа 20 - Подпись и дата приемки в СТД
+Value=
+
+[Parameter9]
+Name=Графа 21 - Взам. инв №
+Value=
+
+[Parameter10]
+Name=Графа 22 - Инвентарный номер дубликата
+Value=
+
+[Parameter11]
+Name=Графа 23 - Подпись и дата приемки дубликата в СТД
+Value=
+
+[Parameter12]
+Name=Графа 24 - Справ. №
+Value=
+
+[Parameter13]
+Name=Графа 28 - Номер и год утверждения литеры
+Value=
+
+[Parameter14]
+Name=Графа 29 - Номер и год утверждения документации
+Value=
+
+[Parameter15]
+Name=Графа 30 - Индекс заказчика
+Value=
+
+[Parameter16]
+Name=Децимальный номер печатного узла
+Value=
+
+[Parameter17]
+Name=Извещение_дата
+Value=
+
+[Parameter18]
+Name=Код типа схемы
+Value=
+
+[Parameter19]
+Name=Компания
+Value=
+
+[Parameter20]
+Name=Компания1
+Value=МГТУ им. Н.Э. Баумана
+
+[Parameter21]
+Name=Компания2
+Value=     кафедра РЛ1     
+
+[Parameter22]
+Name=Литера1
+Value= 
+
+[Parameter23]
+Name=Наименование
+Value=
+
+[Parameter24]
+Name=Наименование1
+Value=
+
+[Parameter25]
+Name=Наименование2
+Value=
+
+[Parameter26]
+Name=Начальник отдела
+Value=
+
+[Parameter27]
+Name=Начальник отдела ( альтернативное название параметра)
+Value=
+
+[Parameter28]
+Name=Начальник отдела_дата
+Value=
+
+[Parameter29]
+Name=Нормоконтроль
+Value=
+
+[Parameter30]
+Name=Нормоконтроль_дата
+Value=
+
+[Parameter31]
+Name=Обозначение
+Value=
+
+[Parameter32]
 Name=Папка для сохранения графической документации
 Value=Документация
 
-[Parameter2]
+[Parameter33]
 Name=Папка для сохранения текстовой документации
 Value=Документация
+
+[Parameter34]
+Name=Первичная применяемость спецификации
+Value=
+
+[Parameter35]
+Name=Проверил
+Value=
+
+[Parameter36]
+Name=Проверил_дата
+Value=
+
+[Parameter37]
+Name=Разработал
+Value=Краснинский К.А.
+
+[Parameter38]
+Name=Разработал_дата
+Value=
+
+[Parameter39]
+Name=Технолог
+Value=
+
+[Parameter40]
+Name=Технолог_дата
+Value=
+
+[Parameter41]
+Name=Тип документа
+Value=
+
+[Parameter42]
+Name=Утвердил
+Value=Круглов Г.В.
+
+[Parameter43]
+Name=Утвердил_дата
+Value=
 
 [Configuration1]
 Name=Sources
