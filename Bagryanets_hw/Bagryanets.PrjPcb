@@ -220,6 +220,30 @@ DItemRevisionGUID=
 DocumentPath=Project Outputs for Bagryanets\Design Rule Check - Bagryanets.html
 DItemRevisionGUID=
 
+[GeneratedDocument14]
+DocumentPath=Документация\Ведомость покупных изделий.pdf
+DItemRevisionGUID=
+
+[GeneratedDocument15]
+DocumentPath=Документация\Перечень элементов.pdf
+DItemRevisionGUID=
+
+[GeneratedDocument16]
+DocumentPath=Документация\Спецификация.pdf
+DItemRevisionGUID=
+
+[GeneratedDocument17]
+DocumentPath=Документация\Схема.pdf
+DItemRevisionGUID=
+
+[Parameter1]
+Name=Папка для сохранения графической документации
+Value=Документация
+
+[Parameter2]
+Name=Папка для сохранения текстовой документации
+Value=Документация
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
@@ -1109,6 +1133,11 @@ OutputName10=Report Single Pin Nets
 OutputDocumentPath10=
 OutputVariantName10=[No Variations]
 OutputDefault10=0
+OutputType11=BoardAssistant
+OutputName11=BoardAssistant text documents
+OutputDocumentPath11=
+OutputVariantName11=[No Variations]
+OutputDefault11=0
 
 [OutputGroup7]
 Name=Other Outputs
