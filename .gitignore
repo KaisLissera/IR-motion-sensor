@@ -70,7 +70,6 @@ Temp/
 *.zip
 *.xml
 Datasheets/
-*.pdf
 *.inx
 *.bak_cir
 *.TNO
