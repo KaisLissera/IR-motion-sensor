@@ -169,23 +169,6 @@ GenerateClassCluster=0
 DocumentUniqueId=QSGUUOWM
 
 [Document8]
-DocumentPath=Bagryanets_2.SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=0
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=YQRESFAU
-
-[Document9]
 DocumentPath=Project Outputs for Bagryanets\Bagryanets_ПЭ3.xls
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -260,7 +243,7 @@ DItemRevisionGUID=
 
 [Parameter1]
 Name=DecimalNumber
-Value=
+Value=МГТУ.469335.001
 
 [Parameter2]
 Name=Графа 04 - Литера
@@ -320,7 +303,7 @@ Value=
 
 [Parameter16]
 Name=Децимальный номер печатного узла
-Value=
+Value=МГТУ.469335.001
 
 [Parameter17]
 Name=Извещение_дата
@@ -328,7 +311,7 @@ Value=
 
 [Parameter18]
 Name=Код типа схемы
-Value=
+Value=Э3
 
 [Parameter19]
 Name=Компания
@@ -344,7 +327,7 @@ Value=кафедра РЛ1
 
 [Parameter22]
 Name=Литера1
-Value=
+Value= 
 
 [Parameter23]
 Name=Наименование
@@ -352,11 +335,11 @@ Value=
 
 [Parameter24]
 Name=Наименование1
-Value=
+Value=Система электронного
 
 [Parameter25]
 Name=Наименование2
-Value=
+Value=хронометража
 
 [Parameter26]
 Name=Начальник отдела
@@ -380,7 +363,7 @@ Value=
 
 [Parameter31]
 Name=Обозначение
-Value=
+Value=МГТУ.469335.001 Э3
 
 [Parameter32]
 Name=Папка для сохранения графической документации
@@ -404,7 +387,7 @@ Value=
 
 [Parameter37]
 Name=Разработал
-Value=Краснинский К.А.
+Value=Краснинский
 
 [Parameter38]
 Name=Разработал_дата
@@ -420,11 +403,11 @@ Value=
 
 [Parameter41]
 Name=Тип документа
-Value=
+Value=Схема электрическая принципиальная
 
 [Parameter42]
 Name=Утвердил
-Value=Круглов Г.В.
+Value=Круглов
 
 [Parameter43]
 Name=Утвердил_дата
@@ -445,7 +428,7 @@ AutoOpenFile=-1
 AutoOpenOutJob=0
 
 [Generic_SmartPDFSettings]
-ProjectMode=-1
+ProjectMode=0
 ZoomPrecision=50
 AddNetsInformation=-1
 AddNetPins=-1
@@ -708,9 +691,9 @@ OutputName14=Schematic Prints
 OutputDocumentPath14=
 OutputVariantName14=
 OutputDefault14=0
-PageOptions14=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=0.70|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=0|PaperKind=A4|PaperIndex=9
+PageOptions14=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=0.49|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=0|PaperKind=A4|PaperIndex=9
 Configuration14_Name1=OutputConfigurationParameter1
-Configuration14_Item1=Record=SchPrintView|ShowNoERC=True|ShowParamSet=False|ShowProbe=True|ShowBlanket=True|NoERCSymbolsToShow="Thin Cross","Thick Cross","Small Cross",Checkbox,Triangle|ShowNote=True|ShowNoteCollapsed=True|ShowOpenEnds=True|ExpandDesignator=True|ExpandNetLabel=False|ExpandPort=False|ExpandSheetNum=False|ExpandDocNum=False|PrintArea=0|PrintAreaRect.X1=0|PrintAreaRect.Y1=0|PrintAreaRect.X2=0|PrintAreaRect.Y2=0|DocumentPath=C:\Users\KONSTANTIN\Desktop\Bagryanets\Bagryanets_hw\Bagryanets.SchDoc
+Configuration14_Item1=Record=SchPrintView|ShowNoERC=True|ShowParamSet=True|ShowProbe=True|ShowBlanket=True|NoERCSymbolsToShow="Thin Cross","Thick Cross","Small Cross",Checkbox,Triangle|ShowNote=True|ShowNoteCollapsed=True|ShowOpenEnds=True|ExpandDesignator=True|ExpandNetLabel=False|ExpandPort=False|ExpandSheetNum=False|ExpandDocNum=False|PrintArea=0|PrintAreaRect.X1=0|PrintAreaRect.Y1=0|PrintAreaRect.X2=0|PrintAreaRect.Y2=0|DocumentPath=C:\Users\KONSTANTIN\Desktop\Bagryanets\Bagryanets_hw\Bagryanets.SchDoc
 OutputType15=SimView Print
 OutputName15=SimView Prints
 OutputDocumentPath15=
