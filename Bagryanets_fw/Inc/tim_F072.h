@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 //
-#include <lib_F072.h>
+#include <lib.h>
 //
 #include <gpio_F072.h>
 #include <rcc_F072.h>
@@ -66,12 +66,10 @@ private:
 	TIM_TypeDef*  Timer;
 public:
 	// Frequency in Hz
-	void Init(TIM_TypeDef*  _Timer, uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
+	void Init(TIM_TypeDef*  _Timer, uint32_t timerClockHz ,uint32_t Frequency, uint32_t ReloadValue, CounterDirection_t Dir) {
 		Timer = _Timer;
-		rcc::EnableClkTIM(Timer);
 		//Frequency
-		uint32_t Clk = rcc::GetCurrentTimersClock();
-		Timer->PSC = (uint32_t)(Clk/Frequency) - 1;
+		Timer->PSC = (uint32_t)(timerClockHz/Frequency) - 1;
 		if (Timer == TIM1)
 			TIM1->BDTR |= TIM_BDTR_MOE; // Main output enable
 		if(Dir)

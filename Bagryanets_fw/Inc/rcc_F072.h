@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 //
-#include <lib_F072.h>
+#include <lib.h>
 
 //Simple delays
 /////////////////////////////////////////////////////////////////////
@@ -91,98 +91,22 @@ namespace rcc {
 	uint8_t SetupPLL(PllSource_t pllSrc, uint32_t pllMul, uint32_t pllPrediv);
 	//
 	uint32_t GetCurrentSystemClock();
-	uint32_t GetCurrentAHBClock();
-	uint32_t GetCurrentAPBClock();
-	uint32_t GetCurrentTimersClock();
+	uint32_t GetCurrentAHBClock(uint32_t currentSystemClockHz);
+	uint32_t GetCurrentAPBClock(uint32_t currentAhbClockHz);
+	uint32_t GetCurrentTimersClock(uint32_t currentApbClockHz);
 
 	//Functions to enable peripheral clocks
-/////////////////////////////////////////////////////////////////////
 	//AHB
-	inline void EnableClkTSC() {RCC->AHBENR |= RCC_AHBENR_TSCEN;}
-	void EnableClkGPIO(GPIO_TypeDef* Gpio);
-	inline void EnableClkCRC() {RCC->AHBENR |= RCC_AHBENR_CRCEN;}
-	inline void EnableClkFLITF() {RCC->AHBENR |= RCC_AHBENR_FLITFEN;}
-	inline void EnableClkSRAM() {RCC->AHBENR |= RCC_AHBENR_SRAMEN;}
-	inline void EnableClkDMA() { RCC->AHBENR |= RCC_AHBENR_DMA1EN;}
+	inline void EnableClkAHB(uint32_t ahbPeripheral) {RCC->AHBENR |= ahbPeripheral;}
+	inline void DisableClkAHB(uint32_t ahbPeripheral) {RCC->AHBENR &= ~ahbPeripheral;}
 
-	//APB
-	inline void EnableClkDBGMCU(void) {RCC->APB2ENR |= RCC_APB2ENR_DBGMCUEN;}
-	void EnableClkTIM(TIM_TypeDef* Tim);
-	void EnableClkUSART(USART_TypeDef* Uart);
-		inline void EnableClkSPI(SPI_TypeDef* Spi) {
-		if(Spi == SPI1)
-			RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
-		else if(Spi == SPI2)
-			RCC->APB1ENR |= RCC_APB1ENR_SPI2EN;
-		else
-			ASSERT_SIMPLE(0); // Bad SPI name
-	}
-	inline void EnableClkADC(void) {RCC->APB2ENR |= RCC_APB2ENR_ADCEN;}
-	inline void EnableClkSYSCFGCOMP(void) {RCC->APB2ENR |= RCC_APB2ENR_SYSCFGCOMPEN;}
-	inline void EnableClkCEC(void) {RCC->APB1ENR |= RCC_APB1ENR_CECEN;}
-	inline void EnableClkDAC(void) {RCC->APB1ENR |= RCC_APB1ENR_DACEN;}
-	inline void EnableClkPWR(void) {RCC->APB1ENR |= RCC_APB1ENR_PWREN;}
-	inline void EnableClkCRS(void) {RCC->APB1ENR |= RCC_APB1ENR_CRSEN;}
-	inline void EnableClkCAN(void) {RCC->APB1ENR |= RCC_APB1ENR_CANEN;}
-	inline void EnableClkUSB(void) {RCC->APB1ENR |= RCC_APB1ENR_USBEN;}
-	inline void EnableClkI2C(I2C_TypeDef* I2c) {
-		if(I2c == I2C1)
-			RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
-		else if(I2c == I2C2)
-			RCC->APB1ENR |= RCC_APB1ENR_I2C2EN;
-		else
-			ASSERT_SIMPLE(0); // Bad I2C name
-	}
-	inline void EnableClkWWDG(void) {RCC->APB1ENR |= RCC_APB1ENR_WWDGEN;}
+	//APB1
+	inline void EnableClkAPB1(uint32_t apb1Peripheral) {RCC->APB1ENR |= apb1Peripheral;}
+	inline void DisableClkAPB1(uint32_t apb1Peripheral) {RCC->APB1ENR &= ~apb1Peripheral;}
 
-	//Functions to disable peripheral clocks
-/////////////////////////////////////////////////////////////////////
-	//AHB
-	inline void DisableClkTSC(void) {RCC->AHBENR &= ~RCC_AHBENR_TSCEN;}
-	inline void DisableClkGPIO(GPIO_TypeDef* Gpio);
-	inline void DisableClkCRC(void) {RCC->AHBENR &= ~RCC_AHBENR_CRCEN;}
-	inline void DisableClkFLITF(void) {RCC->AHBENR &= ~RCC_AHBENR_FLITFEN;}
-	inline void DisableClkSRAM(void) {RCC->AHBENR &= ~RCC_AHBENR_SRAMEN;}
-	inline void DisableClkDMA(DMA_TypeDef* Dma) {
-		if(Dma == DMA1)
-			RCC->AHBENR &= ~RCC_AHBENR_DMA1EN;
-#ifdef DMA2
-		else if(Dma == DMA2)
-			RCC->AHBENR &= ~RCC_AHBENR_DMA2EN;
-#endif
-		else
-			ASSERT_SIMPLE(0); // Bad DMA name
-	}
-
-	//APB
-	inline void DisableClkDBGMCU(void) {RCC->APB2ENR &= ~RCC_APB2ENR_DBGMCUEN;}
-	void DisableClkTIM(TIM_TypeDef* Tim);
-	void DisableClkUART(USART_TypeDef* Uart);
-	inline void DisableClkSPI(SPI_TypeDef* Spi) {
-		if(Spi == SPI1)
-			RCC->APB2ENR &= ~RCC_APB2ENR_SPI1EN;
-		else if(Spi == SPI2)
-			RCC->APB1ENR &= ~RCC_APB1ENR_SPI2EN;
-		else
-			ASSERT_SIMPLE(0); // Bad SPI name
-	}
-	inline void DisableClkADC(void) {RCC->APB2ENR &= ~RCC_APB2ENR_ADCEN;}
-	inline void DisableClkSYSCFGCOMP(void) {RCC->APB2ENR &= ~RCC_APB2ENR_SYSCFGCOMPEN;}
-	inline void DisableClkCEC(void) {RCC->APB1ENR &= ~RCC_APB1ENR_CECEN;}
-	inline void DisableClkDAC(void) {RCC->APB1ENR &= ~RCC_APB1ENR_DACEN;}
-	inline void DisableClkPWR(void) {RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;}
-	inline void DisableClkCRS(void) {RCC->APB1ENR &= ~RCC_APB1ENR_CRSEN;}
-	inline void DisableClkCAN(void) {RCC->APB1ENR &= ~RCC_APB1ENR_CANEN;}
-	inline void DisableClkUSB(void) {RCC->APB1ENR &= ~RCC_APB1ENR_USBEN;}
-	inline void DisableClkI2C(I2C_TypeDef* I2c) {
-		if(I2c == I2C1)
-			RCC->APB1ENR &= ~RCC_APB1ENR_I2C1EN;
-		else if(I2c == I2C2)
-			RCC->APB1ENR &= ~RCC_APB1ENR_I2C2EN;
-		else
-			ASSERT_SIMPLE(0); // Bad I2C name
-	}
-	inline void DisableClkWWDG(void) {RCC->APB1ENR &= ~RCC_APB1ENR_WWDGEN;}
+	//APB1
+	inline void EnableClkAPB2(uint32_t apb2Peripheral) {RCC->APB2ENR |= apb2Peripheral;}
+	inline void DisableClkAPB2(uint32_t apb2Peripheral) {RCC->APB2ENR &= ~apb2Peripheral;}
 };//rcc end
 
 //Sleep and low power modes

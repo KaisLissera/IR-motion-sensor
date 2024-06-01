@@ -10,7 +10,6 @@
 #include <stdint.h>
 #include <math.h> // abs(x)
 //
-#include <lib_F072.h>
 #include <rcc_F072.h>
 #include <gpio_F072.h>
 #include <tim_F072.h>
@@ -20,6 +19,7 @@
 #include <board.h>
 
 #include <FreeRTOS.h>
+#include <lib.h>
 #include <task.h>
 
 //RTOS tasks declarations and priorities
@@ -36,17 +36,28 @@ void BlinkBlueTask(void *pvParametrs);
 TaskHandle_t CliTaskHandle;
 void CliTask(void *pvParametrs);
 
-//Peripheral declaration
+// Peripheral declaration
 /////////////////////////////////////////////////////////////////////
+
+// Debug UART shell
+#define UART_BUFFER_SIZE 128
 Uart_t UartCmd;
-DmaTx_t UartCmdDmaTx;
-DmaRx_t UartCmdDmaRx;
-Cli_t UartCmdCli(&UartCmdDmaTx, &UartCmdDmaRx);
+DmaChannel_t DmaChannel2 = {.Channel = DMA1_Channel2, .Number = 2, .Irq = DMA1_Channel2_3_IRQn};
+DmaChannel_t DmaChannel3 = {.Channel = DMA1_Channel3, .Number = 2, .Irq = DMA1_Channel2_3_IRQn};
+uint8_t CmdTxBuffer[UART_BUFFER_SIZE];
+uint8_t CmdRxBuffer[UART_BUFFER_SIZE];
+DmaTx_t CmdTxDma(&DmaChannel2, CmdTxBuffer, UART_BUFFER_SIZE);
+DmaRx_t CmdRxDma(&DmaChannel3, CmdRxBuffer, UART_BUFFER_SIZE);
+Cli_t CmdCli(&CmdTxDma, &CmdRxDma);
 
+// ADC
+#define ADC_BUFFER_SIZE 512
 Timer_t AdcTrigger;
-DmaRx_t AdcDmaRx;
+DmaChannel_t DmaChannel1 = {.Channel = DMA1_Channel1, .Number = 1, .Irq = DMA1_Channel1_IRQn};
+uint8_t AdcRxBuffer[ADC_BUFFER_SIZE];
+DmaRx_t AdcRxDma(&DmaChannel1, AdcRxBuffer, ADC_BUFFER_SIZE);
 
-//Timer_t LedTimer;
+// IR transmitter
 Timer_t IrCarrierTimer;
 Timer_t IrEncoderTimer;
 
@@ -58,7 +69,7 @@ extern "C"{
 	}
 
 	void DMA1_Channel2_3_IRQHandler(){
-		UartCmdDmaTx.IrqHandler(); // Interrupt on DMA transfer complete
+		CmdTxDma.IrqHandler(); // Interrupt on DMA transfer complete
 	}
 
 	void HardFault_Handler(){
@@ -109,7 +120,7 @@ public:
 
 void CliTask(void *pvParameters){
 	IirPeak_t CarrierFilter(30, 211, -240);
-	UartCmdCli.Printf("[SYS] Filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
+	CmdCli.Printf("[SYS] Filter coefficients a0 = %d, b1 = %d, b2 = %d\n\r",
 			CarrierFilter.a0, CarrierFilter.b1, CarrierFilter.b2);
 
 	uint32_t DecimatorAccumulator = 0;
@@ -125,9 +136,9 @@ void CliTask(void *pvParameters){
 	uint32_t gain = 1;
 	AdcTrigger.StartCount();
 	while(1){
-		while(AdcDmaRx.GetNumberOfBytesInBuffer()){
+		while(AdcRxDma.GetNumberOfBytesReady()){
 			// Auto gain
-			temp = AdcDmaRx.ReadFromBuffer();
+			temp = AdcRxDma.ReadChar();
 			if (temp > max1)
 				max1 = temp;
 			if (temp > max2)
@@ -161,14 +172,13 @@ void CliTask(void *pvParameters){
 					max2counter = 0;
 				}
 
-				UartCmdCli.Printf("%d  gain=%d\n\r", temp, gain, max);
+				CmdCli.Printf("%d  gain=%d\n\r", temp, gain, max);
 				if (temp > 32)
 					gpio::ActivatePin(LED_R);
 				else
 					gpio::DeactivatePin(LED_R);
 			}
 		}
-//		vTaskDelay(1);
 	}
 }
 
@@ -192,40 +202,49 @@ int main() {
 	__enable_irq();
 #endif
 
+	// Clock setup
 	flash::SetFlashLatency(1);
 	rcc::EnableHSE();
 	rcc::SetupPLL(pllSrcHsePrediv, 16, 4);
 	rcc::EnablePLL();
 	rcc::SwitchSysClk(sysClkPll);
 
-//	LedTimer.Init(TIM3, 100000, 255, UpCounter);
-//	LedTimer.ConfigureChannel(LED_G, AF0, 1, outputComparePWM1);
-//	LedTimer.ConfigureChannel(LED_R, AF0, 2, outputComparePWM1);
-//	LedTimer.ConfigureChannel(LED_B, AF0, 3, outputComparePWM1);
-//	LedTimer.LoadCompareValue(1, uint32_t(255*0.35));
-//	LedTimer.LoadCompareValue(2, uint32_t(255));
-//	LedTimer.LoadCompareValue(3, uint32_t(255*0.65));
-//	LedTimer.SetChannelAbility(3, Enable);
-//	LedTimer.SetChannelAbility(2, Enable);
-//	LedTimer.SetChannelAbility(1, Enable);
-//	LedTimer.StartCount();
+	uint32_t coreClockHz = rcc::GetCurrentSystemClock();
+	uint32_t ahbClockHz = rcc::GetCurrentAHBClock(coreClockHz);
+	uint32_t apbClockHz = rcc::GetCurrentAPBClock(ahbClockHz);
+	uint32_t timClockHz = rcc::GetCurrentTimersClock(apbClockHz);
 
+	// Enable peripheral clocks
+	rcc::EnableClkAHB(RCC_AHBENR_GPIOCEN);
+	rcc::EnableClkAHB(RCC_AHBENR_GPIOAEN);
+	rcc::EnableClkAHB(RCC_AHBENR_DMA1EN);
+
+	rcc::EnableClkAPB1(RCC_APB1ENR_TIM2EN);
+
+	rcc::EnableClkAPB2(RCC_APB2ENR_USART1EN);
+	rcc::EnableClkAPB2(RCC_APB2ENR_ADCEN);
+	rcc::EnableClkAPB2(RCC_APB2ENR_TIM1EN);
+	rcc::EnableClkAPB2(RCC_APB2ENR_TIM15EN);
+
+	// RGB LED setup
 	gpio::SetupPin(LED_B, PullAir, GeneralOutput);
 	gpio::SetupPin(LED_G, PullAir, GeneralOutput);
 	gpio::SetupPin(LED_R, PullAir, GeneralOutput);
 
-	UartCmd.Init(UART_PARAMS);
+	UartCmd.Init(USART1, apbClockHz, 115200);
+	gpio::SetupPin(PA9, PullAir, AlternateFunction, AF1);
+	gpio::SetupPin(PA9, PullAir, AlternateFunction, AF1);
 	UartCmd.EnableCharMatch('\r', USART1_IRQn ,UART_IRQ_PRIORITY);
-	UartCmd.EnableDmaRequest(); // USART1 on DMA channels 2 and 3
+	UartCmd.EnableDmaRequest(USART_CR3_DMAT | USART_CR3_DMAR);
 	UartCmd.Enable();
 
-	UartCmdDmaTx.Init(UART_DMA_TX, DMA1_Channel2_3_IRQn, DMA_IRQ_PRIORITY);
-	UartCmdDmaRx.Init(UART_DMA_RX, DMA1_Channel2_3_IRQn);
-	UartCmdDmaRx.Start();
+	CmdTxDma.Init((uint32_t)&USART1->TDR);
+	CmdRxDma.Init((uint32_t)&USART1->RDR);
+	CmdRxDma.Start();
 
 	// Timer for ADC
 	// 1 MHz timer frequency, 200 kHz trigger frequency
-	AdcTrigger.Init(TIM15, 3000000, 15-1, UpCounter);
+	AdcTrigger.Init(TIM15, timClockHz, 3000000, 15-1, UpCounter);
 	AdcTrigger.SetMasterMode(triggerOnUpdate);
 
 	// ADC setup
@@ -240,11 +259,11 @@ int main() {
 	adc::Start();
 
 	// ADC DMA setup
-	AdcDmaRx.Init(DMA1_Channel1, (uint32_t)&ADC1->DR, DMA1_Channel1_IRQn);
-	AdcDmaRx.Start();
+	AdcRxDma.Init((uint32_t)&ADC1->DR);
+	AdcRxDma.Start();
 
 	//IR LED setup
-	IrCarrierTimer.Init(TIM1, 360000, 10-1, UpCounter);
+	IrCarrierTimer.Init(TIM1, timClockHz, 360000, 10-1, UpCounter);
 	IrCarrierTimer.ConfigureChannel(LED_IR, AF2, 1, outputComparePWM1);
 	IrCarrierTimer.LoadCompareValue(1, 5);
 	IrCarrierTimer.SetChannelAbility(1, Enable);
@@ -252,16 +271,14 @@ int main() {
 	IrCarrierTimer.SetOnePulseMode(32);
 	IrCarrierTimer.StartCount();
 
-	IrEncoderTimer.Init(TIM2, 360000, 10*64-1, UpCounter);
+	IrEncoderTimer.Init(TIM2, timClockHz, 360000, 10*64-1, UpCounter);
 	IrEncoderTimer.SetMasterMode(triggerOnUpdate);
 	IrEncoderTimer.StartCount();
 
-//	xTaskCreate(&BlinkBlueTask, "BLKB", 256, NULL,
-//			BLINK_TASK_PRIORITY, &BlinkBlueTaskHandle);
 	xTaskCreate(&CliTask, "CLI", 256, NULL,
 			CLI_TASK_PRIORITY, &CliTaskHandle);
 
-	UartCmdCli.Printf("[SYS] Starting sheduler\n\r");
+	CmdCli.Printf("[SYS] Starting sheduler\n\r");
 	vTaskStartScheduler();
 
 	while(1);
@@ -270,5 +287,5 @@ int main() {
 //Main and FreeRTOS hooks
 /////////////////////////////////////////////////////////////////////
 void vApplicationMallocFailedHook(){
-	UartCmdCli.Printf("[ERR] Malloc failed\n\r");
+	CmdCli.Printf("[ERR] Malloc failed\n\r");
 }

@@ -1,142 +1,214 @@
 %IIR Design
 close all;
 
-%Сигнал задан согласно спецификации протокола RC5
-CarrierFreq = 36000;        %Несущая частота
+% Сигнал
+CarrierFreq = 32000;        %Несущая частота
 Ts = 1/CarrierFreq;         %Период несущей
-DutyCycle = 10;             %Скважность несущей в процентах
-ModFreq = CarrierFreq/64;   %Модулирующая частота
+DutyCycle = 50;             %Скважность несущей в процентах
+ModFreq = CarrierFreq/32;   %Модулирующая частота
 Tbit = 1/ModFreq;           %Период модулирующей
-N = 10000;                  %Количество генерируемых отсчётов
-fd = 10*CarrierFreq;        %Частота дискретизации
-dt = 1/fd;                  %Период дискретизации
+Ni = 1000;                   %Количество генерируемых импульсов
+            
+fd = 6*CarrierFreq;         %Частота дискретизации
+dt = 1/fd; %Период дискретизации
+N = ceil(Ni*Tbit/dt)  % Количество отсчётов
 time = linspace(0,dt*N,N);  %Отсчёты оси времени сигнала
 razmach = 255;              %Размах генерируемого сигнала
 
-%Параметры шума
-noise_pwr = 100^2;            %Мощность шума в Вт
-noise = wgn(1,N,noise_pwr,'linear');
+% Параметры шума
+noise_pwr = 0;            %Мощность шума в Вт
+flatNoise = 100;
 
-%Генерация сигнала
-Carrier = razmach*0.5*(square(2*pi*time*CarrierFreq, DutyCycle) + 1);
-Modulation = 0.5*(square(2*pi*time*ModFreq + pi) + 1);
-Signal = Carrier.*Modulation + noise;
-Signal = ConstrainSignal(Signal); %Ограничение сигнала от 0 до 255
-
-%Параметры цифрового резонатора
-f0 = CarrierFreq/(fd/2);    %Центральная частота
-bw = 10*ModFreq/(fd/2);     %Полоса
-[b,a] = iirpeak(f0,bw);     %Расчёт коэффициентов цифрового резонатора
-%Построение АЧХ и ФЧХ фильтра
+% Расчёт коэффициентов цифрового резонатора
 figure;
-a(1) = 1;
-disp(2*exp(-pi*2*ModFreq/fd)*cos(2*pi*CarrierFreq/fd));
-disp(-exp(-2*pi*2*ModFreq/fd));
-disp(1-exp(-2*pi*2*ModFreq/fd));
+a = [0 0 0];
+b = [0 0 0];
 
-disp(2*exp(-pi*2*0.005)*cos(2*pi*0.18)*256);
-disp(-exp(-2*pi*2*0.005)*256);
-disp((1-exp(-2*pi*2*0.005))*256);
+a(1) = (1-exp(-2*pi*4*ModFreq/fd));
 
-a(2) = -(2*exp(-pi*2*ModFreq/fd)*cos(2*pi*CarrierFreq/fd));
-a(3) = exp(-2*pi*2*ModFreq/fd);
-b(1) = (1-exp(-2*pi*2*ModFreq/fd))*0.6;
-a(2) = -215/256;
-a(3) = 248/256;
-b(1) = 5/256;
-b(2) = 0;
-b(3) = 0;
-freqz(b,a);     
-%Вывод рассчитанных коэффициентов фильтра
+b(1) = 1;
+b(2) = -(2*exp(-pi*4*ModFreq/fd)*cos(2*pi*CarrierFreq/fd));
+b(3) = exp(-2*pi*4*ModFreq/fd);
+
+% Вывод рассчитанных коэффициентов фильтра
 disp(['a = ',num2str(a)]);
 disp(['b = ',num2str(b)]);
-%Вывод нормированных коэффициентов фильтра
+
+% Построение АЧХ и ФЧХ фильтра
+freqz(a,b);
+
+% Масштабирование коэффициентов фильтра
+a(1) = round(256*a(1));
+
 b(1) = round(256*b(1));
-b(2) = 0*round(256*b(2));
+b(2) = round(256*b(2));
 b(3) = round(256*b(3));
-a(2) = round(256*a(2));
-a(3) = round(256*a(3));
+
 disp(['a_norm = ',num2str(a)]);
 disp(['b_norm = ',num2str(b)]);
 
+freqz(a,b);
+
+dec = 32;   %Коэффициент прореживания отсчётов
+decCoeffs = fir1(dec, 0.1);
+figure;
+freqz(decCoeffs);
+
+perr = zeros(1,100);
+%noise_pwr = linspace(0,200,100);
+%flatNoise = linspace(0,200,100);
+%for k = 1:100
+%-------------------------------------------------------------------------
+
+% Cлучайный информационный сигнал
+info = [zeros(1,floor(Ni/2)) ones(1,floor(Ni/2))];
+info = info(randperm(Ni));
+InfoModulation = zeros(1,N);
+for i = 1:Ni-1
+    for j = 1:(floor(Tbit/dt/2))
+        InfoModulation(i*floor(Tbit/dt)+j) = info(i);
+    end
+end
+
+% Генерация сигнала
+Carrier = razmach*0.5*(square(2*pi*time*32000, DutyCycle) + 1);
+Modulation = 0.5*(square(2*pi*time*ModFreq + pi) + 1);
+
+%Modulation = InfoModulation;
+
+noise = wgn(1,N,noise_pwr^2,'linear');
+Signal = Carrier.*Modulation + noise + flatNoise;
+%Signal = Carrier.*InfoModulation + noise + flatNoise;
+Signal = ConstrainSignal(Signal); %Ограничение сигнала от 0 до 255
+
 %Реализация цифрового резонатора
-FILT1 = zeros(1,N);
+FILT = zeros(1,N);
 for i = 3:N
     Akkum = 0;
-    Akkum = Akkum + Signal(i)*b(1);
-    Akkum = Akkum + Signal(i - 1)*b(2);
-    Akkum = Akkum + Signal(i - 2)*b(3);
+    Akkum = Akkum + Signal(i)*a(1);
     %
-    Akkum = Akkum - FILT1(i - 1)*a(2);
-    Akkum = Akkum - FILT1(i - 2)*a(3);
-    FILT1(i) = Akkum/256;
+    Akkum = Akkum - FILT(i - 1)*b(2);
+    Akkum = Akkum - FILT(i - 2)*b(3);
+    FILT(i) = Akkum/256;
 end
+
+AD = zeros(1,N);
 
 %Амплитудный детектор
 for i = 1:N
-    if FILT1(i) < 0
-        FILT1(i) = -FILT1(i);
+    if FILT(i) < 0
+        AD(i) = -FILT(i);
+    else
+        AD(i) = FILT(i);
     end
 end
 
-%Построение графиков исходного сигнала и после прохождения детектора
+%Децимация сигнала
+max = 0;
+DecN = floor(N/dec);    %Длительность последовательности после децимации
+Decimated = zeros(1,DecN);
+timedec = linspace(0,DecN*dec*dt,DecN);  %Ось времени
+for i = dec:dec:N
+    Sum = 0;
+    for j = 1:dec
+        Sum = Sum + FILT(i - dec + j)*decCoeffs(j);   
+    end
+    if Sum > max
+        max = Sum;
+    end
+    Decimated(floor(i/dec)) = Sum - max/2;  %Усреднение прореженных отсчётов
+
+
+end
+
+% Согласованная фильтрация
+SFiltered = (1:DecN);
+SF = zeros(1,6);
+Koeffs = [1 1 1 -1 -1 -1];
+for i = 1:DecN
+    for j = 1:6
+        if (i-j > 0)
+            SF(j) = Decimated(i-j);
+        end
+    end
+    SFiltered(i) = SF*Koeffs.';
+end
+
+% Пороговая обработка
+Porog = (1:DecN);
+max = 50;
+for i = 6:DecN
+    if SFiltered(i) > max
+        %max = SFiltered(i);
+    end
+
+    if SFiltered(i) > max*0.5
+        Porog(i) = 255;
+    else
+        Porog(i) = 0;
+    end
+end
+
+NumErrors = 0;
+flag = 0;
+for i = 2:DecN
+    if Porog(i) > Porog(i - 1)
+        flag = 1;
+    end
+
+    if Modulation(i*dec) ~= Modulation((i-1)*dec)
+        if Modulation((i-1)*dec) ~= flag
+            NumErrors = NumErrors + 1;
+        end
+        flag = 0;
+    end
+end
+disp("Errors")
+disp(NumErrors);
+%perr(k) = NumErrors/Ni;
+%end
+%-------------------------------------------------------------------------
+
+%figure;
+%SNR = zeros(0,N);
+%for t = 1:100
+    %SNR(t) = 255/noise_pwr(t);
+    %SNR(t) = 255/flatNoise(t);
+%end
+%semilogy(SNR,perr);
+%disp(perr)
+%xlim([1,5])
+%grid on;
+
+% Сигнал после фильтра и детектора
 figure;
-Y = [Signal.',FILT1.'];
+Y = [Signal.',FILT.',AD.'];
 h = stackedplot(time,Y);
 h.AxesProperties(1).YLimits = [0 275];
-h.AxesProperties(2).YLimits = [0 275];
-xlim([0,4*Tbit]);
+h.AxesProperties(2).YLimits = [-275 275];
+h.AxesProperties(3).YLimits = [-275 275];
+xlim([0,2*Tbit]);
 legend('show');
 grid on;
 
-%Децимация сигнала с усреднением
-dec = 128;   %Коэффициент прореживания отсчётов
-DecN = floor(N/dec)    %Длительность последовательности после децимации
-Decimated = zeros(1,DecN);
-timedec = linspace(0,DecN*128*dt,DecN);  %Ось времени
-for i = dec:dec:N
-    Sum = 0;
-    for j = i - dec + 1:i
-        Sum = Sum + FILT1(j);   
-    end
-    Decimated(floor(i/dec)) = Sum/dec;  %Усреднение прореженных отсчётов
-end
-%figure;
-%plot(timedec,Decimated); %Построение сигнала после децимации
-
-%Пороговая обработка сигнала после прореживания
-PorUsr = 32;    %Количество отсчётов для вычисления порога
-Akkum = 0;      %Аккумулятор для вычисления порога
-TresholdSignal = zeros(1,DecN); %Сигнал после пороговой обработки
-OldSignalPor = 0; %Предыдущее значение сигнала после пороговой обработки
-for i = 1:DecN
-    Akkum = Akkum + Decimated(i);
-    if i > PorUsr   %Вычисление порога при достаточном количестве отсчётов
-         Akkum = Akkum - Decimated(i - PorUsr);
-         Threshold = Akkum/PorUsr;
-    end
-    if i < PorUsr   %Вычисление порога в начальный момент времени
-        Threshold = Akkum/i;
-    end
-    %Пороговая обработка
-    if OldSignalPor == 0    %Реализация гистерезиса
-        Gisteresis = 1.2;
-    else
-        Gisteresis = 0.8;
-    end
-    if Decimated(i) > Threshold*Gisteresis
-        TresholdSignal(i) = 255;
-        OldSignalPor = 255;
-    else
-        TresholdSignal(i) = 0;
-        OldSignalPor = 0;
-    end
-end
-%Построение графика сигнала после пороговой обработки
+% Сигнал после децимации
 figure;
-plot(time,Signal,timedec,TresholdSignal);
+plot(timedec,Decimated);
+xlim([0,2*Tbit]);
+grid on;
+
+% Сигнал после СФ
+figure;
+plotpor = max*0.5*ones(1,N);
+plot(timedec,SFiltered,time,255*Modulation,time, plotpor);
 xlim([0,4*Tbit]);
-legend('show');
+grid on;
+
+
+figure;
+%plot(timedec,Porog,time,255*InfoModulation);
+plot(timedec,Porog,time,255*Modulation,time, plotpor);
+xlim([0,10*Tbit]);
 grid on;
 
 %Функция ограничения сигнала

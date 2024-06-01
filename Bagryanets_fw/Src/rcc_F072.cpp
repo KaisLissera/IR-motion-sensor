@@ -5,7 +5,7 @@
  *      Author: Kais Lissera
  */
 
-#include <lib_F072.h>
+#include <lib.h>
 //
 #include <rcc_F072.h>
 
@@ -195,189 +195,49 @@ uint32_t rcc::GetCurrentSystemClock() {
     return retvFail;
 }
 
-uint32_t rcc::GetCurrentAHBClock() {
+uint32_t rcc::GetCurrentAHBClock(uint32_t currentSystemClockHz) {
 	uint32_t Temp = ((RCC->CFGR & RCC_CFGR_HPRE_Msk) >> RCC_CFGR_HPRE_Pos);
-	uint32_t SysClk = GetCurrentSystemClock();
 	switch(Temp) {
-		case ahbDiv1: return SysClk;
-		case ahbDiv2: return SysClk >> 1;
-		case ahbDiv4: return SysClk >> 2;
-		case ahbDiv8: return SysClk >> 3;
-		case ahbDiv16: return SysClk >> 4;
-		case ahbDiv64: return SysClk >> 6;
-		case ahbDiv128: return SysClk >> 7;
-		case ahbDiv256: return SysClk >> 8;
-		case ahbDiv512: return SysClk >> 9;
+		case ahbDiv1: return currentSystemClockHz;
+		case ahbDiv2: return currentSystemClockHz >> 1;
+		case ahbDiv4: return currentSystemClockHz >> 2;
+		case ahbDiv8: return currentSystemClockHz >> 3;
+		case ahbDiv16: return currentSystemClockHz >> 4;
+		case ahbDiv64: return currentSystemClockHz >> 6;
+		case ahbDiv128: return currentSystemClockHz >> 7;
+		case ahbDiv256: return currentSystemClockHz >> 8;
+		case ahbDiv512: return currentSystemClockHz >> 9;
 		default:
 			return retvFail;
 	}
 }
 
-uint32_t rcc::GetCurrentAPBClock() {
+uint32_t rcc::GetCurrentAPBClock(uint32_t currentAhbClockHz) {
 	uint32_t Temp = ((RCC->CFGR & RCC_CFGR_PPRE_Msk) >> RCC_CFGR_PPRE_Pos);
-	uint32_t AhbClk = GetCurrentAHBClock();
 	switch(Temp) {
-		case apbDiv1: return AhbClk;
-		case apbDiv2: return AhbClk >> 1;
-		case apbDiv4: return AhbClk >> 2;
-		case apbDiv8: return AhbClk >> 3;
-		case apbDiv16: return AhbClk >> 4;
+		case apbDiv1: return currentAhbClockHz;
+		case apbDiv2: return currentAhbClockHz >> 1;
+		case apbDiv4: return currentAhbClockHz >> 2;
+		case apbDiv8: return currentAhbClockHz >> 3;
+		case apbDiv16: return currentAhbClockHz >> 4;
 		default:
 			return retvFail;
 	}
 }
 
-uint32_t rcc::GetCurrentTimersClock() {
+uint32_t rcc::GetCurrentTimersClock(uint32_t currentApbClockHz) {
 	uint32_t Temp = ((RCC->CFGR & RCC_CFGR_PPRE_Msk) >> RCC_CFGR_PPRE_Pos);
-	uint32_t AhbClk = GetCurrentAHBClock();
 	switch(Temp) { // if APB prescaler = 1 -> APB clock x1, else x2
-		case apbDiv1: return AhbClk;
-		case apbDiv2: return AhbClk;
-		case apbDiv4: return AhbClk >> 1;
-		case apbDiv8: return AhbClk >> 2;
-		case apbDiv16: return AhbClk >> 3;
+		case apbDiv1: return currentApbClockHz;
+		case apbDiv2: return currentApbClockHz;
+		case apbDiv4: return currentApbClockHz >> 1;
+		case apbDiv8: return currentApbClockHz >> 2;
+		case apbDiv16: return currentApbClockHz >> 3;
 		default:
 			return retvFail;
 	}
 }
 
-void rcc::EnableClkGPIO(GPIO_TypeDef* Gpio) {
-	if(Gpio == GPIOA)
-		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
-	else if(Gpio == GPIOB)
-		RCC->AHBENR |= RCC_AHBENR_GPIOBEN;
-	else if(Gpio == GPIOC)
-		RCC->AHBENR |= RCC_AHBENR_GPIOCEN;
-	else if(Gpio == GPIOD)
-		RCC->AHBENR |= RCC_AHBENR_GPIODEN;
-	else if(Gpio == GPIOE)
-		RCC->AHBENR |= RCC_AHBENR_GPIOEEN;
-	else if(Gpio == GPIOF)
-		RCC->AHBENR |= RCC_AHBENR_GPIOFEN;
-	else
-		ASSERT_SIMPLE(0); // Bad GPIO name
-}
-
-void rcc::EnableClkTIM(TIM_TypeDef* Tim) {
-	if(Tim == TIM1)
-		RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
-	else if(Tim == TIM2)
-		RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-	else if(Tim == TIM3)
-		RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
-	else if(Tim == TIM6)
-		RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
-	else if(Tim == TIM7)
-		RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
-	else if(Tim == TIM14)
-		RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
-	else if(Tim == TIM15)
-		RCC->APB2ENR |= RCC_APB2ENR_TIM15EN;
-	else if(Tim == TIM16)
-		RCC->APB2ENR |= RCC_APB2ENR_TIM16EN;
-	else if(Tim == TIM17)
-		RCC->APB2ENR |= RCC_APB2ENR_TIM17EN;
-	else
-		ASSERT_SIMPLE(0); // Bad timer name
-}
-
-void rcc::EnableClkUSART(USART_TypeDef* Usart) {
-	if(Usart == USART1)
-		RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
-	else if(Usart == USART2)
-		RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
-	else if(Usart == USART3)
-		RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
-	else if(Usart == USART4)
-		RCC->APB1ENR |= RCC_APB1ENR_USART4EN;
-#ifdef USART6
-	else if(Usart == USART5)
-		RCC->APB1ENR |= RCC_APB1ENR_USART5EN;
-#endif
-#ifdef USART6
-	else if(Usart == USART6)
-		RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
-#endif
-#ifdef USART7
-	else if(Usart == USART7)
-		RCC->APB2ENR |= RCC_APB2ENR_USART7EN;
-#endif
-#ifdef USART8
-	else if(Usart == USART8)
-		RCC->APB2ENR |= RCC_APB2ENR_USART8EN;
-#endif
-	else
-		ASSERT_SIMPLE(0); // Bad UART name
-}
-
-void rcc::DisableClkGPIO(GPIO_TypeDef* Gpio) {
-	if (Gpio == GPIOA)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIOAEN;
-	else if(Gpio == GPIOB)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIOBEN;
-	else if(Gpio == GPIOC)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIOCEN;
-	else if(Gpio == GPIOD)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIODEN;
-	else if(Gpio == GPIOE)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIOEEN;
-	else if(Gpio == GPIOF)
-		RCC->AHBENR &= ~RCC_AHBENR_GPIOFEN;
-	else
-		ASSERT_SIMPLE(0); // Bad GPIO name
-}
-
-void rcc::DisableClkTIM(TIM_TypeDef* Tim) {
-	if(Tim == TIM1)
-		RCC->APB2ENR &= ~RCC_APB2ENR_TIM1EN;
-	else if(Tim == TIM2)
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM2EN;
-	else if(Tim == TIM3)
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM3EN;
-	else if(Tim == TIM6)
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM6EN;
-	else if(Tim == TIM7)
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM7EN;
-	else if(Tim == TIM14)
-		RCC->APB1ENR &= ~RCC_APB1ENR_TIM14EN;
-	else if(Tim == TIM15)
-		RCC->APB2ENR &= ~RCC_APB2ENR_TIM15EN;
-	else if(Tim == TIM16)
-		RCC->APB2ENR &= ~RCC_APB2ENR_TIM16EN;
-	else if(Tim == TIM17)
-		RCC->APB2ENR &= ~RCC_APB2ENR_TIM17EN;
-	else
-		ASSERT_SIMPLE(0); // Bad timer name
-}
-
-void rcc::DisableClkUART(USART_TypeDef* Uart) {
-	if(Uart == USART1)
-		RCC->APB2ENR &= ~RCC_APB2ENR_USART1EN;
-	else if(Uart == USART2)
-		RCC->APB1ENR &= ~RCC_APB1ENR_USART2EN;
-	else if(Uart == USART3)
-		RCC->APB1ENR &= ~RCC_APB1ENR_USART3EN;
-	else if(Uart == USART4)
-		RCC->APB1ENR &= ~RCC_APB1ENR_USART4EN;
-#ifdef USART6
-	else if(Uart == USART5)
-		RCC->APB1ENR &= ~RCC_APB1ENR_USART5EN;
-#endif
-#ifdef USART6
-	else if(Uart == USART6)
-		RCC->APB2ENR &= ~RCC_APB2ENR_USART6EN;
-#endif
-#ifdef USART7
-	else if(Uart == USART7)
-		RCC->APB2ENR &= ~RCC_APB2ENR_USART7EN;
-#endif
-#ifdef USART8
-	else if(Uart == USART8)
-		RCC->APB2ENR &= ~RCC_APB2ENR_USART8EN;
-#endif
-	else
-		ASSERT_SIMPLE(0); // Bad UART name
-}
 
 //flash
 /////////////////////////////////////////////////////////////////////

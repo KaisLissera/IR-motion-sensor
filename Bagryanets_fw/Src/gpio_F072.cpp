@@ -12,7 +12,6 @@
 
 void gpio::SetupPin(GPIO_TypeDef* Gpio, uint8_t Pin, PinPupd_t Pupd, PinMode_t Mode, AltFunction_t Af) {
 	//Enable port clock
-	rcc::EnableClkGPIO(Gpio);
 	// Setup mode
 	Gpio -> MODER &= ~(0b11UL << (Pin*2));
 	Gpio -> MODER |= Mode << (Pin*2);

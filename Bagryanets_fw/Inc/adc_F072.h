@@ -8,7 +8,7 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-#include <lib_F072.h>
+#include <lib.h>
 #include <rcc_F072.h>
 
 typedef enum{
@@ -46,7 +46,6 @@ typedef enum{
 namespace adc{
 	void Init(AdcClk_t ClkSource, AdcRes_t AdcResBit ,AdcTrigger_t TriggerSource,
 			AdcSampleTime_t AdcSampling = adcSample1_5Clk){
-		rcc::EnableClkADC();
 		ADC1->CFGR2 &= ~ADC_CFGR2_CKMODE_Msk;
 		ADC1->CFGR2 |= ClkSource << ADC_CFGR2_CKMODE_Pos; // Select ADC clock
 		ADC1->CFGR1 |= ADC_CFGR1_OVRMOD; // Disable overrun
