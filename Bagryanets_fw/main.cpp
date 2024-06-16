@@ -216,10 +216,12 @@ int main() {
 
 	// Enable peripheral clocks
 	rcc::EnableClkAHB(RCC_AHBENR_GPIOCEN);
+	rcc::EnableClkAHB(RCC_AHBENR_GPIOBEN);
 	rcc::EnableClkAHB(RCC_AHBENR_GPIOAEN);
 	rcc::EnableClkAHB(RCC_AHBENR_DMA1EN);
 
 	rcc::EnableClkAPB1(RCC_APB1ENR_TIM2EN);
+	rcc::EnableClkAPB1(RCC_APB1ENR_TIM14EN);
 
 	rcc::EnableClkAPB2(RCC_APB2ENR_USART1EN);
 	rcc::EnableClkAPB2(RCC_APB2ENR_ADCEN);
@@ -274,6 +276,10 @@ int main() {
 	IrEncoderTimer.Init(TIM2, timClockHz, 360000, 10*64-1, UpCounter);
 	IrEncoderTimer.SetMasterMode(triggerOnUpdate);
 	IrEncoderTimer.StartCount();
+
+	// Buzzer
+	gpio::SetupPin(PB1, PullAir, GeneralOutput);
+	gpio::DeactivatePin(PB1);
 
 	xTaskCreate(&CliTask, "CLI", 256, NULL,
 			CLI_TASK_PRIORITY, &CliTaskHandle);

@@ -7,7 +7,7 @@ Shape Version=11.00
 Screen=1920,1080
 MCAPVersion=12.2.0.5
 Key ID=Demo
-NLCnt=47
+NLCnt=48
 TXCnt=10
 
 [shapedef]
@@ -132,8 +132,8 @@ Current=32,16,16,16
 Name=Battery
 Definition=Battery
 Shape=Battery
-Mask=7425
-Used=60
+Mask=6145
+Used=68
 memo=Battery
 Label Offset=19,7,10,13
 PinCnt=2
@@ -144,8 +144,8 @@ Pin="Minus",0,0,-10,-5
 Name=Ground
 Definition=Ground
 Shape=Ground
-Mask=257
-Used=284
+Mask=513
+Used=296
 memo=Ground
 Label Offset=0,0,0,0
 PinCnt=1
@@ -155,8 +155,8 @@ Pin="PinA",0,0,-3,-7
 Name=Resistor
 Definition=Resistor
 Shape=Resistor
-Mask=6401
-Used=173
+Mask=6145
+Used=186
 memo=Resistor
 Label Offset=18,6,8,11
 PinCnt=2
@@ -292,22 +292,30 @@ Page=3
 
 [Wire]
 Pxs=472,264,480,264
+Color=#000000
 
 [Comp]
 Name=Ground
+Color=#000000
+FColor=#000000
 Px=176,288
 Rot=2
 
 [Wire]
 Pxs=544,264,584,264
+Color=#000000
 
 [Comp]
 Name=Ground
+Color=#000000
+FColor=#000000
 Px=392,136
 Rot=3
 
 [Comp]
 Name=Resistor
+Color=#000000
+FColor=#000000
 Px=456,328
 Rot=2
 
@@ -315,65 +323,130 @@ Rot=2
 ON=-30,7,PART
 V=R4
 Style=8192
+Color=#000000
 
 [Attr]
 ON=-35,20,RESISTANCE
 V=100k
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,33,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,44,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,55,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,66,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,77,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Wire]
 Pxs=392,200,392,208
+Color=#000000
 
 [Wire]
 Pxs=392,240,400,240
+Color=#000000
 
 [Wire]
 Pxs=392,136,392,144
+Color=#000000
 
 [Wire]
 Pxs=392,288,392,328
+Color=#000000
 
 [Wire]
 Pxs=392,328,408,328
+Color=#000000
 
 [Wire]
 Pxs=392,288,400,288
+Color=#000000
 
 [Wire]
 Pxs=456,328,480,328
+Color=#000000
 
 [Wire]
 Pxs=480,264,480,328
+Color=#000000
 
 [Wire]
 Pxs=480,264,544,264
+Color=#000000
 
 [Wire]
 Pxs=176,288,192,288
+Color=#000000
 
 [Comp]
 Name=Pulse Source
+Color=#000000
+FColor=#000000
 Px=192,224
 
 [Attr]
 ON=18,-28,PART
 V=V3
 Style=8192
+Color=#000000
 
 [Attr]
 ON=-70,-37,MODEL
 V=IMPULSE
+Color=#000000
+
+[Attr]
+ON=0,22,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,44,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Comp]
 Name=SFH213
+Color=#000000
+FColor=#000000
 Px=240,240
 Rot=6
 
@@ -381,87 +454,203 @@ Rot=6
 ON=-31,58,PART
 V=X6
 Style=8192
+Color=#000000
 
 [Attr]
 ON=-42,72,NAME
 V=SFH213
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,FILE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,PARAMS:
+V
+Color=#000000
+
+[Attr]
+ON=0,44,OPTIONAL:
+V
+Color=#000000
+
+[Attr]
+ON=0,55,TEXT:
+V
+Color=#000000
+
+[Attr]
+ON=0,66,COST
+V
+Color=#000000
 
 [Attr]
 ON=-16,86,POWER
 V=0.15
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Wire]
 Pxs=240,224,240,240
+Color=#000000
 
 [Wire]
 Pxs=192,224,192,240
+Color=#000000
 
 [Comp]
 Name=Ground
+Color=#000000
+FColor=#000000
 Px=176,224
 Rot=2
 
 [Wire]
 Pxs=176,224,192,224
+Color=#000000
 
 [Wire]
 Pxs=240,288,392,288
+Color=#000000
 
 [Comp]
 Name=Capacitor
+Color=#000000
+FColor=#000000
 Px=408,384
 
 [Attr]
 ON=16,12,PART
 V=C2
 Style=8192
+Color=#000000
 
 [Attr]
 ON=16,26,CAPACITANCE
 V=8p
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,CHARGE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,44,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,55,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,66,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,77,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,88,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Wire]
 Pxs=392,328,392,384
+Color=#000000
 
 [Wire]
 Pxs=392,384,408,384
+Color=#000000
 
 [Wire]
 Pxs=456,384,480,384
+Color=#000000
 
 [Wire]
 Pxs=480,328,480,384
+Color=#000000
 
 [Comp]
 Name=Resistor
+Color=#000000
+FColor=#000000
 Px=584,264
 
 [Attr]
 ON=15,9,PART
 V=R5
 Style=8192
+Color=#000000
 
 [Attr]
 ON=17,25,RESISTANCE
 V=1k
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,33,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,44,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,55,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,66,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,77,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Comp]
 Name=Capacitor
+Color=#000000
+FColor=#000000
 Px=648,280
 Rot=1
 
@@ -469,35 +658,81 @@ Rot=1
 ON=12,12,PART
 V=C3
 Style=8192
+Color=#000000
 
 [Attr]
-ON=2,25,CAPACITANCE
-V=680p
+ON=14,26,CAPACITANCE
+V=1.6n
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,CHARGE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,44,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,55,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,66,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,77,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,88,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Comp]
 Name=Ground
+Color=#000000
+FColor=#000000
 Px=648,344
 Rot=1
 
 [Wire]
 Pxs=632,264,648,264
+Color=#000000
 
 [Wire]
 Pxs=648,264,648,280
+Color=#000000
 
 [Wire]
 Pxs=648,328,648,344
+Color=#000000
 
 [Wire]
-Pxs=648,264,672,264
+Pxs=648,264,656,264
+Color=#000000
 
 [Comp]
 Name=Resistor
+Color=#000000
+FColor=#000000
 Px=392,152
 Rot=1
 
@@ -505,18 +740,53 @@ Rot=1
 ON=-24,9,PART
 V=R6
 Style=8192
+Color=#000000
 
 [Attr]
 ON=-32,22,RESISTANCE
 V=100k
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,33,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,44,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,55,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,66,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,77,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Comp]
 Name=Capacitor
+Color=#000000
+FColor=#000000
 Px=344,200
 Rot=3
 
@@ -524,55 +794,139 @@ Rot=3
 ON=-27,-39,PART
 V=C4
 Style=8192
+Color=#000000
 
 [Attr]
 ON=-37,-25,CAPACITANCE
 V=100n
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,CHARGE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,FREQ
+V
+Color=#000000
+
+[Attr]
+ON=0,44,MODEL
+V
+Color=#000000
+
+[Attr]
+ON=0,55,SMOKE
+V
+Color=#000000
+
+[Attr]
+ON=0,66,FSV
+V
+Color=#000000
+
+[Attr]
+ON=0,77,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,88,POWER
+V
+Color=#000000
 
 [Attr]
 ON=0,0,PACKAGE
 V
+Color=#000000
 
 [Wire]
 Pxs=344,144,344,152
+Color=#000000
 
 [Wire]
 Pxs=344,144,392,144
+Color=#000000
 
 [Wire]
 Pxs=392,144,392,152
+Color=#000000
 
 [Wire]
 Pxs=344,200,344,208
+Color=#000000
 
 [Wire]
 Pxs=344,208,392,208
+Color=#000000
 
 [Wire]
 Pxs=392,208,392,240
+Color=#000000
 
 [Comp]
 Name=LMC6001_NS
+Color=#000000
+FColor=#000000
 Px=400,240
 
 [Attr]
 ON=53,-6,PART
 V=X7
 Style=8192
+Color=#000000
 
 [Attr]
 ON=52,6,NAME
 V=LMC6001_NS
 Style=8192
+Color=#000000
+
+[Attr]
+ON=0,22,FILE
+V
+Color=#000000
+
+[Attr]
+ON=0,33,PARAMS:
+V
+Color=#000000
+
+[Attr]
+ON=0,44,OPTIONAL:
+V
+Color=#000000
+
+[Attr]
+ON=0,55,TEXT:
+V
+Color=#000000
+
+[Attr]
+ON=0,66,COST
+V
+Color=#000000
+
+[Attr]
+ON=0,77,POWER
+V
+Color=#000000
 
 [Attr]
 ON=51,76,PACKAGE
 V=DIP8
+Color=#000000
+
+[Wire]
+Pxs=656,264,672,264
+Color=#000000
 
 [Grid Text]
 Text=".DEFINE L 150u"
 Px=456,168
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -581,6 +935,7 @@ CBorder=None
 [Grid Text]
 Text="OUT"
 Px=544,264
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -598,6 +953,7 @@ CBorder=None
 [Grid Text]
 Text="VC"
 Px=432,232
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -615,6 +971,7 @@ CBorder=None
 [Grid Text]
 Text="VE"
 Px=432,296
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -623,6 +980,7 @@ CBorder=None
 [Grid Text]
 Text="imp"
 Px=240,224
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -631,6 +989,7 @@ CBorder=None
 [Grid Text]
 Text=".DEFINE Noise 0"
 Px=456,184
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -638,7 +997,8 @@ CBorder=None
 
 [Grid Text]
 Text="ADC"
-Px=648,264
+Px=656,264
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -647,6 +1007,7 @@ CBorder=None
 [Grid Text]
 Text=".DEFINE DutyCycle 0.5"
 Px=456,200
+Color=#000000
 GridSnap=True
 JustifyH=Left
 JustifyV=Bottom
@@ -660,8 +1021,7 @@ CurrentSection 3=0
 Splitter.xs=0
 Splitter.ys=0
 TextQuad=4099
-Scale=0.66666666666666663
-GridType=Normal
+Scale=1
 GridUser=10
 ShapeGroups="Main","Euro","Polarity","Main1","Main11","Electrolytic","GroundArrow","DeMorgan"
 CalcRMS=False
@@ -849,9 +1209,9 @@ PrinterScale=1
 Scale 0=1
 Scale 1=1
 Scale 2=1
-SB 3=94,73
+SB 3=101,73
 Scale 3=0.66666666666666663
-Px=469,92
+Px=591,102
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
@@ -915,7 +1275,7 @@ Type=Text
 Print=False
 Enable=True
 Name=Models
-SB 0=0,25
+SB 0=39,25
 Font=Height=-15,FStyle=0,Color=#000000,Name=Courier New
 Comment Color=#008000
 WinBackGround Color=#FFFFFF
@@ -995,7 +1355,7 @@ Search Color=#FFFF00
 [Text Area]
 Section=0
 Page=1
-Text=.OPTIONS ITL4=50 
+Text=.OPTIONS ITL4=50
 
 [Text Area]
 Section=0
@@ -1024,8 +1384,8 @@ Text=*** 60HZ Sinusoidal Source
 Text=.MODEL 60HZ SIN (A=0 F=10MEG)
 Text=*** From file C:\MC12\library\UTILITY.LBR
 Text=*** 1ns Impulse Source
-Text=.MODEL IMPULSE PUL (P1={20u*(1 - DutyCycle)} P2={20u*(1 - DutyCycle)} P3=20u
-Text=+ P4=20u P5=20u VONE={L} VZERO={Noise})
+Text=.MODEL IMPULSE PUL (P1={31u*(1 - DutyCycle)} P2={31u*(1 - DutyCycle)} P3=31u
+Text=+ P4=31u P5=31u VONE={L} VZERO={Noise})
 
 [InfoPage]
 InfoPage=True
@@ -1045,19 +1405,19 @@ SimulationLog=True
 [Transient]
 WinID=1
 Window Placement=0,1, -1,-1, -8,-31, 953,0,1906,824
-Font=Height=-19,FStyle=0,Color=#0000FF,Name=Arial
+Font=Height=-19,FStyle=0,Color=#000000,Name=Arial
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
 Select Box Color=#000080
-Title
+Title=Photodiod_Amplifier.cir
 AutoTitle=Yes
 Grid Color=#808080
 Grid Weight=1
 Grid Pattern=Dot6
 Tracker Foreground=Height=-15,FStyle=0,Color=#000000,Name=Arial
 Tracker Background=#FFFF00
-Baseline color=#0000FF
+Baseline color=#000000
 BaseLine Weight=1
 CurveFit color=#FF0000
 CurveFit Weight=2
@@ -1325,8 +1685,9 @@ XRng=AutoAlways
 YRng=AutoAlways
 Options=LINEARX,LINEARY
 Enable=Enable
-Line Color=#FF0000
-Text Color=#FF0000
+CS=Normal
+Line Color=#000000
+Text Color=#000000
 Rainbow=False
 VFmtX=3
 VFmtY=3
@@ -1350,8 +1711,9 @@ YRng=4,-1
 Options=LINEARX,LINEARY
 Range Grid Y=1
 Enable=Enable
-Line Color=#008000
-Text Color=#008000
+CS=Normal
+Line Color=#000000
+Text Color=#000000
 Rainbow=False
 VFmtX=3
 VFmtY=3
@@ -1375,8 +1737,9 @@ YRng=4,-1
 Options=LINEARX,LINEARY
 Range Grid Y=1
 Enable=Enable
-Line Color=#FF00FF
-Text Color=#FF00FF
+CS=Normal
+Line Color=#000000
+Text Color=#000000
 Rainbow=False
 VFmtX=3
 VFmtY=3
