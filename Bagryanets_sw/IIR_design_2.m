@@ -2,14 +2,14 @@
 close all;
 
 % Сигнал
-CarrierFreq = 32000;        %Несущая частота
+CarrierFreq = 100000;        %Несущая частота
 Ts = 1/CarrierFreq;         %Период несущей
 DutyCycle = 50;             %Скважность несущей в процентах
-ModFreq = CarrierFreq/32;   %Модулирующая частота
+ModFreq = CarrierFreq/128;   %Модулирующая частота
 Tbit = 1/ModFreq;           %Период модулирующей
-Ni = 1000;                   %Количество генерируемых импульсов
+Ni = 10;                   %Количество генерируемых импульсов
             
-fd = 6*CarrierFreq;         %Частота дискретизации
+fd = 3*CarrierFreq;         %Частота дискретизации
 dt = 1/fd; %Период дискретизации
 N = ceil(Ni*Tbit/dt)  % Количество отсчётов
 time = linspace(0,dt*N,N);  %Отсчёты оси времени сигнала
@@ -17,7 +17,7 @@ razmach = 255;              %Размах генерируемого сигна�
 
 % Параметры шума
 noise_pwr = 0;            %Мощность шума в Вт
-flatNoise = 100;
+flatNoise = 0;
 
 % Расчёт коэффициентов цифрового резонатора
 figure;
@@ -71,7 +71,7 @@ for i = 1:Ni-1
 end
 
 % Генерация сигнала
-Carrier = razmach*0.5*(square(2*pi*time*32000, DutyCycle) + 1);
+Carrier = razmach*0.5*(square(2*pi*time*100000, DutyCycle) + 1);
 Modulation = 0.5*(square(2*pi*time*ModFreq + pi) + 1);
 
 %Modulation = InfoModulation;
@@ -116,9 +116,7 @@ for i = dec:dec:N
     if Sum > max
         max = Sum;
     end
-    Decimated(floor(i/dec)) = Sum - max/2;  %Усреднение прореженных отсчётов
-
-
+    Decimated(floor(i/dec)) = Sum;  %Усреднение прореженных отсчётов
 end
 
 % Согласованная фильтрация
@@ -191,16 +189,34 @@ xlim([0,2*Tbit]);
 legend('show');
 grid on;
 
+figure;
+plot(time,Signal.','k','LineWidth',1.5);
+ylim([0 300]);
+xlim([0,2*Tbit]);
+grid on;
+
+figure;
+plot(time,FILT.','k','LineWidth',1.5);
+ylim([-300 300]);
+xlim([0,2*Tbit]);
+grid on;
+
+figure;
+plot(time,AD.','k','LineWidth',1.5);
+ylim([0 300]);
+xlim([0,2*Tbit]);
+grid on;
+
 % Сигнал после децимации
 figure;
-plot(timedec,Decimated);
+plot(timedec,Decimated,'k','LineWidth',1.5);
 xlim([0,2*Tbit]);
 grid on;
 
 % Сигнал после СФ
 figure;
 plotpor = max*0.5*ones(1,N);
-plot(timedec,SFiltered,time,255*Modulation,time, plotpor);
+plot(timedec,SFiltered,'k',time,255*Modulation,'k:',time, plotpor,'k--','LineWidth',1.5);
 xlim([0,4*Tbit]);
 grid on;
 

@@ -1211,7 +1211,7 @@ Scale 1=1
 Scale 2=1
 SB 3=101,73
 Scale 3=0.66666666666666663
-Px=591,102
+Px=214,228
 WinBackGround Color=#FFFFFF
 Select Color=#FF0000
 Anchor Color=#000000
@@ -1384,8 +1384,8 @@ Text=*** 60HZ Sinusoidal Source
 Text=.MODEL 60HZ SIN (A=0 F=10MEG)
 Text=*** From file C:\MC12\library\UTILITY.LBR
 Text=*** 1ns Impulse Source
-Text=.MODEL IMPULSE PUL (P1={31u*(1 - DutyCycle)} P2={31u*(1 - DutyCycle)} P3=31u
-Text=+ P4=31u P5=31u VONE={L} VZERO={Noise})
+Text=.MODEL IMPULSE PUL (P1={30u*(1 - DutyCycle)} P2={30u*(1 - DutyCycle)} P3=30u
+Text=+ P4=30u P5=30u VONE={L} VZERO={Noise})
 
 [InfoPage]
 InfoPage=True
@@ -1639,8 +1639,8 @@ Seed=0
 
 [Limits]
 Analysis=Transient
-TMax=200u
-TStart=100u
+TMax=400u
+TStart=300u
 TStep=100n
 NPts=1000
 Temp=27
@@ -1657,9 +1657,10 @@ Plt=1
 AliasID=1
 XExp=T
 YExp=i(X6.d1)
-XRng=AutoAlways
+XRng=400u, 300u
 YRng=AutoAlways
 Options=LINEARX,LINEARY
+Range Grid X=10u
 Enable=DontRun
 Line Color=#0000FF
 Text Color=#0000FF
@@ -1681,9 +1682,10 @@ Plt=2
 AliasID=2
 XExp=T
 YExp=v(imp)
-XRng=AutoAlways
+XRng=400u, 300u
 YRng=AutoAlways
 Options=LINEARX,LINEARY
+Range Grid X=10u
 Enable=Enable
 CS=Normal
 Line Color=#000000
@@ -1706,9 +1708,10 @@ Plt=3
 AliasID=3
 XExp=T
 YExp=v(OUT)
-XRng=AutoAlways
+XRng=400u, 300u
 YRng=4,-1
 Options=LINEARX,LINEARY
+Range Grid X=10u
 Range Grid Y=1
 Enable=Enable
 CS=Normal
@@ -1732,9 +1735,10 @@ Plt=4
 AliasID=4
 XExp=T
 YExp=v(ADC)
-XRng=AutoAlways
+XRng=400u, 300u
 YRng=4,-1
 Options=LINEARX,LINEARY
+Range Grid X=10u
 Range Grid Y=1
 Enable=Enable
 CS=Normal
